@@ -4,7 +4,8 @@ export default class startScreen extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('startBackground', '/assets/images/startBackground.png');
+        this.load.image('startBackground', '/src/assets/images/background1.png');
+        this.load.image('playButton', '/src/assets/images/playButton.png');
     }
 
     create() {
@@ -16,33 +17,27 @@ export default class startScreen extends Phaser.Scene {
         background.setDisplaySize(this.scale.width, this.scale.height);  // Set the background size to fit the screen
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
-        
+        this.playButton = this.add.image(this.scale.width / 2, this.scale.height * 0.75, 'playButton').setInteractive();
+        this.playButton.setScale(0.5);
 
-        /* add a title
-        const titleText = this.add.text(this.scale.width / 2, this.scale.height / 2, 'Arctic\nAll-Stars', {
-            fontSize: '64px',  // Font size 
-            fill: '#B3D9FF',    // Text color
-            align: 'center',    // Align the text to the center
-            fontStyle: 'bold',    // Optional: make the text bold
-            stroke: '#00001B',        // Outline color
-            strokeThickness: 4       // Thickness of the outline
-        }).setOrigin(0.5);  // Center the text horizontally
-
-        this.startButton = this.add.image(this.scale.width / 2, this.scale.height * 0.75, 'startButton').setInteractive();
-        this.startButton.setScale(0.5);
-
-        this.startButton.on('pointerdown', () => {
-            this.scene.start('levelOne'); 
+        this.playButton.on('pointerdown', () => {
+            this.scene.start('instructionOne');
         });
-        
+
+        this.playButton.on('pointerover', () => {
+            this.playButton.setScale(0.6);  // Increase the size
+        });
+
+        this.playButton.on('pointerout', () => {
+            this.playButton.setScale(0.5);  // Return to original size
+        });
     }
 
     hideInventory() {
         const inventoryBox = document.getElementById('inventory-box');
         if (inventoryBox) {
-            inventoryBox.style.display = 'none'; 
+            inventoryBox.style.display = 'none';
         }
     }
-    */
-}
+
 }

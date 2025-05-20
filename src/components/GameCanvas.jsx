@@ -1,23 +1,26 @@
 import React, { useEffect, useRef } from 'react';
-import { buildPhaserGame } from './GameScene'; // import the buildPhaserGame function
+import { buildPhaserGame } from '/src/components/GameScene';
 
 const GameCanvas = () => {
-    const gameContainerRef = useRef(null);
+  const gameContainerRef = useRef(null);
 
-    useEffect(() => {
-        const phaserGame = buildPhaserGame({
-            parent: gameContainerRef.current,
-        });
+  useEffect(() => {
+    const phaserGame = buildPhaserGame({
+      parent: gameContainerRef.current,
+    });
 
-        return () => {
-            phaserGame.destroy(true); 
-        };
-    }, []);
+    return () => {
+      phaserGame.destroy(true);
+    };
+  }, []);
 
-    return (
+     return (
         <div
             ref={gameContainerRef}
-            style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'absolute', top: 0, left: 0 }}
+            style={{ width: '100vw', height: '100vh', 
+              overflow: 'hidden', 
+              position: 'absolute', top: 0, left: 0,
+            margin: 0}}
         />
     );
 };
