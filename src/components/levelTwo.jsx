@@ -1,53 +1,76 @@
-import { TiltControl } from './TiltControl'; // Import TiltControl
+import { TiltControl } from '/src/components/handlers/TiltControl'; // Import TiltControl
+import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
+import { showLevelUpScene, restartLevel } from '/src/components/handlers/levelSceneHandlers';
+import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
+import { preloadAssets } from '/src/components/handlers/preloadHandler';
 
 export default class levelTwo extends Phaser.Scene {
     constructor() {
         super({ key: 'levelTwo' });
+
         this.ground = null;
         this.car = null;
         this.speedY = 1;
 
+        this.levelCompleted = false;
+        this.level = 2;
+        this.timerText = null;
+        this.timerEvent = null;
+        this.timeLeft = 2;
+        this.score;
+
         this.orientation = null;
 
-        this.timeTarget = 20;
-
-        this.levelCompleted = false;
-
-        this.score = 0;
-        this.level = 1;
-
-        this.overlay = null;
-
-        this.spawnObstacleEvent = null;
-        this.spawnItemEvent = null;
-
-        this.tiltControlsActive = false;
         this.laneChangeCooldown = false;
         this.currentLaneIndex = 1;
 
+
         this.isRestarting = false;
+        this.isScorePaused = false;
+        this.isTiltEnabled = false;
+
+        this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'block1', 'block2', 'block3', 'cone'];
+        this.obstacleSpawnIntervals = {
+            oil1: 3000,
+            oil2: 3500,
+            oil3: 4000,
+            cone: 5000,
+            block1: 5000,
+            block2: 5000,
+            block3: 5000,
+        };
+
+        this.itemTypes = ['hat', 'socks', 'foamFinger', 'shirt'];
+        this.itemSpawnIntervals = {
+            hat: 2000,
+            socks: 3500,
+            foamFinger: 4000,
+            shirt: 4000,
+        };
+
+    }
+
+    init(data) {
+        this.score = data.score || 0;
+        this.isScorePaused = false;
     }
 
     preload() {
-        // load game assets
-        this.load.image('ground', '/src/assets/images/background.png');
-        this.load.image('oil1', '/src/assets/images/oil1.png');
-        this.load.image('oil2', '/src/assets/images/oil2.png');
-        this.load.image('oil3', '/src/assets/images/oil3.png');
-        this.load.image('block1', '/src/assets/images/block1.png');
-        this.load.image('block2', '/src/assets/images/block2.png');
-        this.load.image('block3', '/src/assets/images/block3.png');
-        this.load.image('car', '/src/assets/images/car.png');
-        this.load.image('hat', '/src/assets/images/hat.png');
-        this.load.image('socks', '/src/assets/images/socks.png');
-        this.load.image('shirt', '/src/assets/images/shirt.png');
-        this.load.image('foamFinger', '/src/assets/images/foamFinger.png');
-        this.load.image('cone', '/src/assets/images/cone.png');
+           preloadAssets(this);
 
-
+     
     }
 
     create() {
+
+        this.scene.pause();
+        this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
+        this.tiltControl.enableTiltControls(() => {
+            this.scene.start();
+        });
+
+        this.showInventory();
+        this.setInventory();
 
         // background
         this.ground = this.add.tileSprite(
@@ -64,23 +87,51 @@ export default class levelTwo extends Phaser.Scene {
         this.targetX = this.lanes[this.currentLaneIndex];
 
         // car sprite
-        this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], this.scale.height * 3 / 4, 'car');
+        this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], this.scale.height * 7 / 8, 'car');
         this.car.setScale(0.6);
         this.car.setOrigin(0.5, 0.5);
 
         this.obstacles = this.physics.add.group();
         this.items = this.physics.add.group();
 
-        this.spawnObstacleEvent = this.time.addEvent({ delay: 2000, callback: this.spawnObstacle, callbackScope: this, loop: true });
-        this.spawnItemEvent = this.time.addEvent({ delay: 1500, callback: this.spawnItem, callbackScope: this, loop: true });
+        this.physics.add.collider(this.car, this.obstacles, (car, obstacle) => {
+            handleObstacleCollision(this, car, obstacle);
+        }, null, this);
 
-        this.physics.add.collider(this.car, this.obstacles, this.handleObstacleCollision, null, this);
-        this.physics.add.collider(this.car, this.items, this.handleItemCollision, null, this);
+        this.physics.add.collider(this.car, this.items, (car, item) => {
+            handleItemCollision(this, car, item);
+        }, null, this);
 
-        this.score = 0;
+        this.scoreText = this.add.text(900, 100, `${this.score}`, { fontSize: '100px', fill: 'white', fontStyle: 'bold' });
+        this.scoreText.setDepth(100);
+
+        const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
+        this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
+        this.timerText.setDepth(10);
+
+        this.levelText = this.add.text(145, 105, '2', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
+        this.levelText.setDepth(100);
+
+        this.timerEvent = this.time.addEvent({
+            delay: 1000,
+            callback: this.updateTimer,
+            callbackScope: this,
+            loop: true
+        });
+
+        this.scoreEvent = this.time.addEvent({
+            delay: 2000,  // Every 2 seconds
+            callback: this.incrementScore,
+            callbackScope: this,
+            loop: true
+        });
 
         // set up controls for lane switching
         this.targetX = this.lanes[this.currentLaneIndex];
+
+        this.scoreboard = this.add.image(this.scale.width / 2, 130, 'scoreboard');
+        this.scoreboard.setScale(1);
+        this.scoreboard.setDepth(1);
 
         this.input.keyboard.on('keydown-LEFT', () => {
             this.changeLane(-1);
@@ -98,88 +149,40 @@ export default class levelTwo extends Phaser.Scene {
             }
         });
 
-        this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
-        this.tiltControl.enableTiltControls();
+        Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval]) => {
+            this.time.addEvent({
+                delay: interval,
+                callback: () => spawnSpecificObstacle(this, type, this.obstacles),
+                callbackScope: this,
+                loop: true
+            });
+        });
+
+        Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
+            this.time.addEvent({
+                delay: interval,
+                callback: () => spawnSpecificItem(this, type2, this.items),
+                callbackScope: this,
+                loop: true
+            });
+        });
     }
 
-    handleObstacleCollision(car, obstacle) {
-        car.body.setVelocity(0, 0);  // no obstacle movement
-        car.body.setBounce(0);       // no bounce
-        car.body.setFriction(0);     // no friction
-        obstacle.destroy(); // disappear
-    }
-
-    handleItemCollision(car, item) {
-        car.body.setVelocity(0, 0);
-        car.body.setBounce(0);
-        car.body.setFriction(0);
-
-        item.destroy();
-
-    }
-
-    spawnObstacle() {
-        //  if(this.levelCompleted) return;
-
-        const xPositions = [this.scale.width / 6, this.scale.width / 2, this.scale.width * 5 / 6];
-        const randomX = Phaser.Math.RND.pick(xPositions);
-
-        //must implement this into spawnItem
-        const obstacleTypes = ['oil1', 'oil2', 'oil3','cone','block1','block2','block3'];
-        const randomObstacleType = Phaser.Math.RND.pick(obstacleTypes);
-
-        const obstacle = this.obstacles.create(randomX, 0, randomObstacleType);
-
-        if (randomObstacleType === 'oil1') {
-            obstacle.setScale(0.3);
-            obstacle.setVelocityY(115);
-        } else if (randomObstacleType === 'oil2') {
-            obstacle.setScale(0.3);
-            obstacle.setVelocityY(200);
-        } else if (randomObstacleType === 'oil3') {
-            obstacle.setScale(0.3);
-            obstacle.setVelocityY(300);
-        } else if (randomObstacleType === 'block1') {
-            obstacle.setScale(0.3);
-            obstacle.setVelocityY(300);
-        }else if (randomObstacleType === 'block2') {
-            obstacle.setScale(0.3);
-            obstacle.setVelocityY(300);
-        }else if (randomObstacleType === 'block3') {
-            obstacle.setScale(0.3);
-            obstacle.setVelocityY(300);
-        }else if (randomObstacleType === 'cone') {
-            obstacle.setScale(0.3);
-            obstacle.setVelocityY(300);
+    incrementScore() {
+        if (!this.isScorePaused) {
+            this.score += 1;
+            this.scoreText.setText(`${this.score}`);
         }
     }
 
-    spawnItem() {
+    updateTimer() {
+        this.timeLeft -= 1;
 
-        // if(this.levelCompleted) return;
+        const formattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
+        this.timerText.setText(`${formattedTime}`);
 
-        const xPositions = [this.scale.width / 6, this.scale.width / 2, this.scale.width * 5 / 6];
-        const randomX = Phaser.Math.RND.pick(xPositions);  // randomly pick one of the x positions
-
-        const itemTypes = ['hat', 'socks','shirt','foamFinger'];
-        const randomItemType = Phaser.Math.RND.pick(itemTypes);
-
-        const item = this.items.create(randomX, 0, randomItemType);
-
-        if (randomItemType === 'hat') {
-            item.setScale(0.3);
-            item.setVelocityY(115);
-        } else if (randomItemType === 'socks') {
-            item.rotationSpeed = 0.01;
-            item.setScale(0.3);
-            item.setVelocityY(200);
-        } else if (randomItemType === 'shirt') {
-            item.setScale(0.3);
-            item.setVelocityY(200);
-        } else if (randomItemType === 'foamFinger') {
-            item.rotationSpeed = 0.01;
-            item.setScale(0.3);
-            item.setVelocityY(200);
+        if (this.timeLeft <= 0) {
+            this.timerEvent.remove();
         }
     }
 
@@ -200,12 +203,13 @@ export default class levelTwo extends Phaser.Scene {
                 this.car.x += Math.sign(this.targetX - this.car.x) * moveAmount; // move closer
             }
         } else {
-            this.car.x = this.targetX; // snap to target 
+            this.car.x = this.targetX; // snap to target
         }
 
-        this.ground.tilePositionY -= 2;
+        if (!this.isRestarting && !this.levelCompleted) {
+            this.ground.tilePositionY -= 2;
+        }
 
-        // cleanup for off-screen
 
         this.obstacles.getChildren().forEach(obstacle => {
             if (obstacle && obstacle.y > this.scale.height) {
@@ -221,6 +225,15 @@ export default class levelTwo extends Phaser.Scene {
             }
         });
 
+        if (this.timeLeft == 0) {
+            showLevelUpScene(this, 'levelThree', 3, this.score); // or 'levelThree', 3 for levelTwo.jsx
+        } else if (this.timeLeft == 0 && this.isRestarting) {
+            restartLevel(this);
+        }
+
+        this.scoreText.setText(`${this.score}`);
+        this.levelText.setText(`${this.level}`);
+
     }
 
     changeLane(direction) {
@@ -235,4 +248,25 @@ export default class levelTwo extends Phaser.Scene {
         this.targetX = this.lanes[this.currentLaneIndex];
     }
 
+    showInventory() {
+        const inventoryBox = document.getElementById('inventory-box');
+        if (inventoryBox) {
+            inventoryBox.style.display = 'flex'; // Restore flex display
+        }
+    }
+
+    setInventory() {
+        this.slot1 = document.getElementById('slot-1');
+        this.slot2 = document.getElementById('slot-2');
+        this.slot3 = document.getElementById('slot-3');
+        this.slot4 = document.getElementById('slot-4');
+        this.slot5 = document.getElementById('slot-5');
+    }
+
+    hideInventory() {
+        const inventoryBox = document.getElementById('inventory-box');
+        if (inventoryBox) {
+            inventoryBox.style.display = 'none';
+        }
+    }
 }

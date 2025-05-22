@@ -1,15 +1,17 @@
+import { preloadAssets } from '/src/components/handlers/preloadHandler';
+
 export default class instructionOne extends Phaser.Scene {
     constructor() {
         super({ key: 'instructionOne' });
     }
 
     preload() {
-        console.log("loading...");
-        this.load.image('backgroundTwo', '/src/assets/images/backgroundTwo.png');
+        preloadAssets(this);
     }
 
     create() {
         this.hideInventory();
+        this.gameStartSound = this.sound.add('gameStart');
 
         let background = this.add.image(0, 0, 'backgroundTwo').setOrigin(0, 0);
         background.setDisplaySize(this.scale.width, this.scale.height);  // Set the background size to fit the screen
@@ -20,6 +22,7 @@ export default class instructionOne extends Phaser.Scene {
 
         this.playButton.on('pointerdown', () => {
             this.scene.start('levelOne');
+            this.gameStartSound.play();
         });
 
         this.playButton.on('pointerover', () => {

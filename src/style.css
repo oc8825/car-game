@@ -32,6 +32,7 @@ body {
   gap: 7px;
   align-items: center;
   top: 82px;
+  z-index:1;
 }
 
 .inventory-slot {

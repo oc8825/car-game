@@ -1,0 +1,37 @@
+export function preloadAssets(scene) {
+    scene.load.audio('crash', '/src/assets/audio/crash.mp3');
+    scene.load.audio('collect', '/src/assets/audio/collect.mp3');
+    scene.load.audio('gameOver', '/src/assets/audio/gameOver.mp3');
+    scene.load.audio('levelUp', '/src/assets/audio/levelUp.mp3');
+    scene.load.audio('losePoints', '/src/assets/audio/losePoints.mp3');
+    scene.load.audio('oilSlip', '/src/assets/audio/oilSlip.mp3');
+    scene.load.audio('prize', '/src/assets/audio/prize.mp3');
+    scene.load.audio('startBeeps', '/src/assets/audio/startBeeps.mp3');
+    scene.load.audio('winGame', '/src/assets/audio/winGame.mp3');
+    scene.load.audio('gameStart', '/src/assets/audio/gameStart.mp3');
+    scene.load.image('ground', '/src/assets/images/background.png');
+    scene.load.image('oil1', '/src/assets/images/oil1.png');
+    scene.load.image('oil2', '/src/assets/images/oil2.png');
+    scene.load.image('oil3', '/src/assets/images/oil3.png');
+    scene.load.image('block1', '/src/assets/images/block1.png');
+    scene.load.image('block2', '/src/assets/images/block2.png');
+    scene.load.image('block3', '/src/assets/images/block3.png');
+    scene.load.image('car', '/src/assets/images/car2.png');
+    scene.load.image('hat', '/src/assets/images/hat.png');
+    scene.load.image('socks', '/src/assets/images/socks.png');
+    scene.load.image('shirt', '/src/assets/images/shirt.png');
+    scene.load.image('foamFinger', '/src/assets/images/foamFinger.png');
+    scene.load.image('cone', '/src/assets/images/cone.png');
+    scene.load.image('spikes', '/src/assets/images/spikes.png');
+    scene.load.image('tire', '/src/assets/images/tire.png');
+    scene.load.image('waterBottle', '/src/assets/images/waterBottle.png');
+    scene.load.image('prizeButton', '/src/assets/images/prizeButton.png')
+    scene.load.image('backgroundTwo', '/src/assets/images/backgroundTwo.png');
+    scene.load.audio('gameStart', '/src/assets/audio/gameStart.mp3');
+    scene.load.image('scoreboard', '/src/assets/images/scoreboard.png');
+    scene.load.image('restartButton', '/src/assets/images/restartButton.png');
+    scene.load.image('nextLevelButton', '/src/assets/images/nextLevelButton.png');
+    scene.load.image('startBackground', '/src/assets/images/background12.png');
+    scene.load.image('playButton', '/src/assets/images/playButton.png');
+    scene.load.image('winBackground', '/src/assets/images/winTemp.png');
+}

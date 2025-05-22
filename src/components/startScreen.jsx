@@ -1,14 +1,18 @@
+import { preloadAssets } from '/src/components/handlers/preloadHandler';
+
 export default class startScreen extends Phaser.Scene {
     constructor() {
         super({ key: 'startScreen' });
     }
 
     preload() {
-        this.load.image('startBackground', '/src/assets/images/background1.png');
-        this.load.image('playButton', '/src/assets/images/playButton.png');
+        preloadAssets(this);
+
     }
 
     create() {
+
+        this.gameStartSound = this.sound.add('gameStart');
 
         this.hideInventory();
 
@@ -22,6 +26,7 @@ export default class startScreen extends Phaser.Scene {
 
         this.playButton.on('pointerdown', () => {
             this.scene.start('instructionOne');
+              this.gameStartSound.play();
         });
 
         this.playButton.on('pointerover', () => {

@@ -5,6 +5,7 @@ export class TiltControl {
         this.tiltThreshold = 1; // sensitivity
         this.laneChangeCooldown = false;
         this.isTiltSupported = this.checkTiltSupport();
+        this.isTiltEnabled = false;
     }
 
     checkTiltSupport() {
@@ -16,11 +17,11 @@ export class TiltControl {
 
     enableTiltControls() {
         if (!this.isTiltSupported) {
-            console.log('Tilt controls are not supported on this device.');
+            window.addEventListener('devicemotion', this.handleMotion.bind(this));
+            this.isTilTEnabled = true;
+            this.scene.scene.resume(); 
             return;
         }
-
-     //   this.scene.pause();
 
         const enableTiltButton = document.createElement('button');
         enableTiltButton.innerText = 'Enable Tilt Controls';
@@ -34,6 +35,7 @@ export class TiltControl {
         enableTiltButton.style.color = '#fff';
         enableTiltButton.style.border = 'none';
         enableTiltButton.style.cursor = 'pointer';
+
         document.body.appendChild(enableTiltButton);
 
         enableTiltButton.addEventListener('click', () => {
@@ -44,7 +46,9 @@ export class TiltControl {
                             console.log('Permission granted for tilt controls!');
                             window.addEventListener('devicemotion', this.handleMotion.bind(this));
                             document.body.removeChild(enableTiltButton);
-                            this.scene.resume();
+                            this.scene.scene.resume();
+                            this.isTiltEnabled = true; // Mark tilt controls as enabled
+                            onTiltEnabledCallback(); // ✅ Call the callback to resume scen
                         } else {
                             console.error('Permission denied for tilt controls.');
                             alert('Permission denied. Tilt controls are unavailable.');
@@ -58,6 +62,10 @@ export class TiltControl {
                 console.log('Tilt controls enabled (no permission required).');
                 window.addEventListener('devicemotion', this.handleMotion.bind(this));
                 document.body.removeChild(enableTiltButton);
+                this.scene.scene.resume();
+                this.isTiltEnabled = true; // Mark tilt controls as enabled
+                onTiltEnabledCallback(); // ✅ Call the callback to resume scene
+
             }
         });
     }
@@ -90,5 +98,13 @@ export class TiltControl {
         this.scene.time.delayedCall(300, () => {
             this.laneChangeCooldown = false;
         });
+    }
+
+    disableTiltControls() {
+        if (this.isTiltEnabled) {
+            window.removeEventListener('devicemotion', this.handleMotion.bind(this));
+            this.isTiltEnabled = false;
+            console.log('Tilt controls have been disabled.');
+        }
     }
 }
