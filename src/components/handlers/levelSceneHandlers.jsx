@@ -1,4 +1,6 @@
-export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score) {
+import { hideInventory } from "./inventoryHandler";
+
+export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, selectedCarIndex) {
     if (scene.levelCompleted) return;
     scene.levelCompleted = true;
     scene.isScorePaused = true;
@@ -25,7 +27,7 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score) {
     levelUpText.setOrigin(0.5);
     levelUpText.setDepth(250);
 
-    scene.hideInventory();
+    hideInventory(scene);
 
     const countdownText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2, '3', {
         fontSize: '100px',
@@ -57,9 +59,10 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score) {
 
         // Restart the scene after a small delay
         scene.time.delayedCall(500, () => {
-            scene.levelCompleted = false; 
+            scene.levelCompleted = false;
             scene.scene.start(nextLevelKey, {
                 score: score,
+                selectedCarIndex,
                 inventory: {
                     slot1: scene.slot1?.style?.backgroundImage,
                     slot2: scene.slot2?.style?.backgroundImage,
@@ -111,14 +114,13 @@ export function restartLevel(scene) {
     loseText.setOrigin(0.5);
     loseText.setDepth(250);
 
-    scene.hideInventory();
+    hideInventory(scene);
 }
 
 export function winScreen(scene) {
     if (scene.levelCompleted) return;
     scene.levelCompleted = true;
     scene.isScorePaused = true;
-
 
     scene.obstacles.clear(true, true);
     scene.items.clear(true, true);
@@ -142,13 +144,14 @@ export function winScreen(scene) {
     levelUpText.setOrigin(0.5);
     levelUpText.setDepth(250);
 
-    scene.hideInventory();
+    hideInventory(scene);
 
     scene.prizeButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'prizeButton')
         .setInteractive().setDepth(250);
     scene.prizeButton.on('pointerdown', () => {
         scene.isRestarting = false;
-        scene.scene.start('youWin');
+        scene.scene.start('youWin', { score: scene.score });
+        scene.prizeSound.play();
     });
 
 }

@@ -51,7 +51,7 @@ export function spawnSpecificItem(scene, type, items) {
 
     switch (type) {
         case 'hat':
-            item.setVelocityY(115);
+            item.setVelocityY(400);
             break;
         case 'socks':
             item.setVelocityY(200);
@@ -63,5 +63,7 @@ export function spawnSpecificItem(scene, type, items) {
             item.setVelocityY(200);
             item.rotationSpeed = 0.01;
             break;
+        case 'waterBottle':
+            item.setVelocityY(200);
     }
 }

@@ -1,4 +1,6 @@
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
+import { loadSounds } from '/src/components/handlers/soundHandler';
+import { hideInventory } from '/src/components/handlers/inventoryHandler';
 
 export default class startScreen extends Phaser.Scene {
     constructor() {
@@ -12,9 +14,8 @@ export default class startScreen extends Phaser.Scene {
 
     create() {
 
-        this.gameStartSound = this.sound.add('gameStart');
-
-        this.hideInventory();
+        loadSounds(this);
+        hideInventory(this);
 
         let background = this.add.image(0, 0, 'startBackground');
         background.setOrigin(0, 0);  // Ensure the image starts at (0,0)
@@ -26,23 +27,20 @@ export default class startScreen extends Phaser.Scene {
 
         this.playButton.on('pointerdown', () => {
             this.scene.start('instructionOne');
-              this.gameStartSound.play();
+            this.gameStartSound.play();
         });
 
         this.playButton.on('pointerover', () => {
             this.playButton.setScale(0.6);  // Increase the size
+            this.input.setDefaultCursor('pointer');
+
         });
 
         this.playButton.on('pointerout', () => {
             this.playButton.setScale(0.5);  // Return to original size
-        });
-    }
+            this.input.setDefaultCursor('auto');
 
-    hideInventory() {
-        const inventoryBox = document.getElementById('inventory-box');
-        if (inventoryBox) {
-            inventoryBox.style.display = 'none';
-        }
+        });
     }
 
 }

@@ -3,6 +3,8 @@ import { handleObstacleCollision, handleItemCollision } from '/src/components/ha
 import { showLevelUpScene, restartLevel } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
+import { setInventory, showInventory } from '/src/components/handlers/inventoryHandler';
+import { loadSounds } from '/src/components/handlers/soundHandler';
 
 export default class levelTwo extends Phaser.Scene {
     constructor() {
@@ -48,20 +50,25 @@ export default class levelTwo extends Phaser.Scene {
             shirt: 4000,
         };
 
+        this.emitter;
+        this.speed2 = 0;
+        this.speedDown = 0;
+
     }
 
     init(data) {
         this.score = data.score || 0;
+        this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
     }
 
     preload() {
-           preloadAssets(this);
+        preloadAssets(this);
 
-     
     }
 
     create() {
+
 
         this.scene.pause();
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
@@ -69,8 +76,9 @@ export default class levelTwo extends Phaser.Scene {
             this.scene.start();
         });
 
-        this.showInventory();
-        this.setInventory();
+        loadSounds(this);
+        showInventory();
+        setInventory(this);
 
         // background
         this.ground = this.add.tileSprite(
@@ -86,8 +94,11 @@ export default class levelTwo extends Phaser.Scene {
         this.currentLaneIndex = 1;
         this.targetX = this.lanes[this.currentLaneIndex];
 
+        const carColors = ['carRed', 'carOrange', 'carYellow', 'carGreen', 'carBlue', 'carPurple'];
+        const selectedCarColor = carColors[this.selectedCarIndex];
+
         // car sprite
-        this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], this.scale.height * 7 / 8, 'car');
+        this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], this.scale.height * 7 / 8, selectedCarColor);
         this.car.setScale(0.6);
         this.car.setOrigin(0.5, 0.5);
 
@@ -166,6 +177,15 @@ export default class levelTwo extends Phaser.Scene {
                 loop: true
             });
         });
+
+        this.emitter = this.add.particles(0, 0, 'plusOne', {
+            speed: { min: 50, max: 200 },
+            gravityY: 200,
+            scale: { start: 0.1, end: 0.15 },
+            duration: 300,
+            blendMode: 'ADD',
+            emitting: false
+        });
     }
 
     incrementScore() {
@@ -226,7 +246,7 @@ export default class levelTwo extends Phaser.Scene {
         });
 
         if (this.timeLeft == 0) {
-            showLevelUpScene(this, 'levelThree', 3, this.score); // or 'levelThree', 3 for levelTwo.jsx
+            showLevelUpScene(this, 'levelThree', 3, this.score, this.selectedCarIndex); // or 'levelThree', 3 for levelTwo.jsx
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }
@@ -246,27 +266,5 @@ export default class levelTwo extends Phaser.Scene {
 
         // move snowball to new lane
         this.targetX = this.lanes[this.currentLaneIndex];
-    }
-
-    showInventory() {
-        const inventoryBox = document.getElementById('inventory-box');
-        if (inventoryBox) {
-            inventoryBox.style.display = 'flex'; // Restore flex display
-        }
-    }
-
-    setInventory() {
-        this.slot1 = document.getElementById('slot-1');
-        this.slot2 = document.getElementById('slot-2');
-        this.slot3 = document.getElementById('slot-3');
-        this.slot4 = document.getElementById('slot-4');
-        this.slot5 = document.getElementById('slot-5');
-    }
-
-    hideInventory() {
-        const inventoryBox = document.getElementById('inventory-box');
-        if (inventoryBox) {
-            inventoryBox.style.display = 'none';
-        }
     }
 }

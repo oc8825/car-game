@@ -1,4 +1,7 @@
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
+import { loadSounds } from '/src/components/handlers/soundHandler';
+import { hideInventory } from '/src/components/handlers/inventoryHandler';
+
 
 export default class instructionOne extends Phaser.Scene {
     constructor() {
@@ -10,36 +13,33 @@ export default class instructionOne extends Phaser.Scene {
     }
 
     create() {
-        this.hideInventory();
-        this.gameStartSound = this.sound.add('gameStart');
+        hideInventory(this);
+        loadSounds(this);
 
         let background = this.add.image(0, 0, 'backgroundTwo').setOrigin(0, 0);
         background.setDisplaySize(this.scale.width, this.scale.height);  // Set the background size to fit the screen
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
-        this.playButton = this.add.image(540, 1000, 'playButton').setInteractive();
-        this.playButton.setScale(0.5);
+        this.chooseCarButton = this.add.image(540, 1000, 'chooseCarButton').setInteractive();
+        this.chooseCarButton.setScale(1.5);
 
-        this.playButton.on('pointerdown', () => {
-            this.scene.start('levelOne');
+        this.chooseCarButton.on('pointerdown', () => {
+            this.scene.start('chooseCar');
             this.gameStartSound.play();
         });
 
-        this.playButton.on('pointerover', () => {
-            this.playButton.setScale(0.6);  // Increase the size
+        this.chooseCarButton.on('pointerover', () => {
+            this.chooseCarButton.setScale(1.6);  // Increase the size
+            this.input.setDefaultCursor('pointer');
         });
 
-        this.playButton.on('pointerout', () => {
-            this.playButton.setScale(0.5);  // Return to original size
+        this.chooseCarButton.on('pointerout', () => {
+            this.chooseCarButton.setScale(1.5);  // Return to original size
+            this.input.setDefaultCursor('auto');
         });
 
     }
 
-    hideInventory() {
-        const inventoryBox = document.getElementById('inventory-box');
-        if (inventoryBox) {
-            inventoryBox.style.display = 'none';
-        }
-    }
+
 }
 

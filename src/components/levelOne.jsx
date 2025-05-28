@@ -1,8 +1,10 @@
-import { TiltControl } from '/src/components/handlers/TiltControl'; 
+import { TiltControl } from '/src/components/handlers/TiltControl';
 import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
 import { showLevelUpScene, restartLevel } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
+import { initialSetInventory, showInventory } from '/src/components/handlers/inventoryHandler';
+import { loadSounds } from '/src/components/handlers/soundHandler';
 
 export default class levelOne extends Phaser.Scene {
     constructor() {
@@ -12,13 +14,14 @@ export default class levelOne extends Phaser.Scene {
         this.speedY = 1;
 
         this.levelCompleted = false;
-        this.score = 0;
+        this.score = 75;
         this.level = 1;
         this.timerText = null;
         this.timerEvent = null;
         this.timeLeft = 15;
 
         this.orientation = null;
+        this.selectedCarIndex = null;
 
         this.laneChangeCooldown = false;
         this.currentLaneIndex = 1;
@@ -41,47 +44,36 @@ export default class levelOne extends Phaser.Scene {
             socks: 3500,
         };
 
-        this.collectSound;
-        this.gameStartSound;
+        this.emitter;
+        this.speed2 = 0;
+        this.speedDown = 0;
 
     }
 
     init(data) {
         // Check if initialTime is passed and use it, otherwise use default
         this.timeLeft = data.initialTime || 15;  // Fallback to 20 if no initialTime is passed
-        this.score = data.score || 0; // Use the passed score or default to 0
-
+        this.score = data.score || 75; // Use the passed score or default to 0
+        this.selectedCarIndex = data.selectedCarIndex || 0;  // Default to 0 if not passed
         this.isScorePaused = false;
 
     }
 
     preload() {
-           preloadAssets(this);
-
-      
+        preloadAssets(this);
     }
 
     create() {
 
-        this.collectSound = this.sound.add('collect');
-        this.crashSound = this.sound.add('crash');
-        this.gameOverSound = this.sound.add('gameOver');
-        this.levelUpSound = this.sound.add('levelUp');
-        this.oilSlipSound = this.sound.add('oilSlip');
-        this.winGameSound = this.sound.add('winGame');
-        this.prizeSound = this.sound.add('prize');
-        this.startBeepsSound = this.sound.add('startBeeps');
-        this.losePointsSound = this.sound.add('losePoints');
-        this.gameStartSound = this.sound.add('gameStart');
+        loadSounds(this);
+        initialSetInventory(this);
+        showInventory();
 
         this.scene.pause();
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
         this.tiltControl.enableTiltControls(() => {
             this.scene.start();
         });
-
-        this.setInventory();
-        this.showInventory();
 
         // background
         this.ground = this.add.tileSprite(
@@ -97,8 +89,11 @@ export default class levelOne extends Phaser.Scene {
         this.currentLaneIndex = 1;
         this.targetX = this.lanes[this.currentLaneIndex];
 
+        const carColors = ['carRed', 'carOrange', 'carYellow', 'carGreen', 'carBlue', 'carPurple'];
+        const selectedCarColor = carColors[this.selectedCarIndex];
+
         // car sprite
-        this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], this.scale.height * 7 / 8, 'car');
+        this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], this.scale.height * 7 / 8, selectedCarColor);
         this.car.setScale(0.6);
         this.car.setOrigin(0.5, 0.5);
 
@@ -170,34 +165,21 @@ export default class levelOne extends Phaser.Scene {
             });
         });
 
+        this.emitter = this.add.particles(0, 0, 'plusOne', {
+            speed: { min: 50, max: 200 },
+            gravityY: 200,
+            scale: { start: 0.1, end: 0.15 },
+            duration: 300,
+            blendMode: 'ADD',
+            emitting: false
+        });
+
     }
 
     incrementScore() {
         if (!this.isScorePaused) {
             this.score += 1;
             this.scoreText.setText(`${this.score}`);
-        }
-    }
-
-    setInventory() {
-        this.slot1 = document.getElementById('slot-1');
-        this.slot2 = document.getElementById('slot-2');
-        this.slot3 = document.getElementById('slot-3');
-        this.slot4 = document.getElementById('slot-4');
-        this.slot5 = document.getElementById('slot-5');
-
-        this.slot1.style.backgroundImage = 'url(/src/assets/images/qMark.png)';
-        this.slot2.style.backgroundImage = 'url(/src/assets/images/qMark.png)';
-        this.slot3.style.backgroundImage = 'url(/src/assets/images/qMark.png)';
-        this.slot4.style.backgroundImage = 'url(/src/assets/images/qMark.png)';
-        this.slot5.style.backgroundImage = 'url(/src/assets/images/qMark.png)';
-
-    }
-
-    showInventory() {
-        const inventoryBox = document.getElementById('inventory-box');
-        if (inventoryBox) {
-            inventoryBox.style.display = 'flex'; // Restore flex display
         }
     }
 
@@ -252,7 +234,7 @@ export default class levelOne extends Phaser.Scene {
         });
 
         if (this.timeLeft == 0) {
-            showLevelUpScene(this, 'levelTwo', 2, this.score); // or 'levelThree', 3 for levelTwo.jsx
+            showLevelUpScene(this, 'levelTwo', 2, this.score, this.selectedCarIndex); // or 'levelThree', 3 for levelTwo.jsx
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }
@@ -271,13 +253,6 @@ export default class levelOne extends Phaser.Scene {
 
         // move snowball to new lane
         this.targetX = this.lanes[this.currentLaneIndex];
-    }
-
-    hideInventory() {
-        const inventoryBox = document.getElementById('inventory-box');
-        if (inventoryBox) {
-            inventoryBox.style.display = 'none';
-        }
     }
 
 }
