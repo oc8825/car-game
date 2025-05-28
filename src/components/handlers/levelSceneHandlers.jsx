@@ -130,7 +130,6 @@ export function winScreen(scene) {
     scene.levelCompleted = true;
     scene.isScorePaused = true;
 
-    scene.obstacles.clear(true, true);
     scene.items.clear(true, true);
 
     scene.physics.pause();
@@ -170,3 +169,80 @@ export function winScreen(scene) {
     });
 
 }
+
+export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
+    if (scene.levelCompleted) return;
+    scene.levelCompleted = true;
+    scene.isScorePaused = true;
+
+    scene.obstacles.clear(true, true);
+    scene.items.clear(true, true);
+
+    scene.physics.pause();
+    scene.tiltControl.disableTiltControls();
+    scene.input.keyboard.removeAllListeners();
+
+    const overlay = scene.add.graphics();
+    overlay.fillStyle(0x000000, 0.7);
+    overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
+    overlay.setDepth(200);
+
+    const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
+        'BONUS Level Starting In...', {
+        fontSize: '75px',
+        fill: '#fff',
+        align: 'center',
+        fontStyle: 'bold'
+    });
+    levelUpText.setOrigin(0.5);
+    levelUpText.setDepth(250);
+
+    hideInventory(scene);
+
+    const countdownText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2, '3', {
+        fontSize: '100px',
+        fill: '#fff',
+        align: 'center',
+        fontStyle: 'bold'
+    });
+
+    countdownText.setOrigin(0.5);
+    countdownText.setDepth(250);
+
+    let countdownValue = 3;
+    scene.time.addEvent({
+        delay: 1000, // 1 second per countdown step
+        repeat: 2,   // Repeat 2 more times (for 2 and 1)
+        callback: () => {
+            countdownValue--;
+            countdownText.setText(countdownValue.toString()); // Update the countdown text
+        }
+    });
+
+    scene.time.delayedCall(3000, () => {
+        // Clear the countdown text and update the message
+        countdownText.destroy();
+        levelUpText.setText('GO!');
+        levelUpText.setFontSize('200px');
+        levelUpText.setFontStyle('bold');
+        levelUpText.setOrigin(0.5);
+
+        // Restart the scene after a small delay
+        scene.time.delayedCall(500, () => {
+            scene.levelCompleted = false;
+            scene.scene.start(nextLevelKey, {
+                score: score,
+                selectedCarIndex,
+                inventory: {
+                    slot1: scene.slot1?.style?.backgroundImage,
+                    slot2: scene.slot2?.style?.backgroundImage,
+                    slot3: scene.slot3?.style?.backgroundImage,
+                    slot4: scene.slot4?.style?.backgroundImage,
+                    slot5: scene.slot5?.style?.backgroundImage,
+                }
+            });
+        });
+    });
+
+}
+

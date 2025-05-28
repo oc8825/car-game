@@ -1,23 +1,22 @@
 import { TiltControl } from '/src/components/handlers/TiltControl'; // Import TiltControl
-import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
-import { bonusLevel, restartLevel } from '/src/components/handlers/levelSceneHandlers';
-import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
+import { handleItemCollision } from '/src/components/handlers/collisionHandlers';
+import { winScreen, restartLevel } from '/src/components/handlers/levelSceneHandlers';
+import { spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { setInventory, showInventory } from '/src/components/handlers/inventoryHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 
-
-export default class levelThree extends Phaser.Scene {
+export default class levelBonus extends Phaser.Scene {
     constructor() {
-        super({ key: 'levelThree' });
+        super({ key: 'levelBonus' });
         this.ground = null;
         this.car = null;
         this.speedY = 1;
 
-        this.level = 3;
+        this.level = "B";
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 3;
+        this.timeLeft = 25;
         this.score;
 
         this.orientation = null;
@@ -30,28 +29,13 @@ export default class levelThree extends Phaser.Scene {
         this.isScorePaused = false;
         this.isTiltEnabled = false;
 
-
-        this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'block1', 'block2', 'block3', 'cone', 'tire', 'spikes'];
-        this.obstacleSpawnIntervals = {
-            oil1: 2000,
-            oil2: 3000,
-            oil3: 4000,
-            cone: 4500,
-            block1: 6000,
-            block2: 6500,
-            block3: 7000,
-            tire: 3500,
-            spikes: 3500,
-        };
-
         this.itemTypes = ['hat', 'socks', 'foamFinger', 'shirt', 'waterBottle'];
         this.itemSpawnIntervals = {
-            hat: 2000,
-            socks: 3000,
-            foamFinger: 3500,
-            shirt: 4000,
-            waterBottle: 4500,
-
+            hat: 1000,
+            socks: 1500,
+            foamFinger: 2000,
+            shirt: 2500,
+            waterBottle: 3000,
         };
 
         this.emitter;
@@ -101,17 +85,12 @@ export default class levelThree extends Phaser.Scene {
         const carColors = ['carRed', 'carOrange', 'carYellow', 'carGreen', 'carBlue', 'carPurple'];
         const selectedCarColor = carColors[this.selectedCarIndex];
 
+        this.items = this.physics.add.group();
+
         // car sprite
         this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], this.scale.height * 7 / 8, selectedCarColor);
         this.car.setScale(0.6);
         this.car.setOrigin(0.5, 0.5);
-
-        this.obstacles = this.physics.add.group();
-        this.items = this.physics.add.group();
-
-        this.physics.add.collider(this.car, this.obstacles, (car, obstacle) => {
-            handleObstacleCollision(this, car, obstacle);
-        }, null, this);
 
         this.physics.add.collider(this.car, this.items, (car, item) => {
             handleItemCollision(this, car, item);
@@ -127,6 +106,7 @@ export default class levelThree extends Phaser.Scene {
 
         // Initial positioning
         this.updateScoreText();
+
 
         const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
         this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
@@ -170,15 +150,6 @@ export default class levelThree extends Phaser.Scene {
             } else {
                 this.changeLane(1);
             }
-        });
-
-        Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval]) => {
-            this.time.addEvent({
-                delay: interval,
-                callback: () => spawnSpecificObstacle(this, type, this.obstacles),
-                callbackScope: this,
-                loop: true
-            });
         });
 
         Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
@@ -235,10 +206,10 @@ export default class levelThree extends Phaser.Scene {
             if (newLength !== this.scoreDigitLength) {
                 this.scoreDigitLength = newLength;
                 this.score = newScore;
-                this.updateScoreText(); // Recalculate font size
+                this.updateScoreText(); // font size
             } else {
                 this.score = newScore;
-                this.scoreText.setText(`${this.score}`); // Just update text
+                this.scoreText.setText(`${this.score}`);
             }
         }
     }
@@ -256,7 +227,6 @@ export default class levelThree extends Phaser.Scene {
 
     update() {
 
-        // update snowball position if needed
         const speed = 1000; // pixels per second
         const threshold = 1; // snap threshold for close distances
         const distance = Math.abs(this.car.x - this.targetX); // calculate distance to target
@@ -279,15 +249,6 @@ export default class levelThree extends Phaser.Scene {
         }
 
         // cleanup for off-screen
-
-        this.obstacles.getChildren().forEach(obstacle => {
-            if (obstacle && obstacle.y > this.scale.height) {
-                obstacle.destroy();
-            } else if (obstacle.rotationSpeed) {
-                obstacle.rotation += obstacle.rotationSpeed;
-            }
-        });
-
         this.items.getChildren().forEach(item => {
             if (item && item.y > this.scale.height) {
                 item.destroy();
@@ -295,7 +256,7 @@ export default class levelThree extends Phaser.Scene {
         });
 
         if (this.timeLeft == 0) {
-            bonusLevel(this, 'levelBonus', this.score, this.selectedCarIndex)
+            winScreen(this)
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }

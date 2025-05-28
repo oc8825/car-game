@@ -20,7 +20,7 @@ export default class levelOne extends Phaser.Scene {
         this.level = 1;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 10;
+        this.timeLeft = 2;
 
         this.orientation = null;
         this.selectedCarIndex = null;
@@ -35,16 +35,16 @@ export default class levelOne extends Phaser.Scene {
 
         this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'cone'];
         this.obstacleSpawnIntervals = {
-            oil1: 3000,
-            oil2: 3500,
+            oil1: 2000,
+            oil2: 3000,
             oil3: 4000,
-            cone: 5000,
+            cone: 4500,
         };
 
         this.itemTypes = ['hat', 'socks'];
         this.itemSpawnIntervals = {
             hat: 2000,
-            socks: 3500,
+            socks: 3000,
         };
 
         this.emitter;
@@ -55,7 +55,7 @@ export default class levelOne extends Phaser.Scene {
 
     init(data) {
         // Check if initialTime is passed and use it, otherwise use default
-        this.timeLeft = data.initialTime || 10;  // Fallback to 20 if no initialTime is passed
+        this.timeLeft = data.initialTime || 2;  // Fallback to 20 if no initialTime is passed
         this.score = data.score || 98; // Use the passed score or default to 0
         this.selectedCarIndex = data.selectedCarIndex || 0;  // Default to 0 if not passed
         this.isScorePaused = false;
