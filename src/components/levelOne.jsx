@@ -16,11 +16,11 @@ export default class levelOne extends Phaser.Scene {
         this.scoreDigitLength = 1;
 
         this.levelCompleted = false;
-        this.score = 98;
+        this.score = 0;
         this.level = 1;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 2;
+        this.timeLeft = 6;
 
         this.orientation = null;
         this.selectedCarIndex = null;
@@ -54,13 +54,17 @@ export default class levelOne extends Phaser.Scene {
     }
 
     init(data) {
-        // Check if initialTime is passed and use it, otherwise use default
-        this.timeLeft = data.initialTime || 2;  // Fallback to 20 if no initialTime is passed
-        this.score = data.score || 98; // Use the passed score or default to 0
-        this.selectedCarIndex = data.selectedCarIndex || 0;  // Default to 0 if not passed
+        this.score = data?.score || 0;
+        this.timeLeft = 6; // RESET time
+        this.isRestarting = false;
+        this.levelCompleted = false;
         this.isScorePaused = false;
+        this.currentLaneIndex = 1;
+        this.selectedCarIndex = data?.selectedCarIndex || 0;
 
+        // Any other state resets necessary...
     }
+
 
     preload() {
         preloadAssets(this);
@@ -68,7 +72,7 @@ export default class levelOne extends Phaser.Scene {
 
     create() {
 
-        if(this.restarting){
+        if (this.restarting) {
             this.scene.restart();
         }
 

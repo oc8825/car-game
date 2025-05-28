@@ -18,14 +18,13 @@ export default class levelTwo extends Phaser.Scene {
         this.level = 2;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 5;
+        this.timeLeft = 10;
         this.score;
 
         this.orientation = null;
 
         this.laneChangeCooldown = false;
         this.currentLaneIndex = 1;
-
 
         this.isRestarting = false;
         this.isScorePaused = false;
@@ -57,7 +56,7 @@ export default class levelTwo extends Phaser.Scene {
     }
 
     init(data) {
-        this.score = data.score || 5;
+        this.score = data.score || 10;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
     }

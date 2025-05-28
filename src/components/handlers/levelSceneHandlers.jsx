@@ -83,34 +83,43 @@ export function restartLevel(scene) {
     scene.levelCompleted = false;
 
     scene.physics.pause();
-    scene.timerEvent.paused = true;
-    scene.car.setVelocity(0, 0);
-    scene.tiltControl.disableTiltControls();
+    if (scene.timerEvent) scene.timerEvent.paused = true;
+    if (scene.scoreEvent) scene.scoreEvent.paused = true;
+
+     if (scene.car) scene.car.setVelocity(0, 0);
+    if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
 
-    scene.obstacles.clear(true, true);
-    scene.items.clear(true, true);
+    if (scene.obstacles) scene.obstacles.clear(true, true);
+    if (scene.items) scene.items.clear(true, true);
 
-    const overlay = scene.add.graphics();
-    overlay.fillStyle(0x000000, 0.7); // Semi-transparent black
-    overlay.fillRect(0, 0, scene.scale.width, scene.scale.height); // Draw the rectangle to cover the screen
-    overlay.setDepth(220); // Ensure overlay is above other objects
+   const overlay = scene.add.graphics();
+    overlay.fillStyle(0x000000, 0.7);
+    overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
+    overlay.setDepth(220);// Ensure overlay is above other objects
 
-    scene.restartButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'restartButton')
-        .setInteractive().setDepth(250);
-    scene.restartButton.on('pointerdown', () => {
-        scene.isRestarting = false;
-        scene.scene.start('chooseCar');
-        scene.gameStart.play();
-        scene.restarting = true;
+     const restartButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'restartButton')
+        .setInteractive()
+        .setDepth(250);
+
+    restartButton.on('pointerdown', () => {
+    scene.isRestarting = false;
+
+    // Clean stop all game scenes
+    scene.scene.stop('levelOne');
+    scene.scene.stop('levelTwo');
+    scene.scene.stop(); // stop current scene explicitly
+
+    // Start from the chooseCar scene
+    scene.scene.start('chooseCar');
+});
+
+    restartButton.on('pointerover', () => {
+        scene.input.setDefaultCursor('pointer');
     });
 
-    scene.restartButton.on('pointerover', () => {
-        this.input.setDefaultCursor('pointer');
-    });
-
-    scene.restartButton.on('pointerout', () => {
-        this.input.setDefaultCursor('auto');
+    restartButton.on('pointerout', () => {
+        scene.input.setDefaultCursor('auto');
     });
 
     const loseText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5, 'Game Over!', {
@@ -118,11 +127,9 @@ export function restartLevel(scene) {
         fill: '#fff',
         align: 'center',
         fontStyle: 'bold'
-    });
-    loseText.setOrigin(0.5);
-    loseText.setDepth(250);
+    }).setOrigin(0.5).setDepth(250);
 
-    hideInventory(scene);
+    hideInventory(scene); // Clear UI
 }
 
 export function winScreen(scene) {

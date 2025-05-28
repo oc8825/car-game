@@ -107,7 +107,6 @@ export default class levelBonus extends Phaser.Scene {
         // Initial positioning
         this.updateScoreText();
 
-
         const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
         this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
         this.timerText.setDepth(10);
