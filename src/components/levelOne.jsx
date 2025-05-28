@@ -12,13 +12,15 @@ export default class levelOne extends Phaser.Scene {
         this.ground = null;
         this.car = null;
         this.speedY = 1;
+        this.test = false;
+        this.scoreDigitLength = 1;
 
         this.levelCompleted = false;
-        this.score = 75;
+        this.score = 98;
         this.level = 1;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 15;
+        this.timeLeft = 10;
 
         this.orientation = null;
         this.selectedCarIndex = null;
@@ -29,6 +31,7 @@ export default class levelOne extends Phaser.Scene {
 
         this.isRestarting = false;
         this.isScorePaused = false;
+        this.restarting;
 
         this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'cone'];
         this.obstacleSpawnIntervals = {
@@ -52,8 +55,8 @@ export default class levelOne extends Phaser.Scene {
 
     init(data) {
         // Check if initialTime is passed and use it, otherwise use default
-        this.timeLeft = data.initialTime || 15;  // Fallback to 20 if no initialTime is passed
-        this.score = data.score || 75; // Use the passed score or default to 0
+        this.timeLeft = data.initialTime || 10;  // Fallback to 20 if no initialTime is passed
+        this.score = data.score || 98; // Use the passed score or default to 0
         this.selectedCarIndex = data.selectedCarIndex || 0;  // Default to 0 if not passed
         this.isScorePaused = false;
 
@@ -64,6 +67,10 @@ export default class levelOne extends Phaser.Scene {
     }
 
     create() {
+
+        if(this.restarting){
+            this.scene.restart();
+        }
 
         loadSounds(this);
         initialSetInventory(this);
@@ -108,8 +115,16 @@ export default class levelOne extends Phaser.Scene {
             handleItemCollision(this, car, item);
         }, null, this);
 
-        this.scoreText = this.add.text(900, 100, '0', { fontSize: '100px', fill: 'white', fontStyle: 'bold' });
+        this.scoreText = this.add.text(925, 150, '0', {
+            fontSize: '100px',
+            color: '#ffffff',
+            fontStyle: 'bold',
+            align: 'center'
+        }).setOrigin(0.5);
         this.scoreText.setDepth(100);
+
+        // Initial positioning
+        this.updateScoreText();
 
         const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
         this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
@@ -176,10 +191,45 @@ export default class levelOne extends Phaser.Scene {
 
     }
 
+    updateScoreText() {
+        const rectWidth = 130;
+        const rectHeight = 100;
+
+        const baseFontSize = 100;
+        const minFontSize = 10;
+
+        const testText = this.add.text(0, 0, `${this.score}`, {
+            fontSize: `${baseFontSize}px`,
+            fontStyle: 'bold'
+        }).setVisible(false);
+
+        let currentSize = baseFontSize;
+        testText.setFontSize(`${currentSize}px`);
+
+        while ((testText.width > rectWidth - 10 || testText.height > rectHeight - 10) && currentSize > minFontSize) {
+            currentSize -= 2;
+            testText.setFontSize(`${currentSize}px`);
+        }
+
+        this.scoreText.setFontSize(`${currentSize}px`);
+        this.scoreText.setText(`${this.score}`);
+
+        testText.destroy(); // Cleanup
+    }
+
     incrementScore() {
         if (!this.isScorePaused) {
-            this.score += 1;
-            this.scoreText.setText(`${this.score}`);
+            const newScore = this.score + 1;
+            const newLength = `${newScore}`.length;
+
+            if (newLength !== this.scoreDigitLength) {
+                this.scoreDigitLength = newLength;
+                this.score = newScore;
+                this.updateScoreText(); // Recalculate font size
+            } else {
+                this.score = newScore;
+                this.scoreText.setText(`${this.score}`); // Just update text
+            }
         }
     }
 
@@ -196,7 +246,6 @@ export default class levelOne extends Phaser.Scene {
 
     update() {
 
-        // update snowball position if needed
         const speed = 1000; // pixels per second
         const threshold = 1; // snap threshold for close distances
         const distance = Math.abs(this.car.x - this.targetX); // calculate distance to target
@@ -234,6 +283,7 @@ export default class levelOne extends Phaser.Scene {
         });
 
         if (this.timeLeft == 0) {
+            this.levelUpSound.play();
             showLevelUpScene(this, 'levelTwo', 2, this.score, this.selectedCarIndex); // or 'levelThree', 3 for levelTwo.jsx
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
@@ -244,14 +294,12 @@ export default class levelOne extends Phaser.Scene {
     }
 
     changeLane(direction) {
-        // update lane index and ensure it stays within bounds
         this.currentLaneIndex = Phaser.Math.Clamp(
             this.currentLaneIndex + direction,
             0,
             this.lanes.length - 1
         );
 
-        // move snowball to new lane
         this.targetX = this.lanes[this.currentLaneIndex];
     }
 

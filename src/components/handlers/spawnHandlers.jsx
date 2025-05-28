@@ -1,4 +1,3 @@
-
 export function spawnSpecificObstacle(scene, type, obstacles) {
     if (scene.levelCompleted) return;
     if (scene.isRestarting) return;

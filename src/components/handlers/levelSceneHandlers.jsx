@@ -96,13 +96,21 @@ export function restartLevel(scene) {
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height); // Draw the rectangle to cover the screen
     overlay.setDepth(220); // Ensure overlay is above other objects
 
-    // Add restart button (optional - or trigger restart with another event like keypress)
     scene.restartButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'restartButton')
         .setInteractive().setDepth(250);
     scene.restartButton.on('pointerdown', () => {
         scene.isRestarting = false;
-        scene.scene.restart('levelOne');
+        scene.scene.start('chooseCar');
         scene.gameStart.play();
+        scene.restarting = true;
+    });
+
+    scene.restartButton.on('pointerover', () => {
+        this.input.setDefaultCursor('pointer');
+    });
+
+    scene.restartButton.on('pointerout', () => {
+        this.input.setDefaultCursor('auto');
     });
 
     const loseText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5, 'Game Over!', {
@@ -151,7 +159,14 @@ export function winScreen(scene) {
     scene.prizeButton.on('pointerdown', () => {
         scene.isRestarting = false;
         scene.scene.start('youWin', { score: scene.score });
-        scene.prizeSound.play();
+    });
+
+    scene.prizeButton.on('pointerover', () => {
+        this.input.setDefaultCursor('pointer');
+    });
+
+    scene.prizeButton.on('pointerout', () => {
+        this.input.setDefaultCursor('auto');
     });
 
 }

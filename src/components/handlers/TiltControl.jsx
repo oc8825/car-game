@@ -1,3 +1,27 @@
+/* async function requestTiltPermission() {
+  if (typeof DeviceOrientationEvent?.requestPermission === 'function') {
+    try {
+      const result = await DeviceOrientationEvent.requestPermission();
+      if (result === 'granted') {
+        localStorage.setItem('tiltGranted', 'true');
+        window.addEventListener('deviceorientation', handleOrientation);
+      }
+    } catch (e) {
+      console.error('Permission request denied:', e);
+    }
+  } else {
+    // For non-iOS devices or browsers that don't require permission
+    window.addEventListener('deviceorientation', handleOrientation);
+  }
+}
+
+// On page load
+if (localStorage.getItem('tiltGranted') === 'true') {
+  // still need a user gesture to re-request
+  document.getElementById('startButton').addEventListener('click', requestTiltPermission);
+}
+*/
+
 export class TiltControl {
     constructor(scene, callback) {
         this.scene = scene;
@@ -48,7 +72,6 @@ export class TiltControl {
                             document.body.removeChild(enableTiltButton);
                             this.scene.scene.resume();
                             this.isTiltEnabled = true; // Mark tilt controls as enabled
-                            onTiltEnabledCallback(); // ✅ Call the callback to resume scen
                         } else {
                             console.error('Permission denied for tilt controls.');
                             alert('Permission denied. Tilt controls are unavailable.');
@@ -64,7 +87,6 @@ export class TiltControl {
                 document.body.removeChild(enableTiltButton);
                 this.scene.scene.resume();
                 this.isTiltEnabled = true; // Mark tilt controls as enabled
-                onTiltEnabledCallback(); // ✅ Call the callback to resume scene
 
             }
         });

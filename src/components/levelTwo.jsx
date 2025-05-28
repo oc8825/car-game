@@ -18,7 +18,7 @@ export default class levelTwo extends Phaser.Scene {
         this.level = 2;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 2;
+        this.timeLeft = 10;
         this.score;
 
         this.orientation = null;
@@ -57,7 +57,7 @@ export default class levelTwo extends Phaser.Scene {
     }
 
     init(data) {
-        this.score = data.score || 0;
+        this.score = data.score || 10;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
     }
@@ -113,8 +113,16 @@ export default class levelTwo extends Phaser.Scene {
             handleItemCollision(this, car, item);
         }, null, this);
 
-        this.scoreText = this.add.text(900, 100, `${this.score}`, { fontSize: '100px', fill: 'white', fontStyle: 'bold' });
+        this.scoreText = this.add.text(925, 150, `${this.score}`, {
+            fontSize: '100px',
+            color: '#ffffff',
+            fontStyle: 'bold',
+            align: 'center'
+        }).setOrigin(0.5);
         this.scoreText.setDepth(100);
+
+        // Initial positioning
+        this.updateScoreText();
 
         const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
         this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
@@ -188,10 +196,45 @@ export default class levelTwo extends Phaser.Scene {
         });
     }
 
+    updateScoreText() {
+        const rectWidth = 130;
+        const rectHeight = 100;
+
+        const baseFontSize = 100;
+        const minFontSize = 10;
+
+        const testText = this.add.text(0, 0, `${this.score}`, {
+            fontSize: `${baseFontSize}px`,
+            fontStyle: 'bold'
+        }).setVisible(false);
+
+        let currentSize = baseFontSize;
+        testText.setFontSize(`${currentSize}px`);
+
+        while ((testText.width > rectWidth - 10 || testText.height > rectHeight - 10) && currentSize > minFontSize) {
+            currentSize -= 2;
+            testText.setFontSize(`${currentSize}px`);
+        }
+
+        this.scoreText.setFontSize(`${currentSize}px`);
+        this.scoreText.setText(`${this.score}`);
+
+        testText.destroy(); // Cleanup
+    }
+
     incrementScore() {
         if (!this.isScorePaused) {
-            this.score += 1;
-            this.scoreText.setText(`${this.score}`);
+            const newScore = this.score + 1;
+            const newLength = `${newScore}`.length;
+
+            if (newLength !== this.scoreDigitLength) {
+                this.scoreDigitLength = newLength;
+                this.score = newScore;
+                this.updateScoreText(); // Recalculate font size
+            } else {
+                this.score = newScore;
+                this.scoreText.setText(`${this.score}`); // Just update text
+            }
         }
     }
 
@@ -246,14 +289,16 @@ export default class levelTwo extends Phaser.Scene {
         });
 
         if (this.timeLeft == 0) {
-            showLevelUpScene(this, 'levelThree', 3, this.score, this.selectedCarIndex); // or 'levelThree', 3 for levelTwo.jsx
+            this.levelUpSound.play();
+            this.time.delayedCall(1500, () => {
+                showLevelUpScene(this, 'levelThree', 3, this.score, this.selectedCarIndex);
+            }, [], this);
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }
 
         this.scoreText.setText(`${this.score}`);
         this.levelText.setText(`${this.level}`);
-
     }
 
     changeLane(direction) {
