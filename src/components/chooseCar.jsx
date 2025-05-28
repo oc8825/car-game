@@ -23,7 +23,7 @@ export default class chooseCar extends Phaser.Scene {
         background.setDisplaySize(this.scale.width, this.scale.height);
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
-        this.carSprite = this.add.sprite(this.scale.width / 2, this.scale.height * 0.47, this.carColors[this.selectedCarIndex]);
+        this.carSprite = this.add.sprite(this.scale.width / 2, this.scale.height * 0.52, this.carColors[this.selectedCarIndex]);
         this.carSprite.setScale(2);
 
         this.leftArrow = this.add.image(this.scale.width * 0.1, this.scale.height * 0.5, 'leftArrow').setInteractive();
@@ -58,23 +58,6 @@ export default class chooseCar extends Phaser.Scene {
             this.input.setDefaultCursor('auto');
         });
 
-       /* this.selectCarButton = this.add.image(this.scale.width * 0.5, this.scale.height * 0.75, 'selectButton').setInteractive();
-        this.selectCarButton.setScale(0.5);
-        this.selectCarButton.on('pointerdown', () => {
-            this.selectSound.play();
-            this.updateCarSprite();
-        });
-
-        this.selectCarButton.on('pointerover', () => {
-            this.selectCarButton.setScale(0.55);
-            this.input.setDefaultCursor('pointer');
-        });
-
-        this.selectCarButton.on('pointerout', () => {
-            this.input.setDefaultCursor('auto');
-        });
-        */
-
         this.playButton = this.add.image(this.scale.width / 2, this.scale.height * 0.9, 'playButton').setInteractive();
         this.playButton.setScale(0.65);
 
@@ -97,28 +80,10 @@ export default class chooseCar extends Phaser.Scene {
             this.input.setDefaultCursor('auto');
         });
 
-        this.createHighlightSprite();
     }
 
     cycleCar() {
         this.carSprite.setTexture(this.carColors[this.selectedCarIndex]);
-    }
-
-    createHighlightSprite() {
-        this.highlightSprite = this.add.sprite(this.scale.width / 2, this.scale.height * 0.47, 'highlight');
-        this.highlightSprite.setScale(0.47);
-        this.highlightSprite.setDepth(10);
-        this.highlightSprite.setAlpha(0.35);
-        this.highlightSprite.setVisible(false);
-    }
-
-    updateCarSprite() {
-        this.highlightSprite.setVisible(true);
-
-        this.highlightSprite.setPosition(this.scale.width / 2, this.scale.height * 0.47);
-
-        this.highlightSprite.setScale(0.47);
-        this.highlightSprite.setAlpha(0.35);
     }
 }
 
