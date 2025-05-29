@@ -1,50 +1,41 @@
-import { TiltControl } from '/src/components/handlers/TiltControl';
-import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
-import { showLevelUpScene, restartLevel } from '/src/components/handlers/levelSceneHandlers';
-import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
+import { TiltControl } from '/src/components/handlers/TiltControl'; // Import TiltControl
+import { handleItemCollision } from '/src/components/handlers/collisionHandlers';
+import { winScreen, restartLevel } from '/src/components/handlers/levelSceneHandlers';
+import { spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
-import { initialSetInventory, showInventory } from '/src/components/handlers/inventoryHandler';
+import { setInventory, showInventory } from '/src/components/handlers/inventoryHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 
-export default class levelOne extends Phaser.Scene {
+export default class levelBonus extends Phaser.Scene {
     constructor() {
-        super({ key: 'levelOne' });
+        super({ key: 'levelBonus' });
         this.ground = null;
         this.car = null;
         this.speedY = 1;
-        this.test = false;
-        this.scoreDigitLength = 1;
 
-        this.levelCompleted = false;
-        this.score = 0;
-        this.level = 1;
+        this.level = "B";
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 6;
+        this.timeLeft = 25;
+        this.score;
 
         this.orientation = null;
-        this.selectedCarIndex = null;
 
         this.laneChangeCooldown = false;
         this.currentLaneIndex = 1;
-        this.isTiltEnabled = false;
 
         this.isRestarting = false;
+        this.levelCompleted = false;
         this.isScorePaused = false;
-        this.restarting;
+        this.isTiltEnabled = false;
 
-        this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'cone'];
-        this.obstacleSpawnIntervals = {
-            oil1: 2000,
-            oil2: 3000,
-            oil3: 4000,
-            cone: 4500,
-        };
-
-        this.itemTypes = ['hat', 'socks'];
+        this.itemTypes = ['hat', 'socks', 'foamFinger', 'shirt', 'waterBottle'];
         this.itemSpawnIntervals = {
-            hat: 2000,
-            socks: 3000,
+            hat: 1000,
+            socks: 1500,
+            foamFinger: 2000,
+            shirt: 2500,
+            waterBottle: 3000,
         };
 
         this.emitter;
@@ -54,31 +45,22 @@ export default class levelOne extends Phaser.Scene {
     }
 
     init(data) {
-        this.score = data?.score || 0;
-        this.timeLeft = 6; // RESET time
-        this.isRestarting = false;
-        this.levelCompleted = false;
+        this.score = data.score || 0;
+        this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
-        this.currentLaneIndex = 1;
-        this.selectedCarIndex = data?.selectedCarIndex || 0;
 
-        // Any other state resets necessary...
     }
-
 
     preload() {
         preloadAssets(this);
+
     }
 
     create() {
 
-        if (this.restarting) {
-            this.scene.restart();
-        }
-
         loadSounds(this);
-        initialSetInventory(this);
         showInventory();
+        setInventory(this);
 
         this.scene.pause();
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
@@ -103,23 +85,18 @@ export default class levelOne extends Phaser.Scene {
         const carColors = ['carRed', 'carOrange', 'carYellow', 'carGreen', 'carBlue', 'carPurple'];
         const selectedCarColor = carColors[this.selectedCarIndex];
 
+        this.items = this.physics.add.group();
+
         // car sprite
         this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], this.scale.height * 7 / 8, selectedCarColor);
         this.car.setScale(0.6);
         this.car.setOrigin(0.5, 0.5);
 
-        this.obstacles = this.physics.add.group();
-        this.items = this.physics.add.group();
-
-        this.physics.add.collider(this.car, this.obstacles, (car, obstacle) => {
-            handleObstacleCollision(this, car, obstacle);
-        }, null, this);
-
         this.physics.add.collider(this.car, this.items, (car, item) => {
             handleItemCollision(this, car, item);
         }, null, this);
 
-        this.scoreText = this.add.text(925, 150, '0', {
+        this.scoreText = this.add.text(925, 150, `${this.score}`, {
             fontSize: '100px',
             color: '#ffffff',
             fontStyle: 'bold',
@@ -134,7 +111,7 @@ export default class levelOne extends Phaser.Scene {
         this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
         this.timerText.setDepth(10);
 
-        this.levelText = this.add.text(145, 105, '1', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
+        this.levelText = this.add.text(145, 105, '3', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
         this.levelText.setDepth(100);
 
         this.timerEvent = this.time.addEvent({
@@ -166,19 +143,18 @@ export default class levelOne extends Phaser.Scene {
             this.changeLane(1);
         });
 
-        Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval]) => {
-            this.time.addEvent({
-                delay: interval,
-                callback: () => spawnSpecificObstacle(this, type, this.obstacles), // updated call
-                callbackScope: this,
-                loop: true
-            });
+        this.input.on('pointerdown', (pointer) => {
+            if (pointer.x < this.scale.width / 2) {
+                this.changeLane(-1);
+            } else {
+                this.changeLane(1);
+            }
         });
 
         Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
             this.time.addEvent({
                 delay: interval,
-                callback: () => spawnSpecificItem(this, type2, this.items), // updated call
+                callback: () => spawnSpecificItem(this, type2, this.items),
                 callbackScope: this,
                 loop: true
             });
@@ -229,10 +205,10 @@ export default class levelOne extends Phaser.Scene {
             if (newLength !== this.scoreDigitLength) {
                 this.scoreDigitLength = newLength;
                 this.score = newScore;
-                this.updateScoreText(); // Recalculate font size
+                this.updateScoreText(); // font size
             } else {
                 this.score = newScore;
-                this.scoreText.setText(`${this.score}`); // Just update text
+                this.scoreText.setText(`${this.score}`);
             }
         }
     }
@@ -272,14 +248,6 @@ export default class levelOne extends Phaser.Scene {
         }
 
         // cleanup for off-screen
-        this.obstacles.getChildren().forEach(obstacle => {
-            if (obstacle && obstacle.y > this.scale.height) {
-                obstacle.destroy();
-            } else if (obstacle.rotationSpeed) {
-                obstacle.rotation += obstacle.rotationSpeed;
-            }
-        });
-
         this.items.getChildren().forEach(item => {
             if (item && item.y > this.scale.height) {
                 item.destroy();
@@ -287,23 +255,24 @@ export default class levelOne extends Phaser.Scene {
         });
 
         if (this.timeLeft == 0) {
-            this.levelUpSound.play();
-            showLevelUpScene(this, 'levelTwo', 2, this.score, this.selectedCarIndex); // or 'levelThree', 3 for levelTwo.jsx
+            winScreen(this)
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }
 
         this.scoreText.setText(`${this.score}`);
         this.levelText.setText(`${this.level}`);
+
     }
 
     changeLane(direction) {
+        // update lane index and ensure it stays within bounds
         this.currentLaneIndex = Phaser.Math.Clamp(
             this.currentLaneIndex + direction,
             0,
             this.lanes.length - 1
         );
-
+        // move snowball to new lane
         this.targetX = this.lanes[this.currentLaneIndex];
     }
 

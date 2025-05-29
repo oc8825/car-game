@@ -1,6 +1,6 @@
 import { TiltControl } from '/src/components/handlers/TiltControl'; // Import TiltControl
 import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
-import { winScreen, restartLevel } from '/src/components/handlers/levelSceneHandlers';
+import { bonusLevel, restartLevel } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { setInventory, showInventory } from '/src/components/handlers/inventoryHandler';
@@ -17,7 +17,7 @@ export default class levelThree extends Phaser.Scene {
         this.level = 3;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 3;
+        this.timeLeft = 14;
         this.score;
 
         this.orientation = null;
@@ -33,24 +33,25 @@ export default class levelThree extends Phaser.Scene {
 
         this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'block1', 'block2', 'block3', 'cone', 'tire', 'spikes'];
         this.obstacleSpawnIntervals = {
-            oil1: 3000,
-            oil2: 3500,
+            oil1: 2000,
+            oil2: 3000,
             oil3: 4000,
-            cone: 5000,
-            block1: 5000,
-            block2: 5000,
-            block3: 5000,
-            tire: 2500,
-            spikes: 3000,
+            cone: 4500,
+            block1: 6000,
+            block2: 6500,
+            block3: 7000,
+            tire: 3500,
+            spikes: 3500,
         };
 
         this.itemTypes = ['hat', 'socks', 'foamFinger', 'shirt', 'waterBottle'];
         this.itemSpawnIntervals = {
             hat: 2000,
-            socks: 3500,
-            foamFinger: 4000,
+            socks: 3000,
+            foamFinger: 3500,
             shirt: 4000,
-            waterBottle: 3000,
+            waterBottle: 4500,
+
         };
 
         this.emitter;
@@ -70,7 +71,6 @@ export default class levelThree extends Phaser.Scene {
         preloadAssets(this);
 
     }
-
 
     create() {
 
@@ -295,7 +295,7 @@ export default class levelThree extends Phaser.Scene {
         });
 
         if (this.timeLeft == 0) {
-            winScreen(this)
+            bonusLevel(this, 'levelBonus', this.score, this.selectedCarIndex)
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }

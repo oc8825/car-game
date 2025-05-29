@@ -5,7 +5,9 @@ import chooseCar from './chooseCar';
 import levelOne from './levelOne';
 import levelTwo from './levelTwo';
 import levelThree from './levelThree';
+import levelBonus from './levelBonus';
 import youWin from './youWin';
+
 
 
 class GameScene extends Phaser.Scene {
@@ -32,7 +34,7 @@ const buildPhaserGame = ({ parent }) => {
             mode: scaleMode, 
             autoCenter: Phaser.Scale.CENTER_BOTH, 
         },
-        scene: [startScreen, instructionOne, chooseCar, levelOne, levelTwo, levelThree, youWin, GameScene], // add game scenes here
+        scene: [startScreen, instructionOne, chooseCar, levelOne, levelTwo, levelThree, levelBonus, youWin, GameScene], // add game scenes here
         physics: {
             default: 'arcade',
             arcade: {

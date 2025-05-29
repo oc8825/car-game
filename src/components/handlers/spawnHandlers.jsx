@@ -10,7 +10,7 @@ export function spawnSpecificObstacle(scene, type, obstacles) {
 
     switch (type) {
         case 'oil1':
-            obstacle.setVelocityY(115);
+            obstacle.setVelocityY(150);
             break;
         case 'oil2':
             obstacle.setVelocityY(200);
@@ -19,20 +19,20 @@ export function spawnSpecificObstacle(scene, type, obstacles) {
             obstacle.setVelocityY(300);
             break;
         case 'cone':
-            obstacle.setVelocityY(300);
+            obstacle.setVelocityY(350);
             break;
         case 'block1':
         case 'block2':
         case 'block3':
             obstacle.setScale(0.5);
-            obstacle.setVelocityY(300);
+            obstacle.setVelocityY(250);
             break;
         case 'tire':
-            obstacle.setVelocityY(300);
-            obstacle.rotationSpeed = 0.02;
+            obstacle.setVelocityY(400);
+            obstacle.rotationSpeed = 0.01;
             break;
         case 'spikes':
-            obstacle.setVelocityY(300);
+            obstacle.setVelocityY(400);
             break;
 
     }
@@ -50,19 +50,19 @@ export function spawnSpecificItem(scene, type, items) {
 
     switch (type) {
         case 'hat':
-            item.setVelocityY(400);
+            item.setVelocityY(250);
             break;
         case 'socks':
-            item.setVelocityY(200);
+            item.setVelocityY(300);
             break;
         case 'shirt':
-            item.setVelocityY(200);
+            item.setVelocityY(350);
             break;
         case 'foamFinger':
-            item.setVelocityY(200);
+            item.setVelocityY(400);
             item.rotationSpeed = 0.01;
             break;
         case 'waterBottle':
-            item.setVelocityY(200);
+            item.setVelocityY(450);
     }
 }
