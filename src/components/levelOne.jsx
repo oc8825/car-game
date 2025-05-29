@@ -33,6 +33,10 @@ export default class levelOne extends Phaser.Scene {
         this.isScorePaused = false;
         this.restarting;
 
+        this.slipTime = 0;
+        this.slipDuration = 600;
+        this.isSlipping = false;
+
         this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'cone'];
         this.obstacleSpawnIntervals = {
             oil1: 2000,
@@ -269,6 +273,18 @@ export default class levelOne extends Phaser.Scene {
             const groundScrollSpeed = 500; // pixels per second
             const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
             this.ground.tilePositionY -= pixelsPerFrame;
+        }
+
+        //slipping
+        if (this.isSlipping) {
+            this.slipTime += this.game.loop.delta;
+            const wiggleAngle = Math.sin(this.slipTime * 0.01) * 20;
+            this.car.setAngle(wiggleAngle);
+
+            if (this.slipTime > this.slipDuration) {
+                this.isSlipping = false;
+                this.car.setAngle(0);
+            }
         }
 
         // cleanup for off-screen

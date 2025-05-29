@@ -38,7 +38,7 @@ body {
 @media screen and (max-height: 700px) {
   #inventory-box {
     top: 60px;
-    transform: translateX(-50%) scale(0.85); /* Center and scale down */
+    transform: translateX(-50%) scale(0.85);
   }
 }
 

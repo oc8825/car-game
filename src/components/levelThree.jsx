@@ -29,6 +29,10 @@ export default class levelThree extends Phaser.Scene {
         this.isScorePaused = false;
         this.isTiltEnabled = false;
 
+        this.slipTime = 0;
+        this.slipDuration = 600;
+        this.isSlipping = false;
+
 
         this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'block1', 'block2', 'block3', 'cone', 'tire', 'spikes'];
         this.obstacleSpawnIntervals = {
@@ -280,8 +284,19 @@ export default class levelThree extends Phaser.Scene {
             this.ground.tilePositionY -= 2;
         }
 
-        // cleanup for off-screen
+        //slipping
+        if (this.isSlipping) {
+            this.slipTime += this.game.loop.delta;
+            const wiggleAngle = Math.sin(this.slipTime * 0.01) * 20;
+            this.car.setAngle(wiggleAngle);
 
+            if (this.slipTime > this.slipDuration) {
+                this.isSlipping = false;
+                this.car.setAngle(0);
+            }
+        }
+
+        // cleanup for off-screen
         this.obstacles.getChildren().forEach(obstacle => {
             if (obstacle && obstacle.y > this.scale.height) {
                 obstacle.destroy();
