@@ -4,13 +4,19 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
     if (scene.levelCompleted) return;
     scene.levelCompleted = true;
     scene.isScorePaused = true;
+    scene.isRestarting = false;
 
     scene.physics.pause();
-    scene.tiltControl.disableTiltControls();
+
+    if (scene.timerEvent) scene.timerEvent.paused = true;
+    if (scene.scoreEvent) scene.scoreEvent.paused = true;
+
+    if (scene.car) scene.car.setVelocity(0, 0);
+    if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
 
-    scene.obstacles.clear(true, true);
-    scene.items.clear(true, true);
+    if (scene.obstacles) scene.obstacles.clear(true, true);
+    if (scene.items) scene.items.clear(true, true);
 
     const overlay = scene.add.graphics();
     overlay.fillStyle(0x000000, 0.7);
@@ -41,25 +47,25 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
 
     let countdownValue = 3;
     scene.time.addEvent({
-        delay: 1000, // 1 second per countdown step
-        repeat: 2,   // Repeat 2 more times (for 2 and 1)
+        delay: 1000, 
+        repeat: 2,   
         callback: () => {
             countdownValue--;
-            countdownText.setText(countdownValue.toString()); // Update the countdown text
+            countdownText.setText(countdownValue.toString()); 
         }
     });
 
     scene.time.delayedCall(3000, () => {
-        // Clear the countdown text and update the message
         countdownText.destroy();
         levelUpText.setText('GO!');
         levelUpText.setFontSize('200px');
         levelUpText.setFontStyle('bold');
         levelUpText.setOrigin(0.5);
 
-        // Restart the scene after a small delay
-        scene.time.delayedCall(500, () => {
+        scene.time.delayedCall(100, () => {
             scene.levelCompleted = false;
+            scene.scene.stop(scene.scene.key);
+
             scene.scene.start(nextLevelKey, {
                 score: score,
                 selectedCarIndex,
@@ -73,7 +79,6 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
             });
         });
     });
-
 }
 
 export function restartLevel(scene) {
@@ -86,33 +91,31 @@ export function restartLevel(scene) {
     if (scene.timerEvent) scene.timerEvent.paused = true;
     if (scene.scoreEvent) scene.scoreEvent.paused = true;
 
-     if (scene.car) scene.car.setVelocity(0, 0);
+    if (scene.car) scene.car.setVelocity(0, 0);
     if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
 
     if (scene.obstacles) scene.obstacles.clear(true, true);
     if (scene.items) scene.items.clear(true, true);
 
-   const overlay = scene.add.graphics();
+    const overlay = scene.add.graphics();
     overlay.fillStyle(0x000000, 0.7);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
-    overlay.setDepth(220);// Ensure overlay is above other objects
+    overlay.setDepth(220);
 
-     const restartButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'restartButton')
+    const restartButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'restartButton')
         .setInteractive()
         .setDepth(250);
 
     restartButton.on('pointerdown', () => {
-    scene.isRestarting = false;
+        scene.isRestarting = false;
 
-    // Clean stop all game scenes
-    scene.scene.stop('levelOne');
-    scene.scene.stop('levelTwo');
-    scene.scene.stop(); // stop current scene explicitly
+        scene.scene.stop('levelOne');
+        scene.scene.stop('levelTwo');
+        scene.scene.stop();
 
-    // Start from the chooseCar scene
-    scene.scene.start('chooseCar');
-});
+        scene.scene.start('chooseCar');
+    });
 
     restartButton.on('pointerover', () => {
         scene.input.setDefaultCursor('pointer');
@@ -129,7 +132,7 @@ export function restartLevel(scene) {
         fontStyle: 'bold'
     }).setOrigin(0.5).setDepth(250);
 
-    hideInventory(scene); // Clear UI
+    hideInventory(scene);
 }
 
 export function winScreen(scene) {
@@ -218,23 +221,22 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
 
     let countdownValue = 3;
     scene.time.addEvent({
-        delay: 1000, // 1 second per countdown step
-        repeat: 2,   // Repeat 2 more times (for 2 and 1)
+        delay: 1000, 
+        repeat: 2,   
         callback: () => {
             countdownValue--;
-            countdownText.setText(countdownValue.toString()); // Update the countdown text
+            countdownText.setText(countdownValue.toString()); 
         }
     });
 
     scene.time.delayedCall(3000, () => {
-        // Clear the countdown text and update the message
+    
         countdownText.destroy();
         levelUpText.setText('GO!');
         levelUpText.setFontSize('200px');
         levelUpText.setFontStyle('bold');
         levelUpText.setOrigin(0.5);
 
-        // Restart the scene after a small delay
         scene.time.delayedCall(500, () => {
             scene.levelCompleted = false;
             scene.scene.start(nextLevelKey, {

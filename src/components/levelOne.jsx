@@ -20,7 +20,7 @@ export default class levelOne extends Phaser.Scene {
         this.level = 1;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 6;
+        this.timeLeft = 10;
 
         this.orientation = null;
         this.selectedCarIndex = null;
@@ -54,15 +54,13 @@ export default class levelOne extends Phaser.Scene {
     }
 
     init(data) {
-        this.score = data?.score || 0;
-        this.timeLeft = 6; // RESET time
+        this.score = data.score || 0;
+        this.timeLeft = 10; 
         this.isRestarting = false;
         this.levelCompleted = false;
         this.isScorePaused = false;
         this.currentLaneIndex = 1;
         this.selectedCarIndex = data?.selectedCarIndex || 0;
-
-        // Any other state resets necessary...
     }
 
 
@@ -218,7 +216,7 @@ export default class levelOne extends Phaser.Scene {
         this.scoreText.setFontSize(`${currentSize}px`);
         this.scoreText.setText(`${this.score}`);
 
-        testText.destroy(); // Cleanup
+        testText.destroy(); 
     }
 
     incrementScore() {
@@ -229,10 +227,10 @@ export default class levelOne extends Phaser.Scene {
             if (newLength !== this.scoreDigitLength) {
                 this.scoreDigitLength = newLength;
                 this.score = newScore;
-                this.updateScoreText(); // Recalculate font size
+                this.updateScoreText(); // font size
             } else {
                 this.score = newScore;
-                this.scoreText.setText(`${this.score}`); // Just update text
+                this.scoreText.setText(`${this.score}`); // update text
             }
         }
     }
@@ -268,7 +266,9 @@ export default class levelOne extends Phaser.Scene {
         }
 
         if (!this.isRestarting && !this.levelCompleted) {
-            this.ground.tilePositionY -= 2;
+            const groundScrollSpeed = 500; // pixels per second
+            const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
+            this.ground.tilePositionY -= pixelsPerFrame;
         }
 
         // cleanup for off-screen

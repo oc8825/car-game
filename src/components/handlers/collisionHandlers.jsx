@@ -37,7 +37,7 @@ export function handleObstacleCollision(scene, car, obstacle) {
             break;
     }
 
-    obstacle.destroy(); // Destroy the obstacle on collision
+    obstacle.destroy(); 
 }
 
 export function handleItemCollision(scene, car, item) {

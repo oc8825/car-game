@@ -10,29 +10,25 @@ export function spawnSpecificObstacle(scene, type, obstacles) {
 
     switch (type) {
         case 'oil1':
-            obstacle.setVelocityY(150);
-            break;
         case 'oil2':
-            obstacle.setVelocityY(200);
-            break;
         case 'oil3':
-            obstacle.setVelocityY(300);
+            obstacle.setVelocityY(500);
             break;
         case 'cone':
-            obstacle.setVelocityY(350);
+            obstacle.setVelocityY(500);
             break;
         case 'block1':
         case 'block2':
         case 'block3':
             obstacle.setScale(0.5);
-            obstacle.setVelocityY(250);
+            obstacle.setVelocityY(500);
             break;
         case 'tire':
-            obstacle.setVelocityY(400);
+            obstacle.setVelocityY(600);
             obstacle.rotationSpeed = 0.01;
             break;
         case 'spikes':
-            obstacle.setVelocityY(400);
+            obstacle.setVelocityY(500);
             break;
 
     }

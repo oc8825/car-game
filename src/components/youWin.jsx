@@ -38,8 +38,8 @@ export default class youWin extends Phaser.Scene {
         hideInventory(this);
 
         let background = this.add.image(0, 0, backgroundKey);
-        background.setOrigin(0, 0);  // Ensure the image starts at (0,0)
-        background.setDisplaySize(this.scale.width, this.scale.height);  // Set the background size to fit the screen
+        background.setOrigin(0, 0);  
+        background.setDisplaySize(this.scale.width, this.scale.height);  
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
     }

@@ -48,7 +48,10 @@ export default class levelBonus extends Phaser.Scene {
         this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
-
+        this.timeLeft = 25; // RESET time
+        this.isRestarting = false;
+        this.levelCompleted = false;
+        this.currentLaneIndex = 1;
     }
 
     preload() {
@@ -62,11 +65,12 @@ export default class levelBonus extends Phaser.Scene {
         showInventory();
         setInventory(this);
 
-        this.scene.pause();
+       /* this.scene.pause();
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
         this.tiltControl.enableTiltControls(() => {
-            this.scene.start();
+            this.scene.resume();
         });
+        */
 
         // background
         this.ground = this.add.tileSprite(

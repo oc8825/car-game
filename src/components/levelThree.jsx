@@ -1,11 +1,10 @@
-import { TiltControl } from '/src/components/handlers/TiltControl'; // Import TiltControl
+import { TiltControl } from '/src/components/handlers/TiltControl'; 
 import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
 import { bonusLevel, restartLevel } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { setInventory, showInventory } from '/src/components/handlers/inventoryHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
-
 
 export default class levelThree extends Phaser.Scene {
     constructor() {
@@ -17,7 +16,7 @@ export default class levelThree extends Phaser.Scene {
         this.level = 3;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 14;
+        this.timeLeft = 10;
         this.score;
 
         this.orientation = null;
@@ -60,11 +59,14 @@ export default class levelThree extends Phaser.Scene {
 
     }
 
-    init(data) {
+     init(data) {
         this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
-
+        this.timeLeft = 10; 
+        this.isRestarting = false;
+        this.levelCompleted = false;
+        this.currentLaneIndex = 1;
     }
 
     preload() {
@@ -78,11 +80,12 @@ export default class levelThree extends Phaser.Scene {
         showInventory();
         setInventory(this);
 
-        this.scene.pause();
+        /* this.scene.pause();
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
         this.tiltControl.enableTiltControls(() => {
-            this.scene.start();
+            this.scene.resume();
         });
+        */
 
         // background
         this.ground = this.add.tileSprite(
@@ -125,7 +128,6 @@ export default class levelThree extends Phaser.Scene {
         }).setOrigin(0.5);
         this.scoreText.setDepth(100);
 
-        // Initial positioning
         this.updateScoreText();
 
         const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
@@ -143,7 +145,7 @@ export default class levelThree extends Phaser.Scene {
         });
 
         this.scoreEvent = this.time.addEvent({
-            delay: 2000,  // Every 2 seconds
+            delay: 2000,  
             callback: this.incrementScore,
             callbackScope: this,
             loop: true

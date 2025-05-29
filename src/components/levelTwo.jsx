@@ -1,4 +1,4 @@
-import { TiltControl } from '/src/components/handlers/TiltControl'; // Import TiltControl
+import { TiltControl } from '/src/components/handlers/TiltControl'; 
 import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
 import { showLevelUpScene, restartLevel } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
@@ -56,9 +56,13 @@ export default class levelTwo extends Phaser.Scene {
     }
 
     init(data) {
-        this.score = data.score || 10;
+        this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
+        this.timeLeft = 10; 
+        this.isRestarting = false;
+        this.levelCompleted = false;
+        this.currentLaneIndex = 1;
     }
 
     preload() {
@@ -68,13 +72,13 @@ export default class levelTwo extends Phaser.Scene {
 
     create() {
 
-
-        this.scene.pause();
+      /* this.scene.pause();
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
         this.tiltControl.enableTiltControls(() => {
-            this.scene.start();
+            this.scene.resume();
         });
-
+        */
+       
         loadSounds(this);
         showInventory();
         setInventory(this);
@@ -120,7 +124,6 @@ export default class levelTwo extends Phaser.Scene {
         }).setOrigin(0.5);
         this.scoreText.setDepth(100);
 
-        // Initial positioning
         this.updateScoreText();
 
         const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
@@ -138,7 +141,7 @@ export default class levelTwo extends Phaser.Scene {
         });
 
         this.scoreEvent = this.time.addEvent({
-            delay: 2000,  // Every 2 seconds
+            delay: 2000,  
             callback: this.incrementScore,
             callbackScope: this,
             loop: true
@@ -218,7 +221,7 @@ export default class levelTwo extends Phaser.Scene {
         this.scoreText.setFontSize(`${currentSize}px`);
         this.scoreText.setText(`${this.score}`);
 
-        testText.destroy(); // Cleanup
+        testText.destroy(); 
     }
 
     incrementScore() {
@@ -229,10 +232,10 @@ export default class levelTwo extends Phaser.Scene {
             if (newLength !== this.scoreDigitLength) {
                 this.scoreDigitLength = newLength;
                 this.score = newScore;
-                this.updateScoreText(); // Recalculate font size
+                this.updateScoreText();
             } else {
                 this.score = newScore;
-                this.scoreText.setText(`${this.score}`); // Just update text
+                this.scoreText.setText(`${this.score}`); 
             }
         }
     }
@@ -288,8 +291,8 @@ export default class levelTwo extends Phaser.Scene {
         });
 
         if (this.timeLeft == 0) {
-            this.levelUpSound.play();
-            showLevelUpScene(this, 'levelThree', 3, this.score, this.selectedCarIndex);
+            this.levelUpSound.play({ volume: 0.5 });
+             showLevelUpScene(this, 'levelThree', 3, this.score, this.selectedCarIndex);
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }

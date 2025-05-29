@@ -15,7 +15,7 @@ export function initialSetInventory(scene) {
 export function showInventory() {
     const inventoryBox = document.getElementById('inventory-box');
     if (inventoryBox) {
-        inventoryBox.style.display = 'flex'; // Restore flex display
+        inventoryBox.style.display = 'flex'; 
     }
 }
 
