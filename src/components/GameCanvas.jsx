@@ -17,10 +17,15 @@ const GameCanvas = () => {
      return (
         <div
             ref={gameContainerRef}
-            style={{ width: '100vw', height: '100vh', 
+            style={{ 
+              width: '100vw', 
+              height: '100vh', 
               overflow: 'hidden', 
-              position: 'absolute', top: 0, left: 0,
-            margin: 0}}
+              position: 'absolute', 
+              top: 0, 
+              left: 0,
+              margin: 0,
+              padding: 0}}
         />
     );
 };

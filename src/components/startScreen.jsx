@@ -9,7 +9,6 @@ export default class startScreen extends Phaser.Scene {
 
     preload() {
         preloadAssets(this);
-
     }
 
     create() {
