@@ -17,13 +17,22 @@ class GameScene extends Phaser.Scene {
 }
 
 const buildPhaserGame = ({ parent }) => {
+    let scaleMode;
+
+    if (window.innerWidth < 768 && window.innerHeight > window.innerWidth) {
+        scaleMode = Phaser.Scale.ENVELOP; 
+    }
+    else {
+        scaleMode = Phaser.Scale.FIT;
+    }
+    
     const baseConfig = {
         type: Phaser.AUTO,
         width: 1080,  
         height: 1920, 
         scale: { 
-            mode: Phaser.Scale.FIT, 
-            autoCenter: Phaser.Scale.CENTER_HORIZONTALLY, 
+            mode: scaleMode, 
+            autoCenter: Phaser.Scale.CENTER_BOTH, 
         },
         scene: [startScreen, instructionOne, chooseCar, levelOne, levelTwo, levelThree, levelBonus, youWin, GameScene], // add game scenes here
         physics: {
