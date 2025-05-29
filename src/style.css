@@ -31,8 +31,15 @@ body {
   flex-direction: row; 
   gap: 7px;
   align-items: center;
-  top: 91px;
+  top: 82px;
   z-index:1;
+}
+
+@media screen and (max-height: 700px) {
+  #inventory-box {
+    top: 60px;
+    transform: translateX(-50%) scale(0.85); /* Center and scale down */
+  }
 }
 
 .inventory-slot {

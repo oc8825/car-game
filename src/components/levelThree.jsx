@@ -120,7 +120,7 @@ export default class levelThree extends Phaser.Scene {
             handleItemCollision(this, car, item);
         }, null, this);
 
-        this.scoreText = this.add.text(925, 150, `${this.score}`, {
+        this.scoreText = this.add.text(890, 150, `${this.score}`, {
             fontSize: '100px',
             color: '#ffffff',
             fontStyle: 'bold',
@@ -134,7 +134,7 @@ export default class levelThree extends Phaser.Scene {
         this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
         this.timerText.setDepth(10);
 
-        this.levelText = this.add.text(145, 105, '3', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
+        this.levelText = this.add.text(170, 105, '3', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
         this.levelText.setDepth(100);
 
         this.timerEvent = this.time.addEvent({
