@@ -16,7 +16,7 @@ export default class levelThree extends Phaser.Scene {
         this.level = 3;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 10;
+        this.timeLeft = 2;
         this.score;
 
         this.orientation = null;
@@ -32,7 +32,6 @@ export default class levelThree extends Phaser.Scene {
         this.slipTime = 0;
         this.slipDuration = 600;
         this.isSlipping = false;
-
 
         this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'block1', 'block2', 'block3', 'cone', 'tire', 'spikes'];
         this.obstacleSpawnIntervals = {
@@ -67,7 +66,7 @@ export default class levelThree extends Phaser.Scene {
         this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
-        this.timeLeft = 10; 
+        this.timeLeft = 2; 
         this.isRestarting = false;
         this.levelCompleted = false;
         this.currentLaneIndex = 1;
@@ -281,7 +280,9 @@ export default class levelThree extends Phaser.Scene {
         }
 
         if (!this.isRestarting && !this.levelCompleted) {
-            this.ground.tilePositionY -= 2;
+            const groundScrollSpeed = 500; // pixels per second
+            const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
+            this.ground.tilePositionY -= pixelsPerFrame;
         }
 
         //slipping

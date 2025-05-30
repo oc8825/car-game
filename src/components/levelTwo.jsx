@@ -18,7 +18,7 @@ export default class levelTwo extends Phaser.Scene {
         this.level = 2;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 10;
+        this.timeLeft = 2;
         this.score;
 
         this.orientation = null;
@@ -34,15 +34,14 @@ export default class levelTwo extends Phaser.Scene {
         this.slipDuration = 600;
         this.isSlipping = false;
 
-        this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'block1', 'block2', 'block3', 'cone'];
+        this.obstacleTypes = ['oil1', 'oil2', 'block1', 'block2', 'cone', 'spikes'];
         this.obstacleSpawnIntervals = {
             oil1: 2000,
             oil2: 3000,
-            oil3: 4000,
             cone: 4500,
             block1: 6000,
             block2: 6500,
-            block3: 7000,
+            spikes: 4000,
         };
 
         this.itemTypes = ['hat', 'socks', 'foamFinger', 'shirt'];
@@ -63,7 +62,7 @@ export default class levelTwo extends Phaser.Scene {
         this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
-        this.timeLeft = 10; 
+        this.timeLeft = 2; 
         this.isRestarting = false;
         this.levelCompleted = false;
         this.currentLaneIndex = 1;
@@ -275,8 +274,10 @@ export default class levelTwo extends Phaser.Scene {
             this.car.x = this.targetX; // snap to target
         }
 
-        if (!this.isRestarting && !this.levelCompleted) {
-            this.ground.tilePositionY -= 2;
+         if (!this.isRestarting && !this.levelCompleted) {
+            const groundScrollSpeed = 500; // pixels per second
+            const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
+            this.ground.tilePositionY -= pixelsPerFrame;
         }
 
         //slipping

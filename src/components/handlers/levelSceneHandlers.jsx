@@ -10,7 +10,6 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
 
     if (scene.timerEvent) scene.timerEvent.paused = true;
     if (scene.scoreEvent) scene.scoreEvent.paused = true;
-
     if (scene.car) scene.car.setVelocity(0, 0);
     if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
@@ -47,11 +46,11 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
 
     let countdownValue = 3;
     scene.time.addEvent({
-        delay: 1000, 
-        repeat: 2,   
+        delay: 1000,
+        repeat: 2,
         callback: () => {
             countdownValue--;
-            countdownText.setText(countdownValue.toString()); 
+            countdownText.setText(countdownValue.toString());
         }
     });
 
@@ -68,13 +67,11 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
         goText.setOrigin(0.5);
         goText.setDepth(250);
 
-        scene.time.delayedCall(500, () => {
+        // Delay before starting the next scene
+        scene.time.delayedCall(0, () => {
             goText.destroy();
-            overlay.destroy();
-            
             scene.levelCompleted = false;
             scene.scene.stop(scene.scene.key);
-
             scene.scene.start(nextLevelKey, {
                 score: score,
                 selectedCarIndex,
@@ -87,8 +84,11 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
                 }
             });
         });
+        goText.destroy();
     });
+
 }
+
 
 export function restartLevel(scene) {
     if (scene.isRestarting) return;
@@ -148,12 +148,17 @@ export function winScreen(scene) {
     if (scene.levelCompleted) return;
     scene.levelCompleted = true;
     scene.isScorePaused = true;
-
-    scene.items.clear(true, true);
+    scene.isRestarting = false;
 
     scene.physics.pause();
-    scene.tiltControl.disableTiltControls();
+
+    if (scene.timerEvent) scene.timerEvent.paused = true;
+    if (scene.scoreEvent) scene.scoreEvent.paused = true;
+    if (scene.car) scene.car.setVelocity(0, 0);
+    if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
+
+    scene.items.clear(true, true);
 
     const overlay = scene.add.graphics();
     overlay.fillStyle(0x000000, 0.7);
@@ -193,13 +198,18 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
     if (scene.levelCompleted) return;
     scene.levelCompleted = true;
     scene.isScorePaused = true;
-
-    scene.obstacles.clear(true, true);
-    scene.items.clear(true, true);
+    scene.isRestarting = false;
 
     scene.physics.pause();
-    scene.tiltControl.disableTiltControls();
+
+    if (scene.timerEvent) scene.timerEvent.paused = true;
+    if (scene.scoreEvent) scene.scoreEvent.paused = true;
+    if (scene.car) scene.car.setVelocity(0, 0);
+    if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
+
+    if (scene.obstacles) scene.obstacles.clear(true, true);
+    if (scene.items) scene.items.clear(true, true);
 
     const overlay = scene.add.graphics();
     overlay.fillStyle(0x000000, 0.7);
@@ -230,16 +240,16 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
 
     let countdownValue = 3;
     scene.time.addEvent({
-        delay: 1000, 
-        repeat: 2,   
+        delay: 1000,
+        repeat: 2,
         callback: () => {
             countdownValue--;
-            countdownText.setText(countdownValue.toString()); 
+            countdownText.setText(countdownValue.toString());
         }
     });
 
     scene.time.delayedCall(3000, () => {
-    
+
         countdownText.destroy();
         levelUpText.setText('GO!');
         levelUpText.setFontSize('200px');
