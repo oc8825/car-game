@@ -12,24 +12,27 @@ export function handleObstacleCollision(scene, car, obstacle) {
         case 'oil1':
         case 'oil2':
         case 'oil3':
-            scene.oilSlipSound.play();
             scene.isSlipping = true;
             scene.slipTime = 0;
-            break;
-        case 'cone':
-        case 'block1':
-        case 'block2':
-        case 'block3':
-            restartLevel(scene);
-            scene.crashSound.play();
-            scene.gameOverSound.play();
-            explosion(scene, obstacle.x, obstacle.y);
-            break;
-        case 'tire':
-        case 'spikes':
             scene.score -= 5;
             scene.losePointsSound.play();
             emit(scene, 'minusFive', obstacle.x, obstacle.y);
+            break;
+        case 'cone':
+            scene.isSlipping = true;
+            scene.slipTime = 0;
+            scene.losePointsSound.play();
+            scene.score -= 5;
+            emit(scene, 'minusFive', obstacle.x, obstacle.y);
+            break;
+        case 'block1':
+        case 'block2':
+        case 'block3':
+        case 'tire':
+        case 'spikes':
+            restartLevel(scene);
+            scene.crashSound.play();
+            scene.gameOverSound.play();
             explosion(scene, obstacle.x, obstacle.y);
             break;
         default:
@@ -37,7 +40,7 @@ export function handleObstacleCollision(scene, car, obstacle) {
             break;
     }
 
-    obstacle.destroy(); 
+    obstacle.destroy();
 }
 
 export function handleItemCollision(scene, car, item) {
@@ -47,7 +50,7 @@ export function handleItemCollision(scene, car, item) {
 
     const itemKey = item.texture.key;
 
-    
+
     switch (itemKey) {
         case 'hat':
             scene.slot1.style.backgroundImage = `url(/src/assets/images/hat.png)`;
