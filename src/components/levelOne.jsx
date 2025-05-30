@@ -169,7 +169,7 @@ export default class levelOne extends Phaser.Scene {
         Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval]) => {
             this.time.addEvent({
                 delay: interval,
-                callback: () => spawnSpecificObstacle(this, type, this.obstacles), // updated call
+                callback: () => spawnSpecificObstacle(this, type, this.obstacles, 1), // updated call
                 callbackScope: this,
                 loop: true
             });
@@ -178,7 +178,7 @@ export default class levelOne extends Phaser.Scene {
         Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
             this.time.addEvent({
                 delay: interval,
-                callback: () => spawnSpecificItem(this, type2, this.items), // updated call
+                callback: () => spawnSpecificItem(this, type2, this.items, 1), // updated call
                 callbackScope: this,
                 loop: true
             });
