@@ -1,4 +1,3 @@
-import { TiltControl } from '/src/components/handlers/TiltControl'; 
 import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
 import { bonusLevel, restartLevel } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
@@ -12,6 +11,7 @@ export default class levelThree extends Phaser.Scene {
         this.ground = null;
         this.car = null;
         this.speedY = 1;
+        this.scoreDigitLength = 1;
 
         this.level = 3;
         this.timerText = null;
@@ -62,11 +62,11 @@ export default class levelThree extends Phaser.Scene {
 
     }
 
-     init(data) {
+    init(data) {
         this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
-        this.timeLeft = 45; 
+        this.timeLeft = 2; 
         this.isRestarting = false;
         this.levelCompleted = false;
         this.currentLaneIndex = 1;
@@ -82,13 +82,6 @@ export default class levelThree extends Phaser.Scene {
         loadSounds(this);
         showInventory();
         setInventory(this);
-
-        /* this.scene.pause();
-        this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
-        this.tiltControl.enableTiltControls(() => {
-            this.scene.resume();
-        });
-        */
 
         // background
         this.ground = this.add.tileSprite(
@@ -148,7 +141,7 @@ export default class levelThree extends Phaser.Scene {
         });
 
         this.scoreEvent = this.time.addEvent({
-            delay: 2000,  
+            delay: 2000,
             callback: this.incrementScore,
             callbackScope: this,
             loop: true
@@ -239,7 +232,7 @@ export default class levelThree extends Phaser.Scene {
         this.scoreText.setFontSize(`${currentSize}px`);
         this.scoreText.setText(`${this.score}`);
 
-        testText.destroy(); // Cleanup
+        testText.destroy();
     }
 
     incrementScore() {
@@ -250,14 +243,13 @@ export default class levelThree extends Phaser.Scene {
             if (newLength !== this.scoreDigitLength) {
                 this.scoreDigitLength = newLength;
                 this.score = newScore;
-                this.updateScoreText(); // Recalculate font size
+                this.updateScoreText(); // font size
             } else {
                 this.score = newScore;
-                this.scoreText.setText(`${this.score}`); // Just update text
+                this.scoreText.setText(`${this.score}`); // update text
             }
         }
     }
-
     updateTimer() {
         this.timeLeft -= 1;
 
