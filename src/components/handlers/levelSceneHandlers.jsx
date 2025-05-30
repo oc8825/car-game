@@ -23,7 +23,7 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
     overlay.setDepth(200);
 
     const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
-        `Level ${nextLevelNumber} Starting In...`, {
+        `Level ${nextLevelNumber} Starting In:`, {
         fontSize: '65px',
         fill: '#fff',
         align: 'center',
@@ -58,33 +58,19 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
         countdownText.destroy();
         levelUpText.destroy();
 
-        const goText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2, 'GO!', {
-            fontSize: '200px',
-            fill: '#fff',
-            align: 'center',
-            fontStyle: 'bold'
+        scene.levelCompleted = false;
+        scene.scene.stop(scene.scene.key);
+        scene.scene.start(nextLevelKey, {
+            score: score,
+            selectedCarIndex,
+            inventory: {
+                slot1: scene.slot1?.style?.backgroundImage,
+                slot2: scene.slot2?.style?.backgroundImage,
+                slot3: scene.slot3?.style?.backgroundImage,
+                slot4: scene.slot4?.style?.backgroundImage,
+                slot5: scene.slot5?.style?.backgroundImage,
+            }
         });
-        goText.setOrigin(0.5);
-        goText.setDepth(250);
-
-        // Delay before starting the next scene
-        scene.time.delayedCall(0, () => {
-            goText.destroy();
-            scene.levelCompleted = false;
-            scene.scene.stop(scene.scene.key);
-            scene.scene.start(nextLevelKey, {
-                score: score,
-                selectedCarIndex,
-                inventory: {
-                    slot1: scene.slot1?.style?.backgroundImage,
-                    slot2: scene.slot2?.style?.backgroundImage,
-                    slot3: scene.slot3?.style?.backgroundImage,
-                    slot4: scene.slot4?.style?.backgroundImage,
-                    slot5: scene.slot5?.style?.backgroundImage,
-                }
-            });
-        });
-        goText.destroy();
     });
 
 }
@@ -167,7 +153,7 @@ export function winScreen(scene) {
 
     const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
         "Check out what you won!", {
-        fontSize: '75px',
+        fontSize: '60px',
         fill: '#fff',
         align: 'center',
         fontStyle: 'bold'
@@ -217,8 +203,8 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
     overlay.setDepth(200);
 
     const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
-        'BONUS Level Starting In...', {
-        fontSize: '65px',
+        'BONUS Level Starting In:', {
+        fontSize: '60px',
         fill: '#fff',
         align: 'center',
         fontStyle: 'bold'
@@ -249,26 +235,21 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
     });
 
     scene.time.delayedCall(3000, () => {
-
         countdownText.destroy();
-        levelUpText.setText('GO!');
-        levelUpText.setFontSize('200px');
-        levelUpText.setFontStyle('bold');
-        levelUpText.setOrigin(0.5);
+        levelUpText.destroy();
 
-        scene.time.delayedCall(500, () => {
-            scene.levelCompleted = false;
-            scene.scene.start(nextLevelKey, {
-                score: score,
-                selectedCarIndex,
-                inventory: {
-                    slot1: scene.slot1?.style?.backgroundImage,
-                    slot2: scene.slot2?.style?.backgroundImage,
-                    slot3: scene.slot3?.style?.backgroundImage,
-                    slot4: scene.slot4?.style?.backgroundImage,
-                    slot5: scene.slot5?.style?.backgroundImage,
-                }
-            });
+        scene.levelCompleted = false;
+        scene.scene.stop(scene.scene.key);
+        scene.scene.start(nextLevelKey, {
+            score: score,
+            selectedCarIndex,
+            inventory: {
+                slot1: scene.slot1?.style?.backgroundImage,
+                slot2: scene.slot2?.style?.backgroundImage,
+                slot3: scene.slot3?.style?.backgroundImage,
+                slot4: scene.slot4?.style?.backgroundImage,
+                slot5: scene.slot5?.style?.backgroundImage,
+            }
         });
     });
 

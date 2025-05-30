@@ -1,12 +1,10 @@
-export function spawnSpecificObstacle(scene, type, obstacles) {
+export function spawnSpecificObstacle(scene, type, obstacles, xPosition) {
     if (scene.levelCompleted) return;
     if (scene.isRestarting) return;
 
-    const xPositions = [scene.scale.width / 6, scene.scale.width / 2, scene.scale.width * 5 / 6];
-    const randomX = Phaser.Math.RND.pick(xPositions);
+    const obstacle = obstacles.create(xPosition, 300, type);
+    obstacle.setScale(0.34);
 
-    const obstacle = obstacles.create(randomX, 300, type);
-    obstacle.setScale(0.4);
 
     switch (type) {
         case 'oil1':
@@ -20,12 +18,11 @@ export function spawnSpecificObstacle(scene, type, obstacles) {
         case 'block1':
         case 'block2':
         case 'block3':
-            obstacle.setScale(0.5);
             obstacle.setVelocityY(500);
             break;
         case 'tire':
-            obstacle.setVelocityY(600);
-            obstacle.rotationSpeed = 0.01;
+            obstacle.setVelocityY(800);
+            obstacle.rotationSpeed = 0.07;
             break;
         case 'spikes':
             obstacle.setVelocityY(500);
@@ -34,15 +31,12 @@ export function spawnSpecificObstacle(scene, type, obstacles) {
     }
 }
 
-export function spawnSpecificItem(scene, type, items) {
+export function spawnSpecificItem(scene, type, items, xPosition) {
     if (scene.levelCompleted) return;
     if (scene.isRestarting) return;
 
-    const xPositions = [scene.scale.width / 6, scene.scale.width / 2, scene.scale.width * 5 / 6];
-    const randomX = Phaser.Math.RND.pick(xPositions);
-
-    const item = items.create(randomX, 300, type);
-    item.setScale(0.35);
+    const item = items.create(xPosition, 300, type);
+    item.setScale(0.34);
 
     switch (type) {
         case 'hat':
@@ -55,10 +49,10 @@ export function spawnSpecificItem(scene, type, items) {
             item.setVelocityY(500);
             break;
         case 'foamFinger':
-            item.setVelocityY(500);
+            item.setVelocityY(600);
             item.rotationSpeed = 0.01;
             break;
         case 'waterBottle':
-            item.setVelocityY(500);
+            item.setVelocityY(700);
     }
 }

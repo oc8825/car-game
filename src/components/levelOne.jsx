@@ -20,7 +20,7 @@ export default class levelOne extends Phaser.Scene {
         this.level = 1;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 2;
+        this.timeLeft = 20;
 
         this.orientation = null;
         this.selectedCarIndex = null;
@@ -37,17 +37,16 @@ export default class levelOne extends Phaser.Scene {
         this.slipDuration = 600;
         this.isSlipping = false;
 
-        this.obstacleTypes = ['oil1', 'block1', 'block2'];
+        this.obstacleTypes = ['oil1', 'cone'];
         this.obstacleSpawnIntervals = {
-            oil1: 2000,
-            block1: 4000,
-            block2: 4250,
+            oil1: 715,
+            cone: 915,
         };
 
         this.itemTypes = ['hat', 'socks'];
         this.itemSpawnIntervals = {
-            hat: 2000,
-            socks: 3000,
+            hat: 550,
+            socks: 650,
         };
 
         this.emitter;
@@ -58,7 +57,7 @@ export default class levelOne extends Phaser.Scene {
 
     init(data) {
         this.score = data.score || 0;
-        this.timeLeft = 2; 
+        this.timeLeft = 20; 
         this.isRestarting = false;
         this.levelCompleted = false;
         this.isScorePaused = false;
@@ -167,19 +166,29 @@ export default class levelOne extends Phaser.Scene {
             this.changeLane(1);
         });
 
-        Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval]) => {
+        Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval], index) => {
             this.time.addEvent({
                 delay: interval,
-                callback: () => spawnSpecificObstacle(this, type, this.obstacles), // updated call
+                callback: () => {
+                    const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
+                    if (this.isLaneClear(laneX)) {
+                        spawnSpecificObstacle(this, type, this.obstacles, laneX)
+                    }
+                },
                 callbackScope: this,
                 loop: true
             });
         });
 
-        Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
+        Object.entries(this.itemSpawnIntervals).forEach(([type2, interval], index) => {
             this.time.addEvent({
                 delay: interval,
-                callback: () => spawnSpecificItem(this, type2, this.items), // updated call
+                callback: () => {
+                    const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
+                    if (this.isLaneClear(laneX)) {
+                        spawnSpecificItem(this, type2, this.items, laneX)
+                    }
+                },
                 callbackScope: this,
                 loop: true
             });
@@ -320,6 +329,16 @@ export default class levelOne extends Phaser.Scene {
         );
 
         this.targetX = this.lanes[this.currentLaneIndex];
+    }
+
+    isLaneClear(laneX, spawnY = 300, minYDistance = this.car.height, xBuffer = this.car.height) {
+        const closeObstacle = this.obstacles.getChildren().some(obj =>
+            Math.abs(obj.x - laneX) < xBuffer && Math.abs(obj.y - spawnY) < minYDistance
+        );
+        const closeItem = this.items.getChildren().some(obj =>
+            Math.abs(obj.x - laneX) < xBuffer && Math.abs(obj.y - spawnY) < minYDistance
+        );
+        return !(closeObstacle || closeItem);
     }
 
 }

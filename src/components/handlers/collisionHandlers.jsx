@@ -15,6 +15,9 @@ export function handleObstacleCollision(scene, car, obstacle) {
             scene.isSlipping = true;
             scene.slipTime = 0;
             scene.score -= 5;
+            if (scene.score < 0) {
+                scene.score = 0;
+            }
             scene.losePointsSound.play();
             emit(scene, 'minusFive', obstacle.x, obstacle.y);
             break;
@@ -23,6 +26,9 @@ export function handleObstacleCollision(scene, car, obstacle) {
             scene.slipTime = 0;
             scene.losePointsSound.play();
             scene.score -= 5;
+            if (scene.score < 0) {
+                scene.score = 0;
+            }
             emit(scene, 'minusFive', obstacle.x, obstacle.y);
             break;
         case 'block1':

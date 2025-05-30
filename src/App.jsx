@@ -4,8 +4,8 @@ import GameCanvas from '/src/components/GameCanvas.jsx';
 const App = () => {
     return (
         <div>
-            <h1>Car Game!</h1>
-            <GameCanvas /> {/* Add the GameCanvas component here */}
+            <h1></h1>
+            <GameCanvas />
         </div>
     );
 };
