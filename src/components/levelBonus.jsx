@@ -1,4 +1,3 @@
-import { TiltControl } from '/src/components/handlers/TiltControl'; // Import TiltControl
 import { handleItemCollision } from '/src/components/handlers/collisionHandlers';
 import { winScreen, restartLevel } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
@@ -18,6 +17,7 @@ export default class levelBonus extends Phaser.Scene {
         this.timerEvent = null;
         this.timeLeft = 25;
         this.score;
+        this.scoreDigitLength = 1;
 
         this.orientation = null;
 
@@ -64,13 +64,6 @@ export default class levelBonus extends Phaser.Scene {
         loadSounds(this);
         showInventory();
         setInventory(this);
-
-       /* this.scene.pause();
-        this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
-        this.tiltControl.enableTiltControls(() => {
-            this.scene.resume();
-        });
-        */
 
         // background
         this.ground = this.add.tileSprite(
@@ -198,7 +191,7 @@ export default class levelBonus extends Phaser.Scene {
         this.scoreText.setFontSize(`${currentSize}px`);
         this.scoreText.setText(`${this.score}`);
 
-        testText.destroy(); // Cleanup
+        testText.destroy();
     }
 
     incrementScore() {
@@ -212,7 +205,7 @@ export default class levelBonus extends Phaser.Scene {
                 this.updateScoreText(); // font size
             } else {
                 this.score = newScore;
-                this.scoreText.setText(`${this.score}`);
+                this.scoreText.setText(`${this.score}`); // update text
             }
         }
     }
@@ -248,7 +241,9 @@ export default class levelBonus extends Phaser.Scene {
         }
 
         if (!this.isRestarting && !this.levelCompleted) {
-            this.ground.tilePositionY -= 2;
+            const groundScrollSpeed = 500; // pixels per second
+            const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
+            this.ground.tilePositionY -= pixelsPerFrame;
         }
 
         // cleanup for off-screen
