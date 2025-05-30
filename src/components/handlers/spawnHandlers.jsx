@@ -6,7 +6,7 @@ export function spawnSpecificObstacle(scene, type, obstacles) {
     const randomX = Phaser.Math.RND.pick(xPositions);
 
     const obstacle = obstacles.create(randomX, 300, type);
-    obstacle.setScale(0.4);
+    obstacle.setScale(0.34);
 
     switch (type) {
         case 'oil1':
@@ -20,7 +20,6 @@ export function spawnSpecificObstacle(scene, type, obstacles) {
         case 'block1':
         case 'block2':
         case 'block3':
-            obstacle.setScale(0.5);
             obstacle.setVelocityY(500);
             break;
         case 'tire':
