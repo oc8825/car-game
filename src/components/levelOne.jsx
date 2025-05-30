@@ -39,14 +39,14 @@ export default class levelOne extends Phaser.Scene {
 
         this.obstacleTypes = ['oil1', 'cone'];
         this.obstacleSpawnIntervals = {
-            oil1: 850,
-            cone: 1000,
+            oil1: 715,
+            cone: 915,
         };
 
         this.itemTypes = ['hat', 'socks'];
         this.itemSpawnIntervals = {
-            hat: 500,
-            socks: 700,
+            hat: 550,
+            socks: 650,
         };
 
         this.emitter;
