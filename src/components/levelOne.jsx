@@ -39,14 +39,14 @@ export default class levelOne extends Phaser.Scene {
 
         this.obstacleTypes = ['oil1', 'cone'];
         this.obstacleSpawnIntervals = {
-            oil1: 2000,
-            cone: 4250,
+            oil1: 850,
+            cone: 1000,
         };
 
         this.itemTypes = ['hat', 'socks'];
         this.itemSpawnIntervals = {
-            hat: 2000,
-            socks: 3000,
+            hat: 500,
+            socks: 700,
         };
 
         this.emitter;
@@ -176,8 +176,7 @@ export default class levelOne extends Phaser.Scene {
                     }
                 },
                 callbackScope: this,
-                loop: true,
-                startAt: index * 400 // staggered start
+                loop: true
             });
         });
 
@@ -191,8 +190,7 @@ export default class levelOne extends Phaser.Scene {
                     }
                 },
                 callbackScope: this,
-                loop: true,
-                startAt: index * 400 // staggered start
+                loop: true
             });
         });
 
@@ -333,12 +331,12 @@ export default class levelOne extends Phaser.Scene {
         this.targetX = this.lanes[this.currentLaneIndex];
     }
 
-    isLaneClear(laneX, spawnY = 300, minDistance = 150) {
+    isLaneClear(laneX, spawnY = 300, minYDistance = this.car.height, xBuffer = this.car.height) {
         const closeObstacle = this.obstacles.getChildren().some(obj =>
-            Math.abs(obj.x - laneX) < 10 && Math.abs(obj.y - spawnY) < minDistance
+            Math.abs(obj.x - laneX) < xBuffer && Math.abs(obj.y - spawnY) < minYDistance
         );
         const closeItem = this.items.getChildren().some(obj =>
-            Math.abs(obj.x - laneX) < 10 && Math.abs(obj.y - spawnY) < minDistance
+            Math.abs(obj.x - laneX) < xBuffer && Math.abs(obj.y - spawnY) < minYDistance
         );
         return !(closeObstacle || closeItem);
     }
