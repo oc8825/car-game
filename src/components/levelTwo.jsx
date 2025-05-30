@@ -46,10 +46,10 @@ export default class levelTwo extends Phaser.Scene {
 
         this.itemTypes = ['hat', 'socks', 'foamFinger', 'shirt'];
         this.itemSpawnIntervals = {
-            hat: 2000,
-            socks: 3000,
-            foamFinger: 3500,
-            shirt: 4000,
+            hat: 1500,
+            socks: 2350,
+            foamFinger: 2850,
+            shirt: 3150,
         };
 
         this.emitter;
@@ -176,7 +176,12 @@ export default class levelTwo extends Phaser.Scene {
         Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval]) => {
             this.time.addEvent({
                 delay: interval,
-                callback: () => spawnSpecificObstacle(this, type, this.obstacles, 2),
+                callback: () => {
+                    const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
+                    if (this.isLaneClear(laneX)) {
+                        spawnSpecificObstacle(this, type, this.obstacles, laneX)
+                    }
+                },
                 callbackScope: this,
                 loop: true
             });
@@ -185,7 +190,12 @@ export default class levelTwo extends Phaser.Scene {
         Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
             this.time.addEvent({
                 delay: interval,
-                callback: () => spawnSpecificItem(this, type2, this.items, 2),
+                callback: () => {
+                    const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
+                    if (this.isLaneClear(laneX)) {
+                        spawnSpecificItem(this, type2, this.items, laneX)
+                    }
+                },
                 callbackScope: this,
                 loop: true
             });
@@ -327,5 +337,15 @@ export default class levelTwo extends Phaser.Scene {
 
         // move snowball to new lane
         this.targetX = this.lanes[this.currentLaneIndex];
+    }
+
+    isLaneClear(laneX, spawnY = 300, minYDistance = this.car.height * 0.8, xBuffer = this.car.height) {
+        const closeObstacle = this.obstacles.getChildren().some(obj =>
+            Math.abs(obj.x - laneX) < xBuffer && Math.abs(obj.y - spawnY) < minYDistance
+        );
+        const closeItem = this.items.getChildren().some(obj =>
+            Math.abs(obj.x - laneX) < xBuffer && Math.abs(obj.y - spawnY) < minYDistance
+        );
+        return !(closeObstacle || closeItem);
     }
 }

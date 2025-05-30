@@ -45,8 +45,8 @@ export default class levelOne extends Phaser.Scene {
 
         this.itemTypes = ['hat', 'socks'];
         this.itemSpawnIntervals = {
-            hat: 550,
-            socks: 650,
+            hat: 525,
+            socks: 675,
         };
 
         this.emitter;
@@ -166,7 +166,7 @@ export default class levelOne extends Phaser.Scene {
             this.changeLane(1);
         });
 
-        Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval], index) => {
+        Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval]) => {
             this.time.addEvent({
                 delay: interval,
                 callback: () => {
@@ -180,7 +180,7 @@ export default class levelOne extends Phaser.Scene {
             });
         });
 
-        Object.entries(this.itemSpawnIntervals).forEach(([type2, interval], index) => {
+        Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
             this.time.addEvent({
                 delay: interval,
                 callback: () => {
