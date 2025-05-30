@@ -47,7 +47,7 @@ export function handleItemCollision(scene, car, item) {
 
     const itemKey = item.texture.key;
 
-
+    
     switch (itemKey) {
         case 'hat':
             scene.slot1.style.backgroundImage = `url(/src/assets/images/hat.png)`;
