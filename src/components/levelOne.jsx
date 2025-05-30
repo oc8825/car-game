@@ -33,6 +33,10 @@ export default class levelOne extends Phaser.Scene {
         this.isScorePaused = false;
         this.restarting;
 
+        this.slipTime = 0;
+        this.slipDuration = 600;
+        this.isSlipping = false;
+
         this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'cone'];
         this.obstacleSpawnIntervals = {
             oil1: 2000,
@@ -117,7 +121,7 @@ export default class levelOne extends Phaser.Scene {
             handleItemCollision(this, car, item);
         }, null, this);
 
-        this.scoreText = this.add.text(925, 150, '0', {
+        this.scoreText = this.add.text(890, 150, '0', {
             fontSize: '100px',
             color: '#ffffff',
             fontStyle: 'bold',
@@ -132,7 +136,7 @@ export default class levelOne extends Phaser.Scene {
         this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
         this.timerText.setDepth(10);
 
-        this.levelText = this.add.text(145, 105, '1', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
+        this.levelText = this.add.text(170, 105, '1', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
         this.levelText.setDepth(100);
 
         this.timerEvent = this.time.addEvent({
@@ -269,6 +273,18 @@ export default class levelOne extends Phaser.Scene {
             const groundScrollSpeed = 500; // pixels per second
             const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
             this.ground.tilePositionY -= pixelsPerFrame;
+        }
+
+        //slipping
+        if (this.isSlipping) {
+            this.slipTime += this.game.loop.delta;
+            const wiggleAngle = Math.sin(this.slipTime * 0.01) * 20;
+            this.car.setAngle(wiggleAngle);
+
+            if (this.slipTime > this.slipDuration) {
+                this.isSlipping = false;
+                this.car.setAngle(0);
+            }
         }
 
         // cleanup for off-screen

@@ -2,19 +2,19 @@ import { restartLevel } from './levelSceneHandlers';
 import { emit, confetti, explosion } from './animationHandlers'
 
 export function handleObstacleCollision(scene, car, obstacle) {
+    const obstacleKey = obstacle.texture.key;
+
     car.body.setVelocity(0, 0);
     car.body.setBounce(0);
     car.body.setFriction(0);
-
-    const obstacleKey = obstacle.texture.key;
 
     switch (obstacleKey) {
         case 'oil1':
         case 'oil2':
         case 'oil3':
-            restartLevel(scene);
             scene.oilSlipSound.play();
-            scene.gameOverSound.play();
+            scene.isSlipping = true;
+            scene.slipTime = 0;
             break;
         case 'cone':
         case 'block1':

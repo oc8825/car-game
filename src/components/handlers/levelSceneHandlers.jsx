@@ -25,7 +25,7 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
 
     const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
         `Level ${nextLevelNumber} Starting In...`, {
-        fontSize: '75px',
+        fontSize: '65px',
         fill: '#fff',
         align: 'center',
         fontStyle: 'bold'
@@ -36,7 +36,7 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
     hideInventory(scene);
 
     const countdownText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2, '3', {
-        fontSize: '100px',
+        fontSize: '90px',
         fill: '#fff',
         align: 'center',
         fontStyle: 'bold'
@@ -57,12 +57,21 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
 
     scene.time.delayedCall(3000, () => {
         countdownText.destroy();
-        levelUpText.setText('GO!');
-        levelUpText.setFontSize('200px');
-        levelUpText.setFontStyle('bold');
-        levelUpText.setOrigin(0.5);
+        levelUpText.destroy();
 
-        scene.time.delayedCall(100, () => {
+        const goText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2, 'GO!', {
+            fontSize: '200px',
+            fill: '#fff',
+            align: 'center',
+            fontStyle: 'bold'
+        });
+        goText.setOrigin(0.5);
+        goText.setDepth(250);
+
+        scene.time.delayedCall(500, () => {
+            goText.destroy();
+            overlay.destroy();
+            
             scene.levelCompleted = false;
             scene.scene.stop(scene.scene.key);
 
@@ -199,7 +208,7 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
 
     const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
         'BONUS Level Starting In...', {
-        fontSize: '75px',
+        fontSize: '65px',
         fill: '#fff',
         align: 'center',
         fontStyle: 'bold'
@@ -210,7 +219,7 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
     hideInventory(scene);
 
     const countdownText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2, '3', {
-        fontSize: '100px',
+        fontSize: '90px',
         fill: '#fff',
         align: 'center',
         fontStyle: 'bold'
