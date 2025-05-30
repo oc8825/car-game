@@ -74,6 +74,13 @@ export default class levelBonus extends Phaser.Scene {
             "ground"
         );
 
+        // finish line
+        this.time.delayedCall(22390, () => {
+            const finishLine = this.physics.add.image(this.scale.width / 2, 300, 'finishLine');
+            finishLine.setVelocityY(500);
+            finishLine.setScale(2.25);
+        });
+
         // create lanes and start snowball in middle lane
         this.lanes = [this.scale.width / 6, this.scale.width / 2, this.scale.width * 5 / 6];
         this.currentLaneIndex = 1;
@@ -88,6 +95,7 @@ export default class levelBonus extends Phaser.Scene {
         this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], this.scale.height * 7 / 8, selectedCarColor);
         this.car.setScale(0.6);
         this.car.setOrigin(0.5, 0.5);
+        this.car.setDepth(50);
 
         this.physics.add.collider(this.car, this.items, (car, item) => {
             handleItemCollision(this, car, item);

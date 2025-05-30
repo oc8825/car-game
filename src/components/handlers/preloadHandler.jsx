@@ -11,6 +11,7 @@ export function preloadAssets(scene) {
    scene.load.audio('gameStart', '/src/assets/audio/gameStart.mp3');
    scene.load.audio('select', '/src/assets/audio/selectCar.mp3');
    scene.load.audio('click', '/src/assets/audio/click.mp3');
+   scene.load.image('finishLine', '/src/assets/images/finishLine.png');
    scene.load.image('ground', '/src/assets/images/background.png');
    scene.load.image('oil1', '/src/assets/images/oil1.png');
    scene.load.image('oil2', '/src/assets/images/oil2.png');
