@@ -55,10 +55,10 @@ export function spawnSpecificItem(scene, type, items) {
             item.setVelocityY(500);
             break;
         case 'foamFinger':
-            item.setVelocityY(500);
+            item.setVelocityY(600);
             item.rotationSpeed = 0.01;
             break;
         case 'waterBottle':
-            item.setVelocityY(500);
+            item.setVelocityY(700);
     }
 }
