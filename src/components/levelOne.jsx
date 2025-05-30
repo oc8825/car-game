@@ -166,21 +166,33 @@ export default class levelOne extends Phaser.Scene {
             this.changeLane(1);
         });
 
-        Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval]) => {
+        Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval], index) => {
             this.time.addEvent({
                 delay: interval,
-                callback: () => spawnSpecificObstacle(this, type, this.obstacles, 1), // updated call
+                callback: () => {
+                    const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
+                    if (this.isLaneClear(laneX)) {
+                        spawnSpecificObstacle(this, type, this.obstacles, laneX)
+                    }
+                },
                 callbackScope: this,
-                loop: true
+                loop: true,
+                startAt: index * 400 // staggered start
             });
         });
 
-        Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
+        Object.entries(this.itemSpawnIntervals).forEach(([type2, interval], index) => {
             this.time.addEvent({
                 delay: interval,
-                callback: () => spawnSpecificItem(this, type2, this.items, 1), // updated call
+                callback: () => {
+                    const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
+                    if (this.isLaneClear(laneX)) {
+                        spawnSpecificItem(this, type2, this.items, laneX)
+                    }
+                },
                 callbackScope: this,
-                loop: true
+                loop: true,
+                startAt: index * 400 // staggered start
             });
         });
 
@@ -319,6 +331,16 @@ export default class levelOne extends Phaser.Scene {
         );
 
         this.targetX = this.lanes[this.currentLaneIndex];
+    }
+
+    isLaneClear(laneX, spawnY = 300, minDistance = 150) {
+        const closeObstacle = this.obstacles.getChildren().some(obj =>
+            Math.abs(obj.x - laneX) < 10 && Math.abs(obj.y - spawnY) < minDistance
+        );
+        const closeItem = this.items.getChildren().some(obj =>
+            Math.abs(obj.x - laneX) < 10 && Math.abs(obj.y - spawnY) < minDistance
+        );
+        return !(closeObstacle || closeItem);
     }
 
 }

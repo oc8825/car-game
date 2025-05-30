@@ -1,20 +1,6 @@
-export function spawnSpecificObstacle(scene, type, obstacles, laneIndex) {
+export function spawnSpecificObstacle(scene, type, obstacles, xPosition) {
     if (scene.levelCompleted) return;
     if (scene.isRestarting) return;
-
-    // set xPosition based on laneIndex
-    let xPosition = scene.scale.width / 2;
-    if(laneIndex == 1){
-        xPosition = scene.scale.width / 6;
-    }
-    else if(laneIndex == 3){
-        xPosition = scene.scale.width * 5 / 6;
-    }
-
-    /*
-    const xPositions = [scene.scale.width / 6, scene.scale.width / 2, scene.scale.width * 5 / 6];
-    const randomX = Phaser.Math.RND.pick(xPositions);
-    */
 
     const obstacle = obstacles.create(xPosition, 300, type);
     obstacle.setScale(0.34);
@@ -45,18 +31,9 @@ export function spawnSpecificObstacle(scene, type, obstacles, laneIndex) {
     }
 }
 
-export function spawnSpecificItem(scene, type, items, laneIndex) {
+export function spawnSpecificItem(scene, type, items, xPosition) {
     if (scene.levelCompleted) return;
     if (scene.isRestarting) return;
-
-    // set xPosition based on laneIndex
-    let xPosition = scene.scale.width / 2;
-    if(laneIndex == 1){
-        xPosition = scene.scale.width / 6;
-    }
-    else if(laneIndex == 3){
-        xPosition = scene.scale.width * 5 / 6;
-    }
 
     const item = items.create(xPosition, 300, type);
     item.setScale(0.34);
