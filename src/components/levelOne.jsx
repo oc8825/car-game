@@ -20,7 +20,7 @@ export default class levelOne extends Phaser.Scene {
         this.level = 1;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 2;
+        this.timeLeft = 20;
 
         this.orientation = null;
         this.selectedCarIndex = null;
@@ -37,11 +37,10 @@ export default class levelOne extends Phaser.Scene {
         this.slipDuration = 600;
         this.isSlipping = false;
 
-        this.obstacleTypes = ['oil1', 'block1', 'block2'];
+        this.obstacleTypes = ['oil1', 'cone'];
         this.obstacleSpawnIntervals = {
             oil1: 2000,
-            block1: 4000,
-            block2: 4250,
+            cone: 4250,
         };
 
         this.itemTypes = ['hat', 'socks'];
@@ -58,7 +57,7 @@ export default class levelOne extends Phaser.Scene {
 
     init(data) {
         this.score = data.score || 0;
-        this.timeLeft = 2; 
+        this.timeLeft = 20; 
         this.isRestarting = false;
         this.levelCompleted = false;
         this.isScorePaused = false;
