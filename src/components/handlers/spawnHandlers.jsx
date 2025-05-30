@@ -8,6 +8,7 @@ export function spawnSpecificObstacle(scene, type, obstacles) {
     const obstacle = obstacles.create(randomX, 300, type);
     obstacle.setScale(0.34);
 
+
     switch (type) {
         case 'oil1':
         case 'oil2':
@@ -23,8 +24,8 @@ export function spawnSpecificObstacle(scene, type, obstacles) {
             obstacle.setVelocityY(500);
             break;
         case 'tire':
-            obstacle.setVelocityY(600);
-            obstacle.rotationSpeed = 0.01;
+            obstacle.setVelocityY(800);
+            obstacle.rotationSpeed = 0.07;
             break;
         case 'spikes':
             obstacle.setVelocityY(500);
