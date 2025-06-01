@@ -11,5 +11,6 @@ export const loadSounds = (scene) => {
     scene.gameStartSound = scene.sound.add('gameStart', { volume: 0.5 });
     scene.clickSound = scene.sound.add('click', { volume: 0.5 });
     scene.selectSound = scene.sound.add('select', { volume: 0.5 });
-
+    scene.wheelSpinSound = scene.sound.add('wheelSpin', { volume: 0.5 });
+    scene.youLostSound = scene.sound.add('youLost', { volume: 0.5 });
 }

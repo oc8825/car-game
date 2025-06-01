@@ -16,7 +16,7 @@ export default class levelThree extends Phaser.Scene {
         this.level = 3;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 45;
+        this.timeLeft = 2;
         this.score;
 
         this.orientation = null;

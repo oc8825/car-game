@@ -32,9 +32,10 @@ export default class youWin extends Phaser.Scene {
             backgroundKey = '175Win';
         } else if (score >= 200 && score < 225) {
             backgroundKey = 'lamboWin';
-        } else if (score >= 225) {
-            backgroundKey = 'vaidhyWin';
+        } else if (score >= 225){
+            this.scene.start('prizeWheel');
         }
+        
         hideInventory(this);
 
         let background = this.add.image(0, 0, backgroundKey);

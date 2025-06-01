@@ -86,9 +86,7 @@ export default class chooseCar extends Phaser.Scene {
             if (this.selectedCarIndex >= 0) {
                 this.scene.start('levelOne', { selectedCarIndex: this.selectedCarIndex });
                 this.gameStartSound.play();
-            } else {
-                alert('Please select a car first!');
-            }
+            } 
         });
 
         this.playButton.on('pointerover', () => {

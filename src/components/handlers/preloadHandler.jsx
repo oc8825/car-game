@@ -11,6 +11,8 @@ export function preloadAssets(scene) {
    scene.load.audio('gameStart', '/src/assets/audio/gameStart.mp3');
    scene.load.audio('select', '/src/assets/audio/selectCar.mp3');
    scene.load.audio('click', '/src/assets/audio/click.mp3');
+   scene.load.audio('wheelSpin', '/src/assets/audio/wheelSpin.mp3');
+   scene.load.audio('youLost', '/src/assets/audio/youLost.mp3');
    scene.load.image('ground', '/src/assets/images/background.png');
    scene.load.image('oil1', '/src/assets/images/oil1.png');
    scene.load.image('oil2', '/src/assets/images/oil2.png');
@@ -60,7 +62,21 @@ export function preloadAssets(scene) {
    scene.load.image('plusFour', '/src/assets/animations/collecting/plusFour.png');
    scene.load.image('plusFive', '/src/assets/animations/collecting/plusFive.png');
    scene.load.image('minusFive', '/src/assets/animations/collecting/minusFive.png');
-   scene.load.image('highlight', '/src/assets/images/highlight.png')
+   scene.load.image('highlight', '/src/assets/images/highlight.png');
+   scene.load.image('jimmyWin', '/src/assets/images/jimmyWin.png');
+   scene.load.image('caliWin', '/src/assets/images/caliWin.png');
+   scene.load.image('jessWin', '/src/assets/images/jessWin.png');
+   scene.load.image('thomasWin', '/src/assets/images/thomasWin.png');
+   scene.load.image('brandonWin', '/src/assets/images/brandonWin.png');
+   scene.load.image('gautamWin', '/src/assets/images/gautamWin.png');
+   scene.load.image('blankBackground', '/src/assets/images/blankBackground.png');
+   scene.load.image('backupPin', '/src/assets/images/backupPin.png');
+   scene.load.image('spinButton', '/src/assets/images/spinButton.png');
+   scene.load.image('wheel', '/src/assets/images/prizeWheel.png');
+   scene.load.image('pin', '/src/assets/images/pin.png');
+   scene.load.image('EOWin', '/src/assets/images/EOWin.png');
+
+
 
 
    for (let i = 1; i <= 40; i++) {
