@@ -4,6 +4,7 @@ export function spawnSpecificObstacle(scene, type, obstacles, xPosition) {
 
     const obstacle = obstacles.create(xPosition, 300, type);
     obstacle.setScale(0.34);
+    obstacle.setDepth(45);
 
 
     switch (type) {
@@ -37,6 +38,7 @@ export function spawnSpecificItem(scene, type, items, xPosition) {
 
     const item = items.create(xPosition, 300, type);
     item.setScale(0.34);
+    item.setDepth(45);
 
     switch (type) {
         case 'hat':
