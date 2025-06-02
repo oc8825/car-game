@@ -76,9 +76,7 @@ export function preloadAssets(scene) {
    scene.load.image('wheel', '/src/assets/images/prizeWheel.png');
    scene.load.image('pin', '/src/assets/images/pin.png');
    scene.load.image('EOWin', '/src/assets/images/EOWin.png');
-
-
-
+   scene.load.image('steeringWheel', '/src/assets/images/steeringWheel.png');
 
    for (let i = 1; i <= 40; i++) {
       scene.load.image(`confetti${i}`, `/src/assets/animations/confetti/confetti (${i}).png`);
