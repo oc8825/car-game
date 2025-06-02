@@ -20,7 +20,7 @@ export default class levelOne extends Phaser.Scene {
         this.level = 1;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 2;
+        this.timeLeft = 20;
 
         this.orientation = null;
         this.selectedCarIndex = null;
@@ -57,7 +57,7 @@ export default class levelOne extends Phaser.Scene {
 
     init(data) {
         this.score = data.score || 218;
-        this.timeLeft = 2; 
+        this.timeLeft = 20; 
         this.isRestarting = false;
         this.levelCompleted = false;
         this.isScorePaused = false;
@@ -175,7 +175,7 @@ export default class levelOne extends Phaser.Scene {
         });
 
         Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval]) => {
-            this.time.addEvent({
+            const obstacleSpawnEvent = this.time.addEvent({
                 delay: interval,
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
@@ -186,10 +186,14 @@ export default class levelOne extends Phaser.Scene {
                 callbackScope: this,
                 loop: true
             });
+
+            this.time.delayedCall(17290, () => {
+                obstacleSpawnEvent.remove(false); 
+            });
         });
 
         Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
-            this.time.addEvent({
+            const itemSpawnEvent = this.time.addEvent({
                 delay: interval,
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
@@ -199,6 +203,10 @@ export default class levelOne extends Phaser.Scene {
                 },
                 callbackScope: this,
                 loop: true
+            });
+
+            this.time.delayedCall(17290, () => {
+                itemSpawnEvent.remove(false); 
             });
         });
 

@@ -15,7 +15,7 @@ export default class levelBonus extends Phaser.Scene {
         this.level = "B";
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 2;
+        this.timeLeft = 25;
         this.score;
         this.scoreDigitLength = 1;
 
@@ -48,7 +48,7 @@ export default class levelBonus extends Phaser.Scene {
         this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
-        this.timeLeft = 2; // RESET time
+        this.timeLeft = 25; // RESET time
         this.isRestarting = false;
         this.levelCompleted = false;
         this.currentLaneIndex = 1;
@@ -157,7 +157,7 @@ export default class levelBonus extends Phaser.Scene {
         });
 
         Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
-            this.time.addEvent({
+            const itemSpawnEvent = this.time.addEvent({
                 delay: interval,
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
@@ -165,6 +165,10 @@ export default class levelBonus extends Phaser.Scene {
                 },
                 callbackScope: this,
                 loop: true
+            });
+
+            this.time.delayedCall(22190, () => {
+                itemSpawnEvent.remove(false); 
             });
         });
 

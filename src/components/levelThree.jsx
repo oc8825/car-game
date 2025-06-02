@@ -16,7 +16,7 @@ export default class levelThree extends Phaser.Scene {
         this.level = 3;
         this.timerText = null;
         this.timerEvent = null;
-        this.timeLeft = 2;
+        this.timeLeft = 45;
         this.score;
 
         this.orientation = null;
@@ -179,7 +179,7 @@ export default class levelThree extends Phaser.Scene {
         });
 
         Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval]) => {
-            this.time.addEvent({
+            const obstacleSpawnEvent = this.time.addEvent({
                 delay: interval,
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
@@ -190,10 +190,14 @@ export default class levelThree extends Phaser.Scene {
                 callbackScope: this,
                 loop: true
             });
+
+            this.time.delayedCall(42240, () => {
+                obstacleSpawnEvent.remove(false); 
+            });
         });
 
         Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
-            this.time.addEvent({
+            const itemSpawnEvent = this.time.addEvent({
                 delay: interval,
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
@@ -203,6 +207,10 @@ export default class levelThree extends Phaser.Scene {
                 },
                 callbackScope: this,
                 loop: true
+            });
+
+            this.time.delayedCall(42240, () => {
+                itemSpawnEvent.remove(false); 
             });
         });
 
