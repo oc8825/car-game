@@ -66,7 +66,7 @@ export default class levelThree extends Phaser.Scene {
         this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
-        this.timeLeft = 2; 
+        this.timeLeft = 45; 
         this.isRestarting = false;
         this.levelCompleted = false;
         this.currentLaneIndex = 1;

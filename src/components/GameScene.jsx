@@ -21,11 +21,11 @@ class GameScene extends Phaser.Scene {
 const buildPhaserGame = ({ parent }) => {
     let scaleMode;
 
-    if (window.innerWidth < 768 && window.innerHeight > window.innerWidth) {
+    // take up entire screen on mobile-like, portrait devices, fit within
+    // screen on others
+    scaleMode = Phaser.Scale.FIT;
+    if (window.innerWidth < 768 && window.innerHeight > window.innerWidth*1.4 && window.innerHeight < window.innerWidth*2.3) {
         scaleMode = Phaser.Scale.ENVELOP; 
-    }
-    else {
-        scaleMode = Phaser.Scale.FIT;
     }
     
     const baseConfig = {
