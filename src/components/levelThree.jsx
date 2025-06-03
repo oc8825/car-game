@@ -93,10 +93,10 @@ export default class levelThree extends Phaser.Scene {
         );
 
         // finish line
-        this.time.delayedCall(43360, () => {
-            const finishLine = this.physics.add.image(this.scale.width / 2, 300, 'finishLine');
+        this.time.delayedCall(43380, () => {
+            const finishLine = this.physics.add.image(this.scale.width / 2, -600, 'finishLine');
             finishLine.setVelocityY(800);
-            finishLine.setScale(2.25);
+            // finishLine.setScale(2.25);
         });
 
         // create lanes and start snowball in middle lane

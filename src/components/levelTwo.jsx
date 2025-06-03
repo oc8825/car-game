@@ -89,9 +89,9 @@ export default class levelTwo extends Phaser.Scene {
 
         // finish line
         this.time.delayedCall(28020, () => {
-            const finishLine = this.physics.add.image(this.scale.width / 2, 300, 'finishLine');
+            const finishLine = this.physics.add.image(this.scale.width / 2, -600, 'finishLine');
             finishLine.setVelocityY(650);
-            finishLine.setScale(2.25);
+            // finishLine.setScale(2.25);
         });
 
         // create lanes and start snowball in middle lane

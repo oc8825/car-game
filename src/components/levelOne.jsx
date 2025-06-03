@@ -56,7 +56,7 @@ export default class levelOne extends Phaser.Scene {
     }
 
     init(data) {
-        this.score = data.score || 218;
+        this.score = data.score || 0;
         this.timeLeft = 20; 
         this.isRestarting = false;
         this.levelCompleted = false;
@@ -97,9 +97,9 @@ export default class levelOne extends Phaser.Scene {
 
         // finish line
         this.time.delayedCall(17490, () => {
-            const finishLine = this.physics.add.image(this.scale.width / 2, 300, 'finishLine');
+            const finishLine = this.physics.add.image(this.scale.width / 2, -600, 'finishLine');
             finishLine.setVelocityY(500);
-            finishLine.setScale(2.25);
+            // finishLine.setScale(2.25);
         });
 
         // create lanes and start snowball in middle lane
