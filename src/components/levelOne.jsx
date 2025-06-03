@@ -57,7 +57,7 @@ export default class levelOne extends Phaser.Scene {
 
     init(data) {
         this.score = data.score || 218;
-        this.timeLeft = 2; 
+        this.timeLeft = 20; 
         this.isRestarting = false;
         this.levelCompleted = false;
         this.isScorePaused = false;
