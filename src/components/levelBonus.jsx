@@ -161,7 +161,9 @@ export default class levelBonus extends Phaser.Scene {
                 delay: interval,
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
-                    spawnSpecificItem(this, type2, this.items, laneX, 3)
+                    if (this.isLaneClearForItem(laneX)) {
+                        spawnSpecificItem(this, type2, this.items, laneX, 3)
+                    }
                 },
                 callbackScope: this,
                 loop: true
@@ -288,6 +290,15 @@ export default class levelBonus extends Phaser.Scene {
         );
         // move snowball to new lane
         this.targetX = this.lanes[this.currentLaneIndex];
+    }
+
+    isLaneClearForItem(laneX) {
+        let minDistance = 150;
+        let spawnY = 300;
+        const closeItem = this.items.getChildren().some(obj =>
+            Math.abs(obj.x - laneX) < 10 && Math.abs(obj.y - spawnY) < minDistance
+        );
+        return !(closeItem);
     }
 
 }
