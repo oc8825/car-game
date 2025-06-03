@@ -203,7 +203,7 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
     overlay.setDepth(200);
 
     const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
-        'BONUS Level Starting In:', {
+        'CHALLENGE LEVEL INCOMING!', {
         fontSize: '60px',
         fill: '#fff',
         align: 'center',
@@ -253,5 +253,9 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
         });
     });
 
+}
+
+export function challengeLevel(scene) {
+    scene.scene.start('levelChallenge');
 }
 

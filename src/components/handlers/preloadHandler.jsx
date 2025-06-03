@@ -10,6 +10,9 @@ export function preloadAssets(scene) {
    scene.load.audio('winGame', '/src/assets/audio/winGame.mp3');
    scene.load.audio('gameStart', '/src/assets/audio/gameStart.mp3');
    scene.load.audio('select', '/src/assets/audio/selectCar.mp3');
+   scene.load.audio('wrong', '/src/assets/audio/wrong.mp3');
+   scene.load.audio('skid', '/src/assets/audio/skid.mp3');
+   scene.load.audio('horn', '/src/assets/audio/horn.mp3');
    scene.load.audio('click', '/src/assets/audio/click.mp3');
    scene.load.image('finishLine', '/src/assets/images/finishLine.png');
    scene.load.audio('wheelSpin', '/src/assets/audio/wheelSpin.mp3');
@@ -77,6 +80,8 @@ export function preloadAssets(scene) {
    scene.load.image('pin', '/src/assets/images/pin.png');
    scene.load.image('EOWin', '/src/assets/images/EOWin.png');
    scene.load.image('steeringWheel', '/src/assets/images/steeringWheel.png');
+   scene.load.image('startButton', '/src/assets/images/startButton.png');
+   scene.load.image('bufferBackground', '/src/assets/images/bufferBackground.png');
 
    for (let i = 1; i <= 40; i++) {
       scene.load.image(`confetti${i}`, `/src/assets/animations/confetti/confetti (${i}).png`);

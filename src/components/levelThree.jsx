@@ -66,7 +66,7 @@ export default class levelThree extends Phaser.Scene {
         this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
-        this.timeLeft = 45; 
+        this.timeLeft = 2; 
         this.isRestarting = false;
         this.levelCompleted = false;
         this.currentLaneIndex = 1;
@@ -331,7 +331,7 @@ export default class levelThree extends Phaser.Scene {
         });
 
         if (this.timeLeft == 0) {
-            bonusLevel(this, 'levelBonus', this.score, this.selectedCarIndex)
+            bonusLevel(this, 'bonusBuffer', this.score, this.selectedCarIndex)
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }

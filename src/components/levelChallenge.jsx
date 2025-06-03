@@ -1,10 +1,19 @@
+import { winScreen } from './handlers/levelSceneHandlers';
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 
-export default class levelLifeline extends Phaser.Scene {
+export default class levelChallenge extends Phaser.Scene {
     constructor() {
-        super({ key: 'levelLifeline' });
+        super({ key: 'levelChallenge' });
     }
+
+    /* debugging:
+    1) player can only perform one action for one command (i.e. if you press space bar or arrow keys you cannot press anything after that)
+    2) mobile implementation (it's only arrow keys and space bar right now --> need to implement swipe right, left, and tap)
+    3) score carrying over from lvl 3 into bonus level OR add bonus level to score at the very end
+    4) glitch when a key is spammed (timer stays at like 0.5s or smth)
+    5) background for level
+    */
 
     init(data) {
         this.score = data.score || 0;
@@ -17,6 +26,7 @@ export default class levelLifeline extends Phaser.Scene {
         this.maxStrikes = 3;
         this.timeBar = null;
         this.strikeIcons = [];
+        this.inputLocked = false; 
     }
 
     preload() {
@@ -78,9 +88,9 @@ export default class levelLifeline extends Phaser.Scene {
             color: '#ffffff'
         }).setOrigin(0.5);
 
-
-        //time bar animation
+        this.timeBar.setVisible(true);
         this.timeBar.setScale(1, 1);
+
         this.tweens.add({
             targets: this.timeBar,
             scaleX: 0,
@@ -88,41 +98,69 @@ export default class levelLifeline extends Phaser.Scene {
             ease: 'Linear'
         });
 
-        //need to debug generating a new command after failed (+ voiding current failed command)
         if (this.responseTimer) this.responseTimer.remove();
         this.responseTimer = this.time.delayedCall(1000, () => {
-            this.applyStrike();
+            if (this.commandText) {
+                this.commandText.destroy();
+                this.commandText = null;
+            }
+            this.applyStrikeWithPause();
         }, [], this);
     }
 
     handleInput(keyCode) {
+        if (this.inputLocked) return; 
+        this.inputLocked = true;    
+
         let correct = false;
 
         if (this.currentCommand === 'Turn Left' && keyCode === 'ArrowLeft') {
             correct = true;
             this.animateSteeringWheel('left');
+            this.skidSound.play();
         } else if (this.currentCommand === 'Turn Right' && keyCode === 'ArrowRight') {
             correct = true;
             this.animateSteeringWheel('right');
+            this.skidSound.play();
         } else if (this.currentCommand === 'Honk' && keyCode === 'Space') {
             correct = true;
             this.animateSteeringWheel('honk');
+            this.hornSound.play();
+        }
+
+        if (this.responseTimer) {
+            this.responseTimer.remove();
+            this.responseTimer = null;
         }
 
         if (correct) {
-            if (this.responseTimer) this.responseTimer.remove();
+            if (this.commandText) {
+                this.commandText.destroy();
+                this.commandText = null;
+            }
+            this.timeBar.setVisible(false);
+
             this.commandsLeft--;
             this.scoreText.setText(`Commands Left: ${this.commandsLeft}`);
-            this.scheduleNextCommand();
+
+            this.time.delayedCall(300, () => {
+                this.inputLocked = false; 
+                this.scheduleNextCommand();
+            });
+
         } else {
-            this.applyStrike();
+            if (this.commandText) {
+                this.commandText.destroy();
+                this.commandText = null;
+            }
+            this.applyStrikeWithPause();
         }
     }
 
-    applyStrike() {
-        if (this.responseTimer) this.responseTimer.remove();
+    applyStrikeWithPause() {
+        this.timeBar.setVisible(false);
+        this.wrongSound.play();
 
-        //update strike
         if (this.strikes < this.maxStrikes) {
             this.strikeIcons[this.strikes].setText('❌');
             this.strikes++;
@@ -131,7 +169,10 @@ export default class levelLifeline extends Phaser.Scene {
         if (this.strikes >= this.maxStrikes) {
             this.gameOver();
         } else {
-            this.scheduleNextCommand();
+            this.time.delayedCall(500, () => {
+                this.inputLocked = false;
+                this.scheduleNextCommand();
+            });
         }
     }
 
@@ -164,12 +205,11 @@ export default class levelLifeline extends Phaser.Scene {
     }
 
     gameOver() {
-        this.scene.restart({ score: 0 });
+        winScreen(this);
     }
 
     winGame() {
-        //lifeline round = level to achieve bonus round
-        this.scene.start('bonusLevel', { score: this.score + 1 });
+        this.scene.start('levelBonus', { score: this.score + 1 });
     }
 
     update() {
