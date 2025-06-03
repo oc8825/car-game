@@ -57,7 +57,7 @@ export default class levelOne extends Phaser.Scene {
 
     init(data) {
         this.score = data.score || 218;
-        this.timeLeft = 20; 
+        this.timeLeft = 2; 
         this.isRestarting = false;
         this.levelCompleted = false;
         this.isScorePaused = false;
@@ -180,7 +180,7 @@ export default class levelOne extends Phaser.Scene {
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
                     if (this.isLaneClear(laneX)) {
-                        spawnSpecificObstacle(this, type, this.obstacles, laneX)
+                        spawnSpecificObstacle(this, type, this.obstacles, laneX, 1)
                     }
                 },
                 callbackScope: this,
@@ -198,7 +198,7 @@ export default class levelOne extends Phaser.Scene {
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
                     if (this.isLaneClear(laneX)) {
-                        spawnSpecificItem(this, type2, this.items, laneX)
+                        spawnSpecificItem(this, type2, this.items, laneX, 1)
                     }
                 },
                 callbackScope: this,

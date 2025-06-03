@@ -75,9 +75,9 @@ export default class levelBonus extends Phaser.Scene {
         );
 
         // finish line
-        this.time.delayedCall(22390, () => {
+        this.time.delayedCall(23320, () => {
             const finishLine = this.physics.add.image(this.scale.width / 2, 300, 'finishLine');
-            finishLine.setVelocityY(500);
+            finishLine.setVelocityY(800);
             finishLine.setScale(2.25);
         });
 
@@ -161,7 +161,7 @@ export default class levelBonus extends Phaser.Scene {
                 delay: interval,
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
-                    spawnSpecificItem(this, type2, this.items, laneX)
+                    spawnSpecificItem(this, type2, this.items, laneX, 3)
                 },
                 callbackScope: this,
                 loop: true
@@ -256,7 +256,7 @@ export default class levelBonus extends Phaser.Scene {
         }
 
         if (!this.isRestarting && !this.levelCompleted) {
-            const groundScrollSpeed = 500; // pixels per second
+            const groundScrollSpeed = 800; // pixels per second
             const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
             this.ground.tilePositionY -= pixelsPerFrame;
         }

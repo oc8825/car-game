@@ -61,7 +61,7 @@ export default class levelTwo extends Phaser.Scene {
         this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
-        this.timeLeft = 30; 
+        this.timeLeft = 2; 
         this.isRestarting = false;
         this.levelCompleted = false;
         this.currentLaneIndex = 1;
@@ -88,9 +88,9 @@ export default class levelTwo extends Phaser.Scene {
         );
 
         // finish line
-        this.time.delayedCall(27450, () => {
+        this.time.delayedCall(28020, () => {
             const finishLine = this.physics.add.image(this.scale.width / 2, 300, 'finishLine');
-            finishLine.setVelocityY(500);
+            finishLine.setVelocityY(650);
             finishLine.setScale(2.25);
         });
 
@@ -179,7 +179,7 @@ export default class levelTwo extends Phaser.Scene {
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
                     if (this.isLaneClear(laneX)) {
-                        spawnSpecificObstacle(this, type, this.obstacles, laneX)
+                        spawnSpecificObstacle(this, type, this.obstacles, laneX, 2)
                     }
                 },
                 callbackScope: this,
@@ -197,7 +197,7 @@ export default class levelTwo extends Phaser.Scene {
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
                     if (this.isLaneClear(laneX)) {
-                        spawnSpecificItem(this, type2, this.items, laneX)
+                        spawnSpecificItem(this, type2, this.items, laneX, 2)
                     }
                 },
                 callbackScope: this,
@@ -292,7 +292,7 @@ export default class levelTwo extends Phaser.Scene {
         }
 
         if (!this.isRestarting && !this.levelCompleted) {
-            const groundScrollSpeed = 500; // pixels per second
+            const groundScrollSpeed = 650; // pixels per second
             const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
             this.ground.tilePositionY -= pixelsPerFrame;
         }

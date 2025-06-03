@@ -93,9 +93,9 @@ export default class levelThree extends Phaser.Scene {
         );
 
         // finish line
-        this.time.delayedCall(42440, () => {
+        this.time.delayedCall(43360, () => {
             const finishLine = this.physics.add.image(this.scale.width / 2, 300, 'finishLine');
-            finishLine.setVelocityY(500);
+            finishLine.setVelocityY(800);
             finishLine.setScale(2.25);
         });
 
@@ -184,7 +184,7 @@ export default class levelThree extends Phaser.Scene {
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
                     if (this.isLaneClear(laneX)) {
-                        spawnSpecificObstacle(this, type, this.obstacles, laneX)
+                        spawnSpecificObstacle(this, type, this.obstacles, laneX, 3)
                     }
                 },
                 callbackScope: this,
@@ -202,7 +202,7 @@ export default class levelThree extends Phaser.Scene {
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
                     if (this.isLaneClear(laneX)) {
-                        spawnSpecificItem(this, type2, this.items, laneX)
+                        spawnSpecificItem(this, type2, this.items, laneX, 3)
                     }
                 },
                 callbackScope: this,
@@ -298,7 +298,7 @@ export default class levelThree extends Phaser.Scene {
         }
 
         if (!this.isRestarting && !this.levelCompleted) {
-            const groundScrollSpeed = 500; // pixels per second
+            const groundScrollSpeed = 800; // pixels per second
             const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
             this.ground.tilePositionY -= pixelsPerFrame;
         }

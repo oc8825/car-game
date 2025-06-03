@@ -1,4 +1,4 @@
-export function spawnSpecificObstacle(scene, type, obstacles, xPosition) {
+export function spawnSpecificObstacle(scene, type, obstacles, xPosition, level) {
     if (scene.levelCompleted) return;
     if (scene.isRestarting) return;
 
@@ -6,33 +6,41 @@ export function spawnSpecificObstacle(scene, type, obstacles, xPosition) {
     obstacle.setScale(0.34);
     obstacle.setDepth(45);
 
+    // set base velocity depending on level
+    let velocityY = 500;
+    if (level === 2) {
+        velocityY = 650;
+    } else if (level === 3) {
+        velocityY = 800;
+    }
+
 
     switch (type) {
         case 'oil1':
         case 'oil2':
         case 'oil3':
-            obstacle.setVelocityY(500);
+            obstacle.setVelocityY(velocityY);
             break;
         case 'cone':
-            obstacle.setVelocityY(500);
+            obstacle.setVelocityY(velocityY);
             break;
         case 'block1':
         case 'block2':
         case 'block3':
-            obstacle.setVelocityY(500);
+            obstacle.setVelocityY(velocityY);
             break;
         case 'tire':
-            obstacle.setVelocityY(800);
+            obstacle.setVelocityY(velocityY + 250);
             obstacle.rotationSpeed = 0.07;
             break;
         case 'spikes':
-            obstacle.setVelocityY(500);
+            obstacle.setVelocityY(velocityY);
             break;
 
     }
 }
 
-export function spawnSpecificItem(scene, type, items, xPosition) {
+export function spawnSpecificItem(scene, type, items, xPosition, level) {
     if (scene.levelCompleted) return;
     if (scene.isRestarting) return;
 
@@ -40,21 +48,29 @@ export function spawnSpecificItem(scene, type, items, xPosition) {
     item.setScale(0.34);
     item.setDepth(45);
 
+    // set base velocity depending on level
+    let velocityY = 500;
+    if (level === 2) {
+        velocityY = 650;
+    } else if (level === 3) {
+        velocityY = 800;
+    }
+
     switch (type) {
         case 'hat':
-            item.setVelocityY(500);
+            item.setVelocityY(velocityY);
             break;
         case 'socks':
-            item.setVelocityY(500);
+            item.setVelocityY(velocityY);
             break;
         case 'shirt':
-            item.setVelocityY(500);
+            item.setVelocityY(velocityY);
             break;
         case 'foamFinger':
-            item.setVelocityY(600);
+            item.setVelocityY(velocityY + 100);
             item.rotationSpeed = 0.01;
             break;
         case 'waterBottle':
-            item.setVelocityY(700);
+            item.setVelocityY(velocityY + 200);
     }
 }
