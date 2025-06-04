@@ -101,7 +101,7 @@ export default class levelOne extends Phaser.Scene {
         );
 
         // finish line
-        this.time.delayedCall(17490, () => {
+        this.time.delayedCall(17530, () => {
             const finishLine = this.physics.add.image(this.scale.width / 2, -600, 'finishLine');
             finishLine.setVelocityY(500);
             // finishLine.setScale(2.25);

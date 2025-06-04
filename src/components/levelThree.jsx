@@ -92,7 +92,7 @@ export default class levelThree extends Phaser.Scene {
         );
 
         // finish line
-        this.time.delayedCall(43380, () => {
+        this.time.delayedCall(43467, () => {
             const finishLine = this.physics.add.image(this.scale.width / 2, -600, 'finishLine');
             finishLine.setVelocityY(800);
             // finishLine.setScale(2.25);
