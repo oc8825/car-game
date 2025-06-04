@@ -4,10 +4,6 @@ import { emit, confetti, explosion } from './animationHandlers'
 export function handleObstacleCollision(scene, car, obstacle) {
     const obstacleKey = obstacle.texture.key;
 
-    car.body.setVelocity(0, 0);
-    car.body.setBounce(0);
-    car.body.setFriction(0);
-
     switch (obstacleKey) {
         case 'oil1':
         case 'oil2':
@@ -50,12 +46,7 @@ export function handleObstacleCollision(scene, car, obstacle) {
 }
 
 export function handleItemCollision(scene, car, item) {
-    car.body.setVelocity(0, 0);
-    car.body.setBounce(0);
-    car.body.setFriction(0);
-
     const itemKey = item.texture.key;
-
 
     switch (itemKey) {
         case 'hat':

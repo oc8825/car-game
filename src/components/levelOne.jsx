@@ -39,14 +39,19 @@ export default class levelOne extends Phaser.Scene {
 
         this.obstacleTypes = ['oil1', 'cone'];
         this.obstacleSpawnIntervals = {
-            oil1: 715,
-            cone: 915,
+            oil1: 2598,
+            oil2: 2278,
+            oil3: 2464,
+            cone: 1651,
         };
 
         this.itemTypes = ['hat', 'socks'];
         this.itemSpawnIntervals = {
-            hat: 1500,
-            socks: 1725,
+            hat: 2967,
+            socks: 3343,
+            foamFinger: 4098,
+            shirt: 4376,
+            waterBottle: 4460,
         };
 
         this.emitter;
@@ -119,11 +124,11 @@ export default class levelOne extends Phaser.Scene {
         this.obstacles = this.physics.add.group();
         this.items = this.physics.add.group();
 
-        this.physics.add.collider(this.car, this.obstacles, (car, obstacle) => {
+        this.physics.add.overlap(this.car, this.obstacles, (car, obstacle) => {
             handleObstacleCollision(this, car, obstacle);
         }, null, this);
 
-        this.physics.add.collider(this.car, this.items, (car, item) => {
+        this.physics.add.overlap(this.car, this.items, (car, item) => {
             handleItemCollision(this, car, item);
         }, null, this);
 
@@ -361,7 +366,7 @@ export default class levelOne extends Phaser.Scene {
     }
 
     isLaneClearForItem(laneX) {
-        let minDistance = 150;
+        let minDistance = 250;
         let spawnY = 300;
         const closeObstacle = this.obstacles.getChildren().some(obj =>
             Math.abs(obj.x - laneX) < 10 && Math.abs(obj.y - spawnY) < minDistance

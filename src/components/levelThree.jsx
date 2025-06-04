@@ -35,25 +35,24 @@ export default class levelThree extends Phaser.Scene {
 
         this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'block1', 'block2', 'block3', 'cone', 'tire', 'spikes'];
         this.obstacleSpawnIntervals = {
-            oil1: 2000,
-            oil2: 3000,
-            oil3: 4000,
-            cone: 4500,
-            block1: 6000,
-            block2: 6500,
-            block3: 7000,
-            tire: 3500,
-            spikes: 3500,
+            oil1: 2598,
+            oil2: 2278,
+            oil3: 2464,
+            cone: 1151,
+            block1: 4098,
+            block2: 4376,
+            block3: 4460,
+            spikes: 2433,
+            tire: 3444
         };
 
         this.itemTypes = ['hat', 'socks', 'foamFinger', 'shirt', 'waterBottle'];
         this.itemSpawnIntervals = {
-            hat: 1500,
-            socks: 2350,
-            foamFinger: 2850,
-            shirt: 3150,
-            waterBottle: 3350,
-
+            hat: 2567,
+            socks: 2943,
+            foamFinger: 3698,
+            shirt: 3976,
+            waterBottle: 4060,
         };
 
         this.emitter;
@@ -116,11 +115,11 @@ export default class levelThree extends Phaser.Scene {
         this.obstacles = this.physics.add.group();
         this.items = this.physics.add.group();
 
-        this.physics.add.collider(this.car, this.obstacles, (car, obstacle) => {
+        this.physics.add.overlap(this.car, this.obstacles, (car, obstacle) => {
             handleObstacleCollision(this, car, obstacle);
         }, null, this);
 
-        this.physics.add.collider(this.car, this.items, (car, item) => {
+        this.physics.add.overlap(this.car, this.items, (car, item) => {
             handleItemCollision(this, car, item);
         }, null, this);
 

@@ -97,7 +97,7 @@ export default class levelBonus extends Phaser.Scene {
         this.car.setOrigin(0.5, 0.5);
         this.car.setDepth(50);
 
-        this.physics.add.collider(this.car, this.items, (car, item) => {
+        this.physics.add.overlap(this.car, this.items, (car, item) => {
             handleItemCollision(this, car, item);
         }, null, this);
 
