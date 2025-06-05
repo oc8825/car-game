@@ -27,6 +27,7 @@ export default class levelChallenge extends Phaser.Scene {
         this.timeBar = null;
         this.strikeIcons = [];
         this.inputLocked = false; 
+        this.isFirstCommand = true;
     }
 
     preload() {
@@ -40,7 +41,7 @@ export default class levelChallenge extends Phaser.Scene {
 
         this.timeBar = this.add.rectangle(this.scale.width / 2, this.scale.height * 0.1, 300, 30, 0xff4444).setOrigin(0.5);
 
-        this.scoreText = this.add.text(20, 20, `Commands Left: ${this.commandsLeft}`, {
+        this.scoreText = this.add.text(20, 20, `Instructions Left: ${this.commandsLeft}`, {
             fontSize: '60px',
             color: '#ffffff'
         });
@@ -89,23 +90,31 @@ export default class levelChallenge extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.timeBar.setVisible(true);
-        this.timeBar.setScale(1, 1);
+        if (this.timeBarTween) {
+            this.timeBarTween.stop();
+        }
+        this.timeBar.scaleX = 1;
 
-        this.tweens.add({
+        // Give player a longer time on the first command to understand game
+        const duration = this.isFirstCommand ? 2000 : 1250;
+
+        this.timeBarTween = this.tweens.add({
             targets: this.timeBar,
             scaleX: 0,
-            duration: 1000,
+            duration: duration,
             ease: 'Linear'
         });
 
         if (this.responseTimer) this.responseTimer.remove();
-        this.responseTimer = this.time.delayedCall(1000, () => {
+        this.responseTimer = this.time.delayedCall(duration, () => {
             if (this.commandText) {
                 this.commandText.destroy();
                 this.commandText = null;
             }
             this.applyStrikeWithPause();
         }, [], this);
+
+        this.isFirstCommand = false;
     }
 
     handleInput(keyCode) {
@@ -132,6 +141,13 @@ export default class levelChallenge extends Phaser.Scene {
             this.responseTimer.remove();
             this.responseTimer = null;
         }
+
+        /* needed?
+        // end time bar shrinking if player responds early
+        if (this.timeBarTween) {
+            this.timeBarTween.stop();
+        }
+        */
 
         if (correct) {
             if (this.commandText) {
