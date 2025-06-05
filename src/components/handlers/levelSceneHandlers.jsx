@@ -189,7 +189,7 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
 
     const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
         'CHALLENGE LEVEL INCOMING!', {
-        fontSize: '60px',
+        fontSize: '55px',
         fill: '#fff',
         align: 'center',
         fontStyle: 'bold'

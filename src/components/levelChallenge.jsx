@@ -12,7 +12,6 @@ export default class levelChallenge extends Phaser.Scene {
     2) mobile implementation (it's only arrow keys and space bar right now --> need to implement swipe right, left, and tap)
     3) score carrying over from lvl 3 into bonus level OR add bonus level to score at the very end
     4) glitch when a key is spammed (timer stays at like 0.5s or smth)
-    5) background for level
     */
 
     init(data) {
