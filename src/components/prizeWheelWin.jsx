@@ -55,6 +55,31 @@ export default class prizeWheelWin extends Phaser.Scene {
         background.setDisplaySize(this.scale.width, this.scale.height);
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
+        const playAgainButton = this.add.sprite(this.scale.width / 2, this.scale.height *.85, 'playAgain')
+            .setInteractive()
+            .setDepth(250);
+
+        playAgainButton.on('pointerdown', () => {
+            this.isRestarting = false;
+
+            this.scene.stop('levelOne');
+            this.scene.stop('levelTwo');
+            this.scene.stop('levelThree');
+            this.scene.stop('levelChallenge');
+            this.scene.stop('levelBonus');
+            this.scene.stop('prizeWheel');
+            this.scene.stop();
+
+            this.scene.start('chooseCar');
+        });
+
+        playAgainButton.on('pointerover', () => {
+            this.input.setDefaultCursor('pointer');
+        });
+
+        playAgainButton.on('pointerout', () => {
+            this.input.setDefaultCursor('auto');
+        });
     }
 
 }

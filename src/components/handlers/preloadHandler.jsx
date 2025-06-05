@@ -83,6 +83,7 @@ export function preloadAssets(scene) {
    scene.load.image('startButton', '/src/assets/images/startButton.png');
    scene.load.image('mobileBufferBackground', '/src/assets/images/mobileBufferBackground.png');
    scene.load.image('desktopBufferBackground', '/src/assets/images/desktopBufferBackground.png');
+   scene.load.image('playAgain', '/src/assets/images/playAgain.png');
 
    for (let i = 1; i <= 40; i++) {
       scene.load.image(`confetti${i}`, `/src/assets/animations/confetti/confetti (${i}).png`);

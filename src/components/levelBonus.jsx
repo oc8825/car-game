@@ -44,7 +44,7 @@ export default class levelBonus extends Phaser.Scene {
     }
 
     init(data) {
-        this.score = data.score || 0;
+        this.score = data.score || 400;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
         this.timeLeft = 25; // RESET time
