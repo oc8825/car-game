@@ -86,3 +86,16 @@ export function explosion(scene, x, y) {
     explosionSprite.play('explosion');
 }
 
+export function slip(scene) {
+    if (scene.isSlipping) {
+        scene.slipTime += scene.game.loop.delta;
+        const wiggleAngle = Math.sin(scene.slipTime * 0.01) * 20;
+        scene.car.setAngle(wiggleAngle);
+
+        if (scene.slipTime > scene.slipDuration) {
+            scene.isSlipping = false;
+            scene.car.setAngle(0);
+        }
+    }
+}
+

@@ -4,6 +4,7 @@ import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handle
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { setInventory, showInventory } from '/src/components/handlers/inventoryHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
+import { slip } from '/src/components/handlers/animationHandlers'
 
 export default class levelTwo extends Phaser.Scene {
     constructor() {
@@ -300,16 +301,7 @@ export default class levelTwo extends Phaser.Scene {
         }
 
         //slipping
-        if (this.isSlipping) {
-            this.slipTime += this.game.loop.delta;
-            const wiggleAngle = Math.sin(this.slipTime * 0.01) * 20;
-            this.car.setAngle(wiggleAngle);
-
-            if (this.slipTime > this.slipDuration) {
-                this.isSlipping = false;
-                this.car.setAngle(0);
-            }
-        }
+        slip(this);
 
         this.obstacles.getChildren().forEach(obstacle => {
             if (obstacle && obstacle.y > this.scale.height) {
