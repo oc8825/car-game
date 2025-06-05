@@ -53,10 +53,10 @@ export default class levelChallenge extends Phaser.Scene {
         const strikeY = this.steeringWheel.y + this.steeringWheel.displayHeight / 2 + 40;
 
         for (let i = 0; i < this.maxStrikes; i++) {
-            const icon = this.add.text(startX + i * strikeSpacing, strikeY, '⬜', {
+            const icon = this.add.text(startX + i * strikeSpacing, strikeY, '\n⬜', {
                 fontSize: `${strikeSize}px`,
                 color: '#ffffff'
-            }).setOrigin(0.5, 0);
+            }).setOrigin(0.5, 0.5);
             this.strikeIcons.push(icon);
         }
 
@@ -162,7 +162,7 @@ export default class levelChallenge extends Phaser.Scene {
         this.wrongSound.play();
 
         if (this.strikes < this.maxStrikes) {
-            this.strikeIcons[this.strikes].setText('❌');
+            this.strikeIcons[this.strikes].setText('\n❌');
             this.strikes++;
         }
 
