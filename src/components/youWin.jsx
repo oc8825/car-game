@@ -18,10 +18,10 @@ export default class youWin extends Phaser.Scene {
         this.prizeSound.play();
 
         const score = data.score || 50;
-        let backgroundKey = '50Win';
+        let backgroundKey = '0Win';
 
-        if (score >= 50 && score < 75) {
-            backgroundKey = '50Win';
+        if (score >= 0 && score < 75) {
+            backgroundKey = '0Win';
         } else if (score >= 75 && score < 100) {
             backgroundKey = '75Win';
         } else if (score >= 100 && score < 150) {

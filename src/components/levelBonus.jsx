@@ -78,7 +78,6 @@ export default class levelBonus extends Phaser.Scene {
         this.time.delayedCall(23469, () => {
             const finishLine = this.physics.add.image(this.scale.width / 2, -600, 'finishLine');
             finishLine.setVelocityY(800);
-            // finishLine.setScale(2.25);
         });
 
         // create lanes and start snowball in middle lane
@@ -169,7 +168,7 @@ export default class levelBonus extends Phaser.Scene {
                 loop: true
             });
 
-            this.time.delayedCall(22190, () => {
+            this.time.delayedCall(22969, () => {
                 itemSpawnEvent.remove(false); 
             });
         });

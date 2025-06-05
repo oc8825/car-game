@@ -104,7 +104,6 @@ export default class levelOne extends Phaser.Scene {
         this.time.delayedCall(17530, () => {
             const finishLine = this.physics.add.image(this.scale.width / 2, -600, 'finishLine');
             finishLine.setVelocityY(500);
-            // finishLine.setScale(2.25);
         });
 
         // create lanes and start snowball in middle lane
@@ -192,7 +191,7 @@ export default class levelOne extends Phaser.Scene {
                 loop: true
             });
 
-            this.time.delayedCall(17290, () => {
+            this.time.delayedCall(17030, () => {
                 obstacleSpawnEvent.remove(false); 
             });
         });
@@ -210,7 +209,7 @@ export default class levelOne extends Phaser.Scene {
                 loop: true
             });
 
-            this.time.delayedCall(17290, () => {
+            this.time.delayedCall(17030, () => {
                 itemSpawnEvent.remove(false); 
             });
         });

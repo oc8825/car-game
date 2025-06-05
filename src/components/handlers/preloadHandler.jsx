@@ -54,7 +54,7 @@ export function preloadAssets(scene) {
    scene.load.image('carGreen', '/src/assets/images/carGreen.png');
    scene.load.image('carRed', '/src/assets/images/carRed.png');
    scene.load.image('carYellow', '/src/assets/images/carYellow.png');
-   scene.load.image('50Win', '/src/assets/images/50Win.png');
+   scene.load.image('0Win', '/src/assets/images/0Win.png');
    scene.load.image('75Win', '/src/assets/images/75Win.png');
    scene.load.image('100Win', '/src/assets/images/100Win.png');
    scene.load.image('150Win', '/src/assets/images/150Win.png');
@@ -81,7 +81,8 @@ export function preloadAssets(scene) {
    scene.load.image('EOWin', '/src/assets/images/EOWin.png');
    scene.load.image('steeringWheel', '/src/assets/images/steeringWheel.png');
    scene.load.image('startButton', '/src/assets/images/startButton.png');
-   scene.load.image('bufferBackground', '/src/assets/images/bufferBackground.png');
+   scene.load.image('mobileBufferBackground', '/src/assets/images/mobileBufferBackground.png');
+   scene.load.image('desktopBufferBackground', '/src/assets/images/desktopBufferBackground.png');
 
    for (let i = 1; i <= 40; i++) {
       scene.load.image(`confetti${i}`, `/src/assets/animations/confetti/confetti (${i}).png`);
