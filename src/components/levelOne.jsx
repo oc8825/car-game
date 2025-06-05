@@ -83,6 +83,7 @@ export default class levelOne extends Phaser.Scene {
 
         loadSounds(this);
 
+        // only ask for tilt permissions in level one
         this.scene.pause();
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
         this.tiltControl.enableTiltControls(() => {
@@ -104,31 +105,30 @@ export default class levelOne extends Phaser.Scene {
             finishLine.setVelocityY(500);
         });
 
-        // create lanes and start snowball in middle lane
+        // create lanes and start car in middle lane
         this.lanes = [this.scale.width / 6, this.scale.width / 2, this.scale.width * 5 / 6];
         this.currentLaneIndex = 1;
         this.targetX = this.lanes[this.currentLaneIndex];
 
+        // car sprite
         const carColors = ['carRed', 'carOrange', 'carYellow', 'carGreen', 'carBlue', 'carPurple'];
         const selectedCarColor = carColors[this.selectedCarIndex];
-
-        // car sprite
         this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], this.scale.height * 7 / 8, selectedCarColor);
         this.car.setScale(0.6);
         this.car.setOrigin(0.5, 0.5);
         this.car.setDepth(50);
 
+        // set up item and obstacle collisions
         this.obstacles = this.physics.add.group();
         this.items = this.physics.add.group();
-
         this.physics.add.overlap(this.car, this.obstacles, (car, obstacle) => {
             handleObstacleCollision(this, car, obstacle);
         }, null, this);
-
         this.physics.add.overlap(this.car, this.items, (car, item) => {
             handleItemCollision(this, car, item);
         }, null, this);
 
+        // initial score and score update
         this.scoreText = this.add.text(890, 150, '0', {
             fontSize: '100px',
             color: '#ffffff',
@@ -136,17 +136,18 @@ export default class levelOne extends Phaser.Scene {
             align: 'center'
         }).setOrigin(0.5);
         this.scoreText.setDepth(100);
-
-        // Initial positioning
         this.updateScoreText();
+        this.scoreEvent = this.time.addEvent({
+            delay: 2000,
+            callback: this.incrementScore,
+            callbackScope: this,
+            loop: true
+        });
 
+        // initial time and time update
         const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
         this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
         this.timerText.setDepth(10);
-
-        this.levelText = this.add.text(170, 105, '1', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
-        this.levelText.setDepth(100);
-
         this.timerEvent = this.time.addEvent({
             delay: 1000,
             callback: this.updateTimer,
@@ -154,20 +155,17 @@ export default class levelOne extends Phaser.Scene {
             loop: true
         });
 
-        this.scoreEvent = this.time.addEvent({
-            delay: 2000,  // Every 2 seconds
-            callback: this.incrementScore,
-            callbackScope: this,
-            loop: true
-        });
+        // initial level
+        this.levelText = this.add.text(170, 105, '1', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
+        this.levelText.setDepth(100);
 
-        // set up controls for lane switching
-        this.targetX = this.lanes[this.currentLaneIndex];
-
+        // scoreboard
         this.scoreboard = this.add.image(this.scale.width / 2, 130, 'scoreboard');
         this.scoreboard.setScale(1);
         this.scoreboard.setDepth(1);
 
+        // set up controls for lane switching
+        this.targetX = this.lanes[this.currentLaneIndex];
         this.input.keyboard.on('keydown-LEFT', () => {
             this.changeLane(-1);
         });
@@ -176,6 +174,7 @@ export default class levelOne extends Phaser.Scene {
             this.changeLane(1);
         });
 
+        // spawn obstacles
         Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval]) => {
             const obstacleSpawnEvent = this.time.addEvent({
                 delay: interval,
@@ -194,6 +193,7 @@ export default class levelOne extends Phaser.Scene {
             });
         });
 
+        // spawn items
         Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
             const itemSpawnEvent = this.time.addEvent({
                 delay: interval,
@@ -212,6 +212,7 @@ export default class levelOne extends Phaser.Scene {
             });
         });
 
+        // display points update when hit collectible
         this.emitter = this.add.particles(0, 0, 'plusOne', {
             speed: { min: 50, max: 200 },
             gravityY: 200,
@@ -257,10 +258,10 @@ export default class levelOne extends Phaser.Scene {
             if (newLength !== this.scoreDigitLength) {
                 this.scoreDigitLength = newLength;
                 this.score = newScore;
-                this.updateScoreText(); // font size
+                this.updateScoreText();
             } else {
                 this.score = newScore;
-                this.scoreText.setText(`${this.score}`); // update text
+                this.scoreText.setText(`${this.score}`);
             }
         }
     }
