@@ -1,5 +1,3 @@
-import { hideInventory } from "./inventoryHandler";
-
 export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, selectedCarIndex) {
     if (scene.levelCompleted) return;
     scene.levelCompleted = true;
@@ -32,8 +30,6 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
     levelUpText.setOrigin(0.5);
     levelUpText.setDepth(250);
 
-    hideInventory(scene);
-
     const countdownText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2, '3', {
         fontSize: '90px',
         fill: '#fff',
@@ -63,13 +59,6 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
         scene.scene.start(nextLevelKey, {
             score: score,
             selectedCarIndex,
-            inventory: {
-                slot1: scene.slot1?.style?.backgroundImage,
-                slot2: scene.slot2?.style?.backgroundImage,
-                slot3: scene.slot3?.style?.backgroundImage,
-                slot4: scene.slot4?.style?.backgroundImage,
-                slot5: scene.slot5?.style?.backgroundImage,
-            }
         });
     });
 
@@ -126,8 +115,6 @@ export function restartLevel(scene) {
         align: 'center',
         fontStyle: 'bold'
     }).setOrigin(0.5).setDepth(250);
-
-    hideInventory(scene);
 }
 
 export function winScreen(scene) {
@@ -160,8 +147,6 @@ export function winScreen(scene) {
     });
     levelUpText.setOrigin(0.5);
     levelUpText.setDepth(250);
-
-    hideInventory(scene);
 
     scene.prizeButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'prizeButton')
         .setInteractive().setDepth(250);
@@ -212,8 +197,6 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
     levelUpText.setOrigin(0.5);
     levelUpText.setDepth(250);
 
-    hideInventory(scene);
-
     const countdownText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2, '3', {
         fontSize: '90px',
         fill: '#fff',
@@ -243,13 +226,6 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
         scene.scene.start(nextLevelKey, {
             score: score,
             selectedCarIndex,
-            inventory: {
-                slot1: scene.slot1?.style?.backgroundImage,
-                slot2: scene.slot2?.style?.backgroundImage,
-                slot3: scene.slot3?.style?.backgroundImage,
-                slot4: scene.slot4?.style?.backgroundImage,
-                slot5: scene.slot5?.style?.backgroundImage,
-            }
         });
     });
 

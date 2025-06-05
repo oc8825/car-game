@@ -1,6 +1,5 @@
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
-import { hideInventory } from '/src/components/handlers/inventoryHandler';
 
 export default class chooseCar extends Phaser.Scene {
     constructor() {
@@ -16,7 +15,6 @@ export default class chooseCar extends Phaser.Scene {
 
     create() {
         loadSounds(this);
-        hideInventory(this);
 
         // delay by one fram so camera is accurate
         this.time.delayedCall(1, () => {

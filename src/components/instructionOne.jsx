@@ -1,7 +1,5 @@
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
-import { hideInventory } from '/src/components/handlers/inventoryHandler';
-
 
 export default class instructionOne extends Phaser.Scene {
     constructor() {
@@ -13,7 +11,6 @@ export default class instructionOne extends Phaser.Scene {
     }
 
     create() {
-        hideInventory(this);
         loadSounds(this);
 
         let background = this.add.image(0, 0, 'backgroundTwo').setOrigin(0, 0);

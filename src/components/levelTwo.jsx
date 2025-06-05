@@ -2,7 +2,6 @@ import { handleObstacleCollision, handleItemCollision } from '/src/components/ha
 import { showLevelUpScene, restartLevel } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
-import { setInventory, showInventory } from '/src/components/handlers/inventoryHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { slip } from '/src/components/handlers/animationHandlers'
 
@@ -79,8 +78,6 @@ export default class levelTwo extends Phaser.Scene {
     create() {
 
         loadSounds(this);
-        showInventory();
-        setInventory(this);
 
         // background
         this.ground = this.add.tileSprite(

@@ -50,21 +50,18 @@ export function handleItemCollision(scene, car, item) {
 
     switch (itemKey) {
         case 'hat':
-            scene.slot1.style.backgroundImage = `url(/src/assets/images/hat.png)`;
             scene.score += 1;
             scene.collectSound.play();
             emit(scene, 'plusOne', item.x, item.y);
             confetti(scene, item.x, item.y);
             break;
         case 'socks':
-            scene.slot2.style.backgroundImage = `url(/src/assets/images/socks.png)`;
             scene.score += 2;
             scene.collectSound.play();
             emit(scene, 'plusTwo', item.x, item.y);
             confetti(scene, item.x, item.y);
             break;
         case 'shirt':
-            scene.slot3.style.backgroundImage = `url(/src/assets/images/shirt.png)`;
             scene.score += 3;
             scene.collectSound.play();
             emit(scene, 'plusThree', item.x, item.y);
@@ -72,7 +69,6 @@ export function handleItemCollision(scene, car, item) {
 
             break;
         case 'foamFinger':
-            scene.slot4.style.backgroundImage = `url(/src/assets/images/foamFinger.png)`;
             scene.score += 4;
             scene.collectSound.play();
             emit(scene, 'plusFour', item.x, item.y);
@@ -80,7 +76,6 @@ export function handleItemCollision(scene, car, item) {
 
             break;
         case 'waterBottle':
-            scene.slot5.style.backgroundImage = `url(/src/assets/images/waterBottle.png)`;
             scene.score += 5;
             scene.collectSound.play();
             emit(scene, 'plusFive', item.x, item.y);

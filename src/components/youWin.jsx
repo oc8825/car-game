@@ -1,6 +1,5 @@
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
-import { hideInventory } from '/src/components/handlers/inventoryHandler';
 
 export default class youWin extends Phaser.Scene {
     constructor() {
@@ -35,8 +34,6 @@ export default class youWin extends Phaser.Scene {
         } else if (score >= 225){
             this.scene.start('prizeWheel');
         }
-        
-        hideInventory(this);
 
         let background = this.add.image(0, 0, backgroundKey);
         background.setOrigin(0, 0);  
