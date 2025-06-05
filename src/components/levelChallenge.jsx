@@ -37,21 +37,27 @@ export default class levelChallenge extends Phaser.Scene {
     create() {
         loadSounds(this);
 
-        this.steeringWheel = this.add.sprite(this.scale.width / 2, this.scale.height / 2, 'steeringWheel');
+        let background = this.add.image(0, 0, 'challengeBackground');
+            background.setOrigin(0, 0);
+            background.setDisplaySize(this.scale.width, this.scale.height);
+            background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
-        this.timeBar = this.add.rectangle(this.scale.width / 2, this.scale.height * 0.1, 300, 30, 0xff4444).setOrigin(0.5);
+        this.steeringWheel = this.add.sprite(this.scale.width / 2, this.scale.height * .72, 'steeringWheel');
 
-        this.scoreText = this.add.text(20, 20, `Instructions Left: ${this.commandsLeft}`, {
-            fontSize: '60px',
-            color: '#ffffff'
-        });
+        this.timeBar = this.add.rectangle(this.scale.width / 2, this.scale.height * 0.33, 300, 30, 0xffffff).setOrigin(0.5);
+
+        this.scoreText = this.add.text(this.scale.width / 2, this.scale.height * 0.2, `Instructions Left: ${this.commandsLeft}`, {
+            fontSize: '45px',
+            color: '#ffffff',
+            fontStyle: 'bold'
+        }).setOrigin(0.5,0);
 
         //strike feature
         const strikeSize = 85;
         const strikeSpacing = 90;
         const totalWidth = (this.maxStrikes - 1) * strikeSpacing;
         const startX = this.scale.width / 2 - totalWidth / 2;
-        const strikeY = this.steeringWheel.y + this.steeringWheel.displayHeight / 2 + 40;
+        const strikeY = this.steeringWheel.y + this.steeringWheel.displayHeight / 2 + 80;
 
         for (let i = 0; i < this.maxStrikes; i++) {
             const icon = this.add.text(startX + i * strikeSpacing, strikeY, '\n⬜', {
@@ -83,11 +89,11 @@ export default class levelChallenge extends Phaser.Scene {
 
         if (this.commandText) this.commandText.destroy();
 
-        this.commandText = this.add.text(this.scale.width / 2, this.scale.height * 0.2, this.currentCommand, {
-            fontSize: '64px',
+        this.commandText = this.add.text(this.scale.width / 2, this.scale.height * 0.25, this.currentCommand, {
+            fontSize: '100px',
             fontStyle: 'bold',
             color: '#ffffff'
-        }).setOrigin(0.5);
+        }).setOrigin(0.5, 0);
 
         this.timeBar.setVisible(true);
         if (this.timeBarTween) {
