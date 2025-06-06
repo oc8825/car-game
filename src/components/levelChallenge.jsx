@@ -1,6 +1,7 @@
 import { winScreen } from './handlers/levelSceneHandlers';
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
+import { bonusLevel } from '/src/components/handlers/levelSceneHandlers';
 
 export default class levelChallenge extends Phaser.Scene {
     constructor() {
@@ -10,7 +11,6 @@ export default class levelChallenge extends Phaser.Scene {
     /* debugging:
     1) player can only perform one action for one command (i.e. if you press space bar or arrow keys you cannot press anything after that)
     2) mobile implementation (it's only arrow keys and space bar right now --> need to implement swipe right, left, and tap)
-    3) score carrying over from lvl 3 into bonus level OR add bonus level to score at the very end
     4) glitch when a key is spammed (timer stays at like 0.5s or smth)
     */
 
@@ -147,13 +147,6 @@ export default class levelChallenge extends Phaser.Scene {
             this.responseTimer = null;
         }
 
-        /* needed?
-        // end time bar shrinking if player responds early
-        if (this.timeBarTween) {
-            this.timeBarTween.stop();
-        }
-        */
-
         if (correct) {
             if (this.commandText) {
                 this.commandText.destroy();
@@ -230,7 +223,7 @@ export default class levelChallenge extends Phaser.Scene {
     }
 
     winGame() {
-        this.scene.start('levelBonus', { score: this.score + 1 });
+        bonusLevel(this, 'levelBonus', this.score, this.selectedCarIndex);
     }
 
     update() {

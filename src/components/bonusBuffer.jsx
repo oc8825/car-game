@@ -5,6 +5,14 @@ import { challengeLevel } from './handlers/levelSceneHandlers';
 export default class bonusBuffer extends Phaser.Scene {
     constructor() {
         super({ key: 'bonusBuffer' });
+
+        this.score;
+        this.selectedCarIndex;
+    }
+
+    init(data) {
+        this.score = data.score || 0;
+        this.selectedCarIndex = data.selectedCarIndex || 0;
     }
 
     preload() {
@@ -28,7 +36,7 @@ export default class bonusBuffer extends Phaser.Scene {
         this.startButton.setScale(0.75);
 
         this.startButton.on('pointerdown', () => {
-            challengeLevel(this);
+            challengeLevel(this, 'levelChallenge', this.score, this.selectedCarIndex);
             this.gameStartSound.play();
         });
 

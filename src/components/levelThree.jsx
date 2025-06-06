@@ -1,5 +1,5 @@
 import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
-import { bonusLevel, restartLevel } from '/src/components/handlers/levelSceneHandlers';
+import { chalBufferLevel, restartLevel } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
@@ -318,7 +318,7 @@ export default class levelThree extends Phaser.Scene {
         });
 
         if (this.timeLeft == 0) {
-            bonusLevel(this, 'bonusBuffer', this.score, this.selectedCarIndex)
+            chalBufferLevel(this, 'bonusBuffer', this.score, this.selectedCarIndex)
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }

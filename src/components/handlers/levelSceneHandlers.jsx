@@ -165,7 +165,7 @@ export function winScreen(scene) {
 
 }
 
-export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
+export function chalBufferLevel(scene, nextLevelKey, score, selectedCarIndex) {
     if (scene.levelCompleted) return;
     scene.levelCompleted = true;
     scene.isScorePaused = true;
@@ -231,7 +231,59 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
 
 }
 
-export function challengeLevel(scene) {
-    scene.scene.start('levelChallenge');
+export function challengeLevel(scene, nextLevelKey, score, selectedCarIndex) {
+    scene.scene.start(nextLevelKey, {
+            score: score,
+            selectedCarIndex,
+        });
 }
 
+export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
+    scene.input.keyboard.removeAllListeners();
+
+    const overlay = scene.add.graphics();
+    overlay.fillStyle(0x000000, 0.7);
+    overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
+    overlay.setDepth(200);
+
+    const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
+        'BONUS LEVEL INCOMING!', {
+        fontSize: '60px',
+        fill: '#fff',
+        align: 'center',
+        fontStyle: 'bold'
+    });
+    levelUpText.setOrigin(0.5);
+    levelUpText.setDepth(250);
+
+    const countdownText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2, '3', {
+        fontSize: '90px',
+        fill: '#fff',
+        align: 'center',
+        fontStyle: 'bold'
+    });
+
+    countdownText.setOrigin(0.5);
+    countdownText.setDepth(250);
+
+    let countdownValue = 3;
+    scene.time.addEvent({
+        delay: 1000,
+        repeat: 2,
+        callback: () => {
+            countdownValue--;
+            countdownText.setText(countdownValue.toString());
+        }
+    });
+
+    scene.time.delayedCall(3000, () => {
+        countdownText.destroy();
+        levelUpText.destroy();
+
+        scene.scene.stop(scene.scene.key);
+        scene.scene.start(nextLevelKey, {
+            score: score,
+            selectedCarIndex,
+        });
+    });
+}
