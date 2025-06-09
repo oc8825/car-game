@@ -5,7 +5,11 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+
+  background-image: url('./assets/images/fitBackground.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,7 +24,11 @@ body {
   min-width: 320px;
   min-height: 100vh;
   position: relative;
-  background-color: #242424;
+  
+  background-image: url('./assets/images/fitBackground.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;;
 }
 
 
