@@ -8,12 +8,6 @@ export default class levelChallenge extends Phaser.Scene {
         super({ key: 'levelChallenge' });
     }
 
-    /* debugging:
-    1) player can only perform one action for one command (i.e. if you press space bar or arrow keys you cannot press anything after that)
-    2) mobile implementation (it's only arrow keys and space bar right now --> need to implement swipe right, left, and tap)
-    4) glitch when a key is spammed (timer stays at like 0.5s or smth)
-    */
-
     init(data) {
         this.score = data.score || 0;
         this.commands = ['Turn Left', 'Turn Right', 'Honk'];
