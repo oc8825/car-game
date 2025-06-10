@@ -16,22 +16,22 @@ export default class youWin extends Phaser.Scene {
         loadSounds(this);
         this.prizeSound.play();
 
-        const score = data.score || 50;
+        const score = data.score || 0;
         let backgroundKey = '0Win';
 
-        if (score >= 0 && score < 75) {
+        if (score >= 0 && score < 100) {
             backgroundKey = '0Win';
-        } else if (score >= 75 && score < 100) {
-            backgroundKey = '75Win';
         } else if (score >= 100 && score < 150) {
             backgroundKey = '100Win';
-        } else if (score >= 150 && score < 175) {
+        } else if (score >= 150 && score < 200) {
             backgroundKey = '150Win';
-        } else if (score >= 175 && score < 200) {
-            backgroundKey = '175Win';
-        } else if (score >= 200 && score < 225) {
+        } else if (score >= 200 && score < 250) {
+            backgroundKey = '200Win';
+        } else if (score >= 250 && score < 300) {
+            backgroundKey = '250Win';
+        } else if (score >= 300 && score < 350) {
             backgroundKey = 'lamboWin';
-        } else if (score >= 225){
+        } else if (score >= 350){
             this.scene.start('prizeWheel');
         }
 

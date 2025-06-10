@@ -55,10 +55,10 @@ export function preloadAssets(scene) {
    scene.load.image('carRed', '/src/assets/images/carRed.png');
    scene.load.image('carYellow', '/src/assets/images/carYellow.png');
    scene.load.image('0Win', '/src/assets/images/0Win.png');
-   scene.load.image('75Win', '/src/assets/images/75Win.png');
    scene.load.image('100Win', '/src/assets/images/100Win.png');
    scene.load.image('150Win', '/src/assets/images/150Win.png');
-   scene.load.image('175Win', '/src/assets/images/175Win.png');
+   scene.load.image('200Win', '/src/assets/images/200Win.png');
+   scene.load.image('250Win', '/src/assets/images/250Win.png');
    scene.load.image('vaidhyWin', '/src/assets/images/vaidhyWin.png');
    scene.load.image('plusOne', '/src/assets/animations/collecting/plusOne.png');
    scene.load.image('plusTwo', '/src/assets/animations/collecting/plusTwo.png');
