@@ -1,4 +1,3 @@
-import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { challengeLevel } from './handlers/levelSceneHandlers';
 
@@ -16,7 +15,7 @@ export default class bonusBuffer extends Phaser.Scene {
     }
 
     preload() {
-        preloadAssets(this);
+ 
     }
 
     create() {

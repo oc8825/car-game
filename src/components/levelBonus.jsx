@@ -1,7 +1,6 @@
 import { handleItemCollision } from '/src/components/handlers/collisionHandlers';
 import { winScreen, restartLevel } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
-import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 
 export default class levelBonus extends Phaser.Scene {
@@ -54,7 +53,6 @@ export default class levelBonus extends Phaser.Scene {
     }
 
     preload() {
-        preloadAssets(this);
 
     }
 

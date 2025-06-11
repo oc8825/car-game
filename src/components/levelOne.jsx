@@ -2,7 +2,6 @@ import { TiltControl } from '/src/components/handlers/TiltControl';
 import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
 import { showLevelUpScene, restartLevel } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
-import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { slip } from '/src/components/handlers/animationHandlers'
 
@@ -71,7 +70,7 @@ export default class levelOne extends Phaser.Scene {
     }
 
     preload() {
-        preloadAssets(this);
+        
     }
 
     create() {

@@ -1,5 +1,4 @@
 import { winScreenFromChallenge } from './handlers/levelSceneHandlers';
-import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { bonusLevel } from '/src/components/handlers/levelSceneHandlers';
 
@@ -25,7 +24,7 @@ export default class levelChallenge extends Phaser.Scene {
     }
 
     preload() {
-        preloadAssets(this);
+        
     }
 
     create() {

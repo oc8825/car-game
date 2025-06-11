@@ -1,4 +1,3 @@
-import { preloadAssets } from '/src/components/handlers/preloadHandler';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 
 export default class instructionOne extends Phaser.Scene {
@@ -7,7 +6,7 @@ export default class instructionOne extends Phaser.Scene {
     }
 
     preload() {
-        preloadAssets(this);
+
     }
 
     create() {
