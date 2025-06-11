@@ -274,6 +274,9 @@ export default class levelBonus extends Phaser.Scene {
             restartLevel(this);
         }
 
+        const length = `${this.score}`.length;
+        this.scoreDigitLength = length;
+        this.updateScoreText();
         this.scoreText.setText(`${this.score}`);
         this.levelText.setText(`${this.level}`);
 
