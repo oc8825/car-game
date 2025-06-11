@@ -21,6 +21,7 @@ export default class levelChallenge extends Phaser.Scene {
         this.strikeIcons = [];
         this.inputLocked = false; 
         this.isFirstCommand = true;
+        this.isGameOver = false;
     }
 
     preload() {
@@ -67,6 +68,8 @@ export default class levelChallenge extends Phaser.Scene {
     }
 
     scheduleNextCommand() {
+        if (this.isGameOver) return;
+        
         if (this.commandsLeft <= 0) {
             this.winGame();
             return;
@@ -78,6 +81,8 @@ export default class levelChallenge extends Phaser.Scene {
     }
 
     showNextCommand() {
+        if (this.isGameOver) return;
+        
         this.currentCommand = Phaser.Utils.Array.GetRandom(this.commands);
 
         if (this.commandText) this.commandText.destroy();
@@ -117,7 +122,7 @@ export default class levelChallenge extends Phaser.Scene {
     }
 
     handleInput(keyCode) {
-        if (this.inputLocked) return; 
+        if (this.inputLocked || this.isGameOver) return; 
         this.inputLocked = true;    
 
         let correct = false;
@@ -213,6 +218,12 @@ export default class levelChallenge extends Phaser.Scene {
     }
 
     gameOver() {
+        if (this.isGameOver) return;
+        this.isGameOver = true;
+
+        if (this.timeBarTween) this.timeBarTween.stop();
+        if (this.responseTimer) this.responseTimer.remove();
+        
         winScreenFromChallenge(this);
     }
 
