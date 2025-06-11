@@ -145,6 +145,8 @@ export default class levelBonus extends Phaser.Scene {
         });
 
         this.input.on('pointerdown', (pointer) => {
+            if (this.levelCompleted) return;
+            
             if (pointer.x < this.scale.width / 2) {
                 this.changeLane(-1);
             } else {

@@ -161,6 +161,8 @@ export default class levelTwo extends Phaser.Scene {
             this.changeLane(1);
         });
         this.input.on('pointerdown', (pointer) => {
+            if (this.levelCompleted) return;
+            
             if (pointer.x < this.scale.width / 2) {
                 this.changeLane(-1);
             } else {
