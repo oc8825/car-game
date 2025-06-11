@@ -9,7 +9,7 @@ export default class chooseCar extends Phaser.Scene {
     }
 
     preload() {
-
+        
     }
 
     create() {
