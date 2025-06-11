@@ -24,21 +24,25 @@ export default class levelChallenge extends Phaser.Scene {
     }
 
     preload() {
-        
+
     }
 
     create() {
         loadSounds(this);
 
+        // background
         let background = this.add.image(0, 0, 'challengeBackground');
-            background.setOrigin(0, 0);
-            background.setDisplaySize(this.scale.width, this.scale.height);
-            background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
+        background.setOrigin(0, 0);
+        background.setDisplaySize(this.scale.width, this.scale.height);
+        background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
+        // steering wheel sprite
         this.steeringWheel = this.add.sprite(this.scale.width / 2, this.scale.height * .72, 'steeringWheel');
 
+        // time bar displaying how long player has to react
         this.timeBar = this.add.rectangle(this.scale.width / 2, this.scale.height * 0.33, 300, 30, 0xffffff).setOrigin(0.5);
 
+        // score
         this.scoreText = this.add.text(this.scale.width / 2, this.scale.height * 0.2, `Instructions Left: ${this.commandsLeft}`, {
             fontSize: '45px',
             color: '#ffffff',
@@ -51,7 +55,6 @@ export default class levelChallenge extends Phaser.Scene {
         const totalWidth = (this.maxStrikes - 1) * strikeSpacing;
         const startX = this.scale.width / 2 - totalWidth / 2;
         const strikeY = this.steeringWheel.y + this.steeringWheel.displayHeight / 2 + 80;
-
         for (let i = 0; i < this.maxStrikes; i++) {
             const icon = this.add.text(startX + i * strikeSpacing, strikeY, '\n⬜', {
                 fontSize: `${strikeSize}px`,
@@ -60,9 +63,11 @@ export default class levelChallenge extends Phaser.Scene {
             this.strikeIcons.push(icon);
         }
 
+        // hande user reaction
         this.input.keyboard.on('keydown', (event) => {
             this.handleInput(event.code);
         });
+        
         this.scheduleNextCommand();
     }
 

@@ -13,10 +13,12 @@ export default class LoadingScene extends Phaser.Scene {
             fontStyle: 'bold',
         }).setOrigin(0.5);
 
+        // load assets for entire game during this scene
         preloadAssets(this);
     }
 
     create() {
+        // send to actual start screen once done loading
         this.scene.start('startScreen');
     }
 }
