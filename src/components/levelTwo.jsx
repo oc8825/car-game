@@ -72,7 +72,6 @@ export default class levelTwo extends Phaser.Scene {
 
     preload() {
         preloadAssets(this);
-
     }
 
     create() {
@@ -94,31 +93,30 @@ export default class levelTwo extends Phaser.Scene {
             finishLine.setVelocityY(650);
         });
 
-        // create lanes and start snowball in middle lane
+        // create lanes and start car in middle lane
         this.lanes = [this.scale.width / 6, this.scale.width / 2, this.scale.width * 5 / 6];
         this.currentLaneIndex = 1;
         this.targetX = this.lanes[this.currentLaneIndex];
 
+        // car sprite
         const carColors = ['carRed', 'carOrange', 'carYellow', 'carGreen', 'carBlue', 'carPurple'];
         const selectedCarColor = carColors[this.selectedCarIndex];
-
-        // car sprite
         this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], this.scale.height * 7 / 8, selectedCarColor);
         this.car.setScale(0.6);
         this.car.setOrigin(0.5, 0.5);
         this.car.setDepth(50);
 
+        // set up item and obstacle collisions
         this.obstacles = this.physics.add.group();
         this.items = this.physics.add.group();
-
         this.physics.add.overlap(this.car, this.obstacles, (car, obstacle) => {
             handleObstacleCollision(this, car, obstacle);
         }, null, this);
-
         this.physics.add.overlap(this.car, this.items, (car, item) => {
             handleItemCollision(this, car, item);
         }, null, this);
 
+        // initial score and score update
         this.scoreText = this.add.text(890, 150, `${this.score}`, {
             fontSize: '100px',
             color: '#ffffff',
@@ -126,23 +124,7 @@ export default class levelTwo extends Phaser.Scene {
             align: 'center'
         }).setOrigin(0.5);
         this.scoreText.setDepth(100);
-
         this.updateScoreText();
-
-        const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
-        this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
-        this.timerText.setDepth(10);
-
-        this.levelText = this.add.text(170, 105, '2', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
-        this.levelText.setDepth(100);
-
-        this.timerEvent = this.time.addEvent({
-            delay: 1000,
-            callback: this.updateTimer,
-            callbackScope: this,
-            loop: true
-        });
-
         this.scoreEvent = this.time.addEvent({
             delay: 2000,
             callback: this.incrementScore,
@@ -150,21 +132,34 @@ export default class levelTwo extends Phaser.Scene {
             loop: true
         });
 
-        // set up controls for lane switching
-        this.targetX = this.lanes[this.currentLaneIndex];
+        // initial time and time update
+        const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
+        this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
+        this.timerText.setDepth(10);
+        this.timerEvent = this.time.addEvent({
+            delay: 1000,
+            callback: this.updateTimer,
+            callbackScope: this,
+            loop: true
+        });
 
+        // initial level
+        this.levelText = this.add.text(170, 105, '2', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
+        this.levelText.setDepth(100);
+
+        // scoreboard
         this.scoreboard = this.add.image(this.scale.width / 2, 130, 'scoreboard');
         this.scoreboard.setScale(1);
         this.scoreboard.setDepth(1);
 
+        // set up controls for lane switching
+        this.targetX = this.lanes[this.currentLaneIndex];
         this.input.keyboard.on('keydown-LEFT', () => {
             this.changeLane(-1);
         });
-
         this.input.keyboard.on('keydown-RIGHT', () => {
             this.changeLane(1);
         });
-
         this.input.on('pointerdown', (pointer) => {
             if (pointer.x < this.scale.width / 2) {
                 this.changeLane(-1);
@@ -173,6 +168,7 @@ export default class levelTwo extends Phaser.Scene {
             }
         });
 
+        // spawn obstacles
         Object.entries(this.obstacleSpawnIntervals).forEach(([type, interval]) => {
             const obstacleSpawnEvent = this.time.addEvent({
                 delay: interval,
@@ -191,6 +187,7 @@ export default class levelTwo extends Phaser.Scene {
             });
         });
 
+        // spawn items
         Object.entries(this.itemSpawnIntervals).forEach(([type2, interval]) => {
             const itemSpawnEvent = this.time.addEvent({
                 delay: interval,
@@ -209,6 +206,7 @@ export default class levelTwo extends Phaser.Scene {
             });
         });
 
+        // display points update when hit collectible
         this.emitter = this.add.particles(0, 0, 'plusOne', {
             speed: { min: 50, max: 200 },
             gravityY: 200,
@@ -272,27 +270,23 @@ export default class levelTwo extends Phaser.Scene {
     }
 
     update() {
-
-        // update snowball position if needed
-        const speed = 1000; // pixels per second
-        const threshold = 1; // snap threshold for close distances
-        const distance = Math.abs(this.car.x - this.targetX); // calculate distance to target
-        // only move if the snowball isn't already at the target position
+        const speed = 1000; // in pixels per second
+        const threshold = 1; 
+        const distance = Math.abs(this.car.x - this.targetX);
+        // move if car not at the target position
         if (distance > threshold) {
-            // interpolate towards the target position
             const moveAmount = speed * this.game.loop.delta / 1000;
-            // esnure we don't overshoot the target position
             if (distance <= moveAmount) {
-                this.car.x = this.targetX; // snap to target
+                this.car.x = this.targetX;
             } else {
                 this.car.x += Math.sign(this.targetX - this.car.x) * moveAmount; // move closer
             }
         } else {
-            this.car.x = this.targetX; // snap to target
+            this.car.x = this.targetX;
         }
 
         if (!this.isRestarting && !this.levelCompleted) {
-            const groundScrollSpeed = 650; // pixels per second
+            const groundScrollSpeed = 650; // in pixels per second
             const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
             this.ground.tilePositionY -= pixelsPerFrame;
         }
@@ -300,6 +294,7 @@ export default class levelTwo extends Phaser.Scene {
         //slipping
         slip(this);
 
+        // cleanup for off-screen
         this.obstacles.getChildren().forEach(obstacle => {
             if (obstacle && obstacle.y > this.scale.height) {
                 obstacle.destroy();
@@ -307,33 +302,32 @@ export default class levelTwo extends Phaser.Scene {
                 obstacle.rotation += obstacle.rotationSpeed;
             }
         });
-
         this.items.getChildren().forEach(item => {
             if (item && item.y > this.scale.height) {
                 item.destroy();
             }
         });
 
+        // handle switching levels or restarting
         if (this.timeLeft == 0) {
-            this.levelUpSound.play({ volume: 0.5 });
+            this.levelUpSound.play();
             showLevelUpScene(this, 'levelThree', 3, this.score, this.selectedCarIndex);
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }
 
+        // update score and level
         this.scoreText.setText(`${this.score}`);
         this.levelText.setText(`${this.level}`);
     }
 
     changeLane(direction) {
-        // update lane index and ensure it stays within bounds
         this.currentLaneIndex = Phaser.Math.Clamp(
             this.currentLaneIndex + direction,
             0,
             this.lanes.length - 1
         );
-
-        // move snowball to new lane
+        
         this.targetX = this.lanes[this.currentLaneIndex];
     }
 

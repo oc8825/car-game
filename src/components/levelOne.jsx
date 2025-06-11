@@ -70,7 +70,6 @@ export default class levelOne extends Phaser.Scene {
         this.selectedCarIndex = data?.selectedCarIndex || 0;
     }
 
-
     preload() {
         preloadAssets(this);
     }
@@ -169,9 +168,15 @@ export default class levelOne extends Phaser.Scene {
         this.input.keyboard.on('keydown-LEFT', () => {
             this.changeLane(-1);
         });
-
         this.input.keyboard.on('keydown-RIGHT', () => {
             this.changeLane(1);
+        });
+        this.input.on('pointerdown', (pointer) => {
+            if (pointer.x < this.scale.width / 2) {
+                this.changeLane(-1);
+            } else {
+                this.changeLane(1);
+            }
         });
 
         // spawn obstacles
@@ -278,26 +283,23 @@ export default class levelOne extends Phaser.Scene {
     }
 
     update() {
-
-        const speed = 1000; // pixels per second
-        const threshold = 1; // snap threshold for close distances
-        const distance = Math.abs(this.car.x - this.targetX); // calculate distance to target
-        // only move if the snowball isn't already at the target position
+        const speed = 1000; // in pixels per second
+        const threshold = 1;
+        const distance = Math.abs(this.car.x - this.targetX); 
+        // move if car not at the target position
         if (distance > threshold) {
-            // interpolate towards the target position
             const moveAmount = speed * this.game.loop.delta / 1000;
-            // esnure we don't overshoot the target position
             if (distance <= moveAmount) {
-                this.car.x = this.targetX; // snap to target
+                this.car.x = this.targetX;
             } else {
                 this.car.x += Math.sign(this.targetX - this.car.x) * moveAmount; // move closer
             }
         } else {
-            this.car.x = this.targetX; // snap to target
+            this.car.x = this.targetX;
         }
 
         if (!this.isRestarting && !this.levelCompleted) {
-            const groundScrollSpeed = 500; // pixels per second
+            const groundScrollSpeed = 500; // in pixels per second
             const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
             this.ground.tilePositionY -= pixelsPerFrame;
         }
@@ -313,20 +315,21 @@ export default class levelOne extends Phaser.Scene {
                 obstacle.rotation += obstacle.rotationSpeed;
             }
         });
-
         this.items.getChildren().forEach(item => {
             if (item && item.y > this.scale.height) {
                 item.destroy();
             }
         });
 
+        // handle switching levels or restarting
         if (this.timeLeft == 0) {
             this.levelUpSound.play();
-            showLevelUpScene(this, 'levelTwo', 2, this.score, this.selectedCarIndex); // or 'levelThree', 3 for levelTwo.jsx
+            showLevelUpScene(this, 'levelTwo', 2, this.score, this.selectedCarIndex);
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }
 
+        // update score and level
         this.scoreText.setText(`${this.score}`);
         this.levelText.setText(`${this.level}`);
     }

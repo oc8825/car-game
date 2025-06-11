@@ -16,7 +16,7 @@ export default class chooseCar extends Phaser.Scene {
     create() {
         loadSounds(this);
 
-        // delay by one fram so camera is accurate
+        // delay by one frame so camera is accurate
         this.time.delayedCall(1, () => {
 
             // determine visible safe area
