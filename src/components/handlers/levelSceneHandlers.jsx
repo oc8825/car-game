@@ -131,7 +131,7 @@ export function winScreen(scene) {
     if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
 
-    scene.items.clear(true, true);
+    if (scene.items) scene.items.clear(true, true)
 
     const overlay = scene.add.graphics();
     overlay.fillStyle(0x000000, 0.7);
@@ -140,6 +140,54 @@ export function winScreen(scene) {
 
     const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
         "Check out what you won!", {
+        fontSize: '60px',
+        fill: '#fff',
+        align: 'center',
+        fontStyle: 'bold'
+    });
+    levelUpText.setOrigin(0.5);
+    levelUpText.setDepth(250);
+
+    scene.prizeButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'prizeButton')
+        .setInteractive().setDepth(250);
+    scene.prizeButton.on('pointerdown', () => {
+        scene.isRestarting = false;
+        scene.scene.start('youWin', { score: scene.score });
+    });
+
+    scene.prizeButton.on('pointerover', () => {
+        this.input.setDefaultCursor('pointer');
+    });
+
+    scene.prizeButton.on('pointerout', () => {
+        this.input.setDefaultCursor('auto');
+    });
+
+}
+
+export function winScreenFromChallenge(scene) {
+    if (scene.levelCompleted) return;
+    scene.levelCompleted = true;
+    scene.isScorePaused = true;
+    scene.isRestarting = false;
+
+    scene.physics.pause();
+
+    if (scene.timerEvent) scene.timerEvent.paused = true;
+    if (scene.scoreEvent) scene.scoreEvent.paused = true;
+    if (scene.car) scene.car.setVelocity(0, 0);
+    if (scene.tiltControl) scene.tiltControl.disableTiltControls();
+    scene.input.keyboard.removeAllListeners();
+
+    if (scene.items) scene.items.clear(true, true)
+
+    const overlay = scene.add.graphics();
+    overlay.fillStyle(0x000000, 0.8);
+    overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
+    overlay.setDepth(200);
+
+    const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
+        "Challenge level failed,\n but check out\nwhat you won!", {
         fontSize: '60px',
         fill: '#fff',
         align: 'center',
