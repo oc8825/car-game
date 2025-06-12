@@ -1,8 +1,8 @@
 import { loadSounds } from '/src/components/handlers/soundHandler';
 
-export default class instructionOne extends Phaser.Scene {
+export default class instructionsScren extends Phaser.Scene {
     constructor() {
-        super({ key: 'instructionOne' });
+        super({ key: 'instructionsScreen' });
     }
 
     preload() {

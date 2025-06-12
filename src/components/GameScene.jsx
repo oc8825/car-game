@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import loadingScreen from './loadingScreen';
 import startScreen from './startScreen';
-import instructionOne from './instructionOne';
+import instructionsScreen from './instructionsScreen';
 import chooseCar from './chooseCar';
 import levelOne from './levelOne';
 import levelTwo from './levelTwo';
@@ -37,7 +37,7 @@ const buildPhaserGame = ({ parent }) => {
             mode: scaleMode, 
             autoCenter: Phaser.Scale.CENTER_BOTH, 
         },
-        scene: [loadingScreen, startScreen, instructionOne, chooseCar, levelOne, levelTwo, levelThree, levelBonus, challengeInstructions, levelChallenge, prizeWheel, prizeWheelWin, youWin, GameScene], // add game scenes here
+        scene: [loadingScreen, startScreen, instructionsScreen, chooseCar, levelOne, levelTwo, levelThree, levelBonus, challengeInstructions, levelChallenge, prizeWheel, prizeWheelWin, youWin, GameScene], // add game scenes here
         physics: {
             default: 'arcade',
             arcade: {

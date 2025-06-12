@@ -22,7 +22,7 @@ export default class startScreen extends Phaser.Scene {
         this.playButton.setScale(0.5);
 
         this.playButton.on('pointerdown', () => {
-            this.scene.start('instructionOne');
+            this.scene.start('instructionsScreen');
             this.gameStartSound.play();
         });
 
