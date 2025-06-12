@@ -75,7 +75,7 @@ export default class levelBonus extends Phaser.Scene {
             finishLine.setVelocityY(800);
         });
 
-        // create lanes and start snowball in middle lane
+        // create lanes and start car in middle lane
         this.lanes = [this.scale.width / 6, this.scale.width / 2, this.scale.width * 5 / 6];
         this.currentLaneIndex = 1;
         this.targetX = this.lanes[this.currentLaneIndex];

@@ -1,9 +1,9 @@
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { challengeLevel } from './handlers/levelSceneHandlers';
 
-export default class bonusBuffer extends Phaser.Scene {
+export default class challengeInstructions extends Phaser.Scene {
     constructor() {
-        super({ key: 'bonusBuffer' });
+        super({ key: 'challengeInstructions' });
 
         this.score;
         this.selectedCarIndex;

@@ -312,9 +312,9 @@ export default class levelThree extends Phaser.Scene {
             }
         });
 
-        // handke switching levels or restarting
+        // handle switching levels or restarting
         if (this.timeLeft == 0) {
-            chalBufferLevel(this, 'bonusBuffer', this.score, this.selectedCarIndex)
+            chalBufferLevel(this, 'challengeInstructions', this.score, this.selectedCarIndex)
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }
