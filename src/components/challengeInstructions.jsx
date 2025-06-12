@@ -23,9 +23,9 @@ export default class challengeInstructions extends Phaser.Scene {
         loadSounds(this);
         let background;
         if (this.sys.game.device.os.desktop) {
-            background = this.add.image(0, 0, 'desktopBufferBackground');
+            background = this.add.image(0, 0, 'desktopChallengeInstructions');
         } else {
-            background = this.add.image(0, 0, 'mobileBufferBackground');
+            background = this.add.image(0, 0, 'mobileChallengeInstructions');
         }
         background.setOrigin(0, 0);
         background.setDisplaySize(this.scale.width, this.scale.height);

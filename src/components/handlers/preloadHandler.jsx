@@ -76,8 +76,8 @@ export function preloadAssets(scene) {
    scene.load.image('EOWin', '/src/assets/images/EOWin.png');
    scene.load.image('steeringWheel', '/src/assets/images/steeringWheel.png');
    scene.load.image('startButton', '/src/assets/images/startButton.png');
-   scene.load.image('mobileBufferBackground', '/src/assets/images/mobileBufferBackground.png');
-   scene.load.image('desktopBufferBackground', '/src/assets/images/desktopBufferBackground.png');
+   scene.load.image('mobileChallengeInstructions', '/src/assets/images/mobileChallengeInstructions.png');
+   scene.load.image('desktopChallengeInstructions', '/src/assets/images/desktopChallengeInstructions.png');
    scene.load.image('playAgain', '/src/assets/images/playAgain.png');
    scene.load.image('challengeBackground', '/src/assets/images/challengeBackground.png');
 
