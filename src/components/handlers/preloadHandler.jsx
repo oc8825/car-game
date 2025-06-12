@@ -24,7 +24,6 @@ export function preloadAssets(scene) {
    scene.load.image('block1', '/src/assets/images/block1.png');
    scene.load.image('block2', '/src/assets/images/block2.png');
    scene.load.image('block3', '/src/assets/images/block3.png');
-   scene.load.image('car', '/src/assets/images/car2.png');
    scene.load.image('hat', '/src/assets/images/hat.png');
    scene.load.image('socks', '/src/assets/images/socks.png');
    scene.load.image('shirt', '/src/assets/images/shirt.png');
@@ -38,7 +37,6 @@ export function preloadAssets(scene) {
    scene.load.audio('gameStart', '/src/assets/audio/gameStart.mp3');
    scene.load.image('scoreboard', '/src/assets/images/scoreboard.png');
    scene.load.image('restartButton', '/src/assets/images/restartButton.png');
-   scene.load.image('nextLevelButton', '/src/assets/images/nextLevelButton.png');
    scene.load.image('startBackground', '/src/assets/images/startBackground.png');
    scene.load.image('playButton', '/src/assets/images/playButton.png');
    scene.load.image('winBackground', '/src/assets/images/winTemp.png');
@@ -47,7 +45,7 @@ export function preloadAssets(scene) {
    scene.load.image('lamboWin', '/src/assets/images/lamboWin.png');
    scene.load.image('selectButton', '/src/assets/images/selectButton.png');
    scene.load.image('chooseCarButton', '/src/assets/images/chooseCarButton.png');
-   scene.load.image('chooseCarBackground', '/src/assets/images/chooseCarBkgnd.png');
+   scene.load.image('chooseCarBackground', '/src/assets/images/chooseCarBackground.png');
    scene.load.image('carBlue', '/src/assets/images/carBlue.png');
    scene.load.image('carOrange', '/src/assets/images/carOrange.png');
    scene.load.image('carPurple', '/src/assets/images/carPurple.png');
@@ -66,7 +64,6 @@ export function preloadAssets(scene) {
    scene.load.image('plusFour', '/src/assets/animations/collecting/plusFour.png');
    scene.load.image('plusFive', '/src/assets/animations/collecting/plusFive.png');
    scene.load.image('minusFive', '/src/assets/animations/collecting/minusFive.png');
-   scene.load.image('highlight', '/src/assets/images/highlight.png');
    scene.load.image('jimmyWin', '/src/assets/images/jimmyWin.png');
    scene.load.image('caliWin', '/src/assets/images/caliWin.png');
    scene.load.image('jessWin', '/src/assets/images/jessWin.png');

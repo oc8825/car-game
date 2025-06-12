@@ -5,7 +5,6 @@ export default class chooseCar extends Phaser.Scene {
         super({ key: 'chooseCar' });
         this.selectedCarIndex = 0;
         this.carColors = ['carRed', 'carOrange', 'carYellow', 'carGreen', 'carBlue', 'carPurple'];
-        this.highlightSprite = null;
     }
 
     preload() {
