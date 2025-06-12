@@ -77,6 +77,8 @@ export default class levelTwo extends Phaser.Scene {
 
         loadSounds(this);
 
+        this.levelUpSound.play();
+
         // background
         this.ground = this.add.tileSprite(
             this.scale.width / 2,
@@ -312,7 +314,6 @@ export default class levelTwo extends Phaser.Scene {
 
         // handle switching levels or restarting
         if (this.timeLeft == 0) {
-            this.levelUpSound.play();
             showLevelUpScene(this, 'levelThree', 3, this.score, this.selectedCarIndex);
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);

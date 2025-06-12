@@ -70,7 +70,7 @@ export default class levelOne extends Phaser.Scene {
     }
 
     preload() {
-        
+        this.load.audio('winGame', '/src/assets/audio/winGame.wav');
     }
 
     create() {
@@ -87,6 +87,8 @@ export default class levelOne extends Phaser.Scene {
         this.tiltControl.enableTiltControls(() => {
             this.scene.start();
         });
+
+        this.levelUpSound.play();
 
         // background
         this.ground = this.add.tileSprite(
@@ -325,7 +327,6 @@ export default class levelOne extends Phaser.Scene {
 
         // handle switching levels or restarting
         if (this.timeLeft == 0) {
-            this.levelUpSound.play();
             showLevelUpScene(this, 'levelTwo', 2, this.score, this.selectedCarIndex);
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);

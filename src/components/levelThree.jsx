@@ -78,6 +78,8 @@ export default class levelThree extends Phaser.Scene {
 
         loadSounds(this);
 
+        this.levelUpSound.play();
+
         // background
         this.ground = this.add.tileSprite(
             this.scale.width / 2,
@@ -320,9 +322,6 @@ export default class levelThree extends Phaser.Scene {
         }
 
         // update score and level
-        /* const length = `${this.score}`.length;
-        this.scoreDigitLength = length;
-        this.updateScoreText(); */
         this.scoreText.setText(`${this.score}`);
         this.levelText.setText(`${this.level}`);
 

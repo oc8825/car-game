@@ -60,6 +60,8 @@ export default class levelBonus extends Phaser.Scene {
 
         loadSounds(this);
 
+        this.levelUpSound.play();
+
         // background
         this.ground = this.add.tileSprite(
             this.scale.width / 2,

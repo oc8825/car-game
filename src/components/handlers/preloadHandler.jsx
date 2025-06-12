@@ -7,7 +7,7 @@ export function preloadAssets(scene) {
    scene.load.audio('oilSlip', '/src/assets/audio/oilSlip.mp3');
    scene.load.audio('prize', '/src/assets/audio/prize.mp3');
    scene.load.audio('startBeeps', '/src/assets/audio/startBeeps.mp3');
-   scene.load.audio('winGame', '/src/assets/audio/winGame.mp3');
+   scene.load.audio('winGame', '/src/assets/audio/winGame.wav');
    scene.load.audio('gameStart', '/src/assets/audio/gameStart.mp3');
    scene.load.audio('select', '/src/assets/audio/selectCar.mp3');
    scene.load.audio('wrong', '/src/assets/audio/wrong.mp3');
