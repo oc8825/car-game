@@ -33,7 +33,8 @@ export function preloadAssets(scene) {
    scene.load.image('tire', '/src/assets/images/tire.png');
    scene.load.image('waterBottle', '/src/assets/images/waterBottle.png');
    scene.load.image('prizeButton', '/src/assets/images/prizeButton.png')
-   scene.load.image('instructionsBackground', '/src/assets/images/instructionsBackground.png');
+   scene.load.image('mobileInstructions', '/src/assets/images/mobileInstructions.png');
+   scene.load.image('desktopInstructions', '/src/assets/images/desktopInstructions.png');
    scene.load.audio('gameStart', '/src/assets/audio/gameStart.mp3');
    scene.load.image('scoreboard', '/src/assets/images/scoreboard.png');
    scene.load.image('restartButton', '/src/assets/images/restartButton.png');
