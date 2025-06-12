@@ -34,12 +34,12 @@ export function preloadAssets(scene) {
    scene.load.image('tire', '/src/assets/images/tire.png');
    scene.load.image('waterBottle', '/src/assets/images/waterBottle.png');
    scene.load.image('prizeButton', '/src/assets/images/prizeButton.png')
-   scene.load.image('backgroundTwo', '/src/assets/images/backgroundTwo.png');
+   scene.load.image('instructionsBackground', '/src/assets/images/instructionsBackground.png');
    scene.load.audio('gameStart', '/src/assets/audio/gameStart.mp3');
    scene.load.image('scoreboard', '/src/assets/images/scoreboard.png');
    scene.load.image('restartButton', '/src/assets/images/restartButton.png');
    scene.load.image('nextLevelButton', '/src/assets/images/nextLevelButton.png');
-   scene.load.image('startBackground', '/src/assets/images/background12.png');
+   scene.load.image('startBackground', '/src/assets/images/startBackground.png');
    scene.load.image('playButton', '/src/assets/images/playButton.png');
    scene.load.image('winBackground', '/src/assets/images/winTemp.png');
    scene.load.image('rightArrow', '/src/assets/images/rightArrow.png');
@@ -73,7 +73,7 @@ export function preloadAssets(scene) {
    scene.load.image('thomasWin', '/src/assets/images/thomasWin.png');
    scene.load.image('brandonWin', '/src/assets/images/brandonWin.png');
    scene.load.image('gautamWin', '/src/assets/images/gautamWin.png');
-   scene.load.image('blankBackground', '/src/assets/images/blankBackground.png');
+   scene.load.image('prizeWheelBackground', '/src/assets/images/prizeWheelBackground.png');
    scene.load.image('backupPin', '/src/assets/images/backupPin.png');
    scene.load.image('spinButton', '/src/assets/images/spinButton.png');
    scene.load.image('wheel', '/src/assets/images/prizeWheel.png');

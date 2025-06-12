@@ -12,7 +12,7 @@ export default class prizeWheel extends Phaser.Scene {
   create() {
     loadSounds(this);
 
-    let background = this.add.image(0, 0, 'blankBackground');
+    let background = this.add.image(0, 0, 'prizeWheelBackground');
     background.setOrigin(0, 0);
     background.setDisplaySize(this.scale.width, this.scale.height);
     background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));

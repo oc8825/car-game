@@ -12,7 +12,7 @@ export default class instructionsScren extends Phaser.Scene {
     create() {
         loadSounds(this);
 
-        let background = this.add.image(0, 0, 'backgroundTwo').setOrigin(0, 0);
+        let background = this.add.image(0, 0, 'instructionsBackground').setOrigin(0, 0);
         background.setDisplaySize(this.scale.width, this.scale.height);  // Set the background size to fit the screen
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
