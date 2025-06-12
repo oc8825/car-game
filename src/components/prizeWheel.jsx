@@ -24,11 +24,11 @@ export default class prizeWheel extends Phaser.Scene {
     this.wheel.setDepth(1); // base depth
     this.wheel.setScale(1.62);
 
-    this.wheelbackground = this.add.image(centerX, centerY, 'pin').setOrigin(0.5);
+    this.wheelbackground = this.add.image(centerX, centerY, 'wheelBackdrop').setOrigin(0.5);
     this.wheelbackground.setDepth(1);
     this.wheelbackground.setScale(1.8225);
 
-    this.pin = this.add.image(centerX + 4, centerY - 323, 'backupPin').setOrigin(0.5); // 400 too high
+    this.pin = this.add.image(centerX + 4, centerY - 323, 'pin').setOrigin(0.5); // 400 too high
     this.pin.setDepth(2);
     this.pin.setScale(0.4);
 

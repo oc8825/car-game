@@ -69,10 +69,10 @@ export function preloadAssets(scene) {
    scene.load.image('brandonWin', '/src/assets/images/brandonWin.png');
    scene.load.image('gautamWin', '/src/assets/images/gautamWin.png');
    scene.load.image('prizeWheelBackground', '/src/assets/images/prizeWheelBackground.png');
-   scene.load.image('backupPin', '/src/assets/images/backupPin.png');
+   scene.load.image('pin', '/src/assets/images/pin.png');
    scene.load.image('spinButton', '/src/assets/images/spinButton.png');
    scene.load.image('wheel', '/src/assets/images/prizeWheel.png');
-   scene.load.image('pin', '/src/assets/images/pin.png');
+   scene.load.image('wheelBackdrop', '/src/assets/images/wheelBackdrop.png');
    scene.load.image('EOWin', '/src/assets/images/EOWin.png');
    scene.load.image('steeringWheel', '/src/assets/images/steeringWheel.png');
    scene.load.image('startButton', '/src/assets/images/startButton.png');
