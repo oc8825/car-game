@@ -43,6 +43,10 @@ export function handleObstacleCollision(scene, car, obstacle) {
     }
 
     obstacle.destroy();
+
+    const length = `${scene.score}`.length;
+    scene.scoreDigitLength = length;
+    scene.updateScoreText();
 }
 
 export function handleItemCollision(scene, car, item) {
@@ -85,5 +89,9 @@ export function handleItemCollision(scene, car, item) {
     }
 
     item.destroy();
+
+    const length = `${scene.score}`.length;
+    scene.scoreDigitLength = length;
+    scene.updateScoreText();
 }
 
