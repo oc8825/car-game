@@ -39,11 +39,9 @@ export function preloadAssets(scene) {
    scene.load.image('restartButton', '/src/assets/images/restartButton.png');
    scene.load.image('startBackground', '/src/assets/images/startBackground.png');
    scene.load.image('playButton', '/src/assets/images/playButton.png');
-   scene.load.image('winBackground', '/src/assets/images/winTemp.png');
    scene.load.image('rightArrow', '/src/assets/images/rightArrow.png');
    scene.load.image('leftArrow', '/src/assets/images/leftArrow.png');
    scene.load.image('lamboWin', '/src/assets/images/lamboWin.png');
-   scene.load.image('selectButton', '/src/assets/images/selectButton.png');
    scene.load.image('chooseCarButton', '/src/assets/images/chooseCarButton.png');
    scene.load.image('chooseCarBackground', '/src/assets/images/chooseCarBackground.png');
    scene.load.image('carBlue', '/src/assets/images/carBlue.png');
