@@ -162,6 +162,7 @@ export default class levelThree extends Phaser.Scene {
         });
         this.input.on('pointerdown', (pointer) => {
             if (this.levelCompleted) return;
+            if (this.isRestarting) return;
             
             if (pointer.x < this.scale.width / 2) {
                 this.changeLane(-1);

@@ -80,7 +80,7 @@ export default class levelChallenge extends Phaser.Scene {
             const duration = pointer.upTime - this.startTime;
 
             const minSwipeDistance = 50;
-            const maxSwipeDuration = 750;
+            const maxSwipeDuration = 1000;
             const maxTapDistance = 20;
 
             if (duration < maxSwipeDuration) {
