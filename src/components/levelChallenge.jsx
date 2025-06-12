@@ -63,9 +63,40 @@ export default class levelChallenge extends Phaser.Scene {
             this.strikeIcons.push(icon);
         }
 
-        // hande user reaction
+        // hande user reaction for desktop
         this.input.keyboard.on('keydown', (event) => {
             this.handleInput(event.code);
+        });
+
+        // handle user reaction for mobile
+        this.input.on('pointerdown', (pointer) => {
+            this.startX = pointer.x;
+            this.startY = pointer.y;
+            this.startTime = pointer.downTime;
+        });
+        this.input.on('pointerup', (pointer) => {
+            const deltaX = pointer.x - this.startX;
+            const deltaY = pointer.y - this.startY;
+            const duration = pointer.upTime - this.startTime;
+
+            const minSwipeDistance = 50;
+            const maxSwipeDuration = 750;
+            const maxTapDistance = 20;
+
+            if (duration < maxSwipeDuration) {
+                // swipe
+                if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaX) > Math.abs(deltaY)) {
+                    if (deltaX < 0) {
+                        this.handleInput('ArrowLeft');
+                    } else {
+                        this.handleInput('ArrowRight');
+                    }
+                }
+                // tap
+                else if (Math.abs(deltaX) < maxTapDistance && Math.abs(deltaY) < maxTapDistance) {
+                    this.handleInput('Space');
+                }
+            }
         });
         
         this.scheduleNextCommand();

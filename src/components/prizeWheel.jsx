@@ -100,7 +100,7 @@ export default class prizeWheel extends Phaser.Scene {
       "Gautam",
       "Brandon",
       "Vaidhy",
-      "ErikaandOwen ",
+      "ErikaandOwen",
       "Thomas"
     ];
 
