@@ -70,7 +70,6 @@ export default class levelOne extends Phaser.Scene {
     }
 
     preload() {
-        this.load.audio('winGame', '/src/assets/audio/winGame.wav');
     }
 
     create() {
