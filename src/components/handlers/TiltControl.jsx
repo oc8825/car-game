@@ -2,7 +2,7 @@ export class TiltControl {
     constructor(scene, callback) {
         this.scene = scene;
         this.callback = callback;
-        this.tiltThreshold = 3; // sensitivity
+        this.tiltThreshold = 2; // sensitivity
         this.laneChangeCooldown = false;
         this.isTiltSupported = this.checkTiltSupport();
         this.isTiltEnabled = false;
