@@ -1,4 +1,3 @@
-import './styles.css'
 import Phaser from 'phaser'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
