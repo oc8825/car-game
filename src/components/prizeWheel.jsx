@@ -12,6 +12,7 @@ export default class prizeWheel extends Phaser.Scene {
   create() {
     loadSounds(this);
 
+    // background
     let background = this.add.image(0, 0, 'prizeWheelBackground');
     background.setOrigin(0, 0);
     background.setDisplaySize(this.scale.width, this.scale.height);
@@ -20,8 +21,9 @@ export default class prizeWheel extends Phaser.Scene {
     const centerX = this.cameras.main.centerX;
     const centerY = this.cameras.main.centerY;
 
+    // all parts of wheel
     this.wheel = this.add.image(centerX, centerY, 'wheel').setOrigin(0.5);
-    this.wheel.setDepth(1); // base depth
+    this.wheel.setDepth(1);
     this.wheel.setScale(1.62);
 
     this.wheelbackground = this.add.image(centerX, centerY, 'wheelBackdrop').setOrigin(0.5);
@@ -32,10 +34,10 @@ export default class prizeWheel extends Phaser.Scene {
     this.pin.setDepth(2);
     this.pin.setScale(0.4);
 
+    // position spin button and give it functionality
     this.spinButton = this.add.image(centerX, centerY, 'spinButton').setOrigin(0.5).setInteractive();
     this.spinButton.setDepth(3);
     this.spinButton.setScale(0.324);
-
     this.spinButton.on('pointerdown', () => {
       if (!this.hasSpun) {  
         this.spinWheel();
@@ -44,21 +46,18 @@ export default class prizeWheel extends Phaser.Scene {
         this.spinButton.setInteractive(false);  
       }
     });
-
     this.spinButton.on('pointerover', () => {
       if (!this.hasSpun) {
         this.spinButton.setScale(0.4);
         this.input.setDefaultCursor('pointer');
       }
     });
-
     this.spinButton.on('pointerout', () => {
       if (!this.hasSpun) {
         this.spinButton.setScale(0.38);
         this.input.setDefaultCursor('auto');
       }
     });
-
     this.isSpinning = false;
     this.hasSpun = false;  
   }
@@ -67,8 +66,8 @@ export default class prizeWheel extends Phaser.Scene {
     if (this.isSpinning) return;
 
     this.isSpinning = true;
-    const rounds = Phaser.Math.Between(2, 4); // full spins
-    const extraDegrees = Phaser.Math.Between(0, 360); // extra rotation
+    const rounds = Phaser.Math.Between(2, 4); // random number of full spins
+    const extraDegrees = Phaser.Math.Between(0, 360); // random amount of extra rotation
     const totalDegrees = rounds * 360 + extraDegrees;
 
     this.tweens.add({

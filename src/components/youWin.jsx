@@ -14,9 +14,9 @@ export default class youWin extends Phaser.Scene {
         loadSounds(this);
         this.prizeSound.play();
 
+        // set background depending on score
         const score = data.score || 0;
         let backgroundKey = '0Win';
-
         if (score >= 0 && score < 100) {
             backgroundKey = '0Win';
         } else if (score >= 100 && score < 150) {
@@ -32,16 +32,15 @@ export default class youWin extends Phaser.Scene {
         } else if (score >= 350){
             this.scene.start('prizeWheel');
         }
-
         let background = this.add.image(0, 0, backgroundKey);
         background.setOrigin(0, 0);  
         background.setDisplaySize(this.scale.width, this.scale.height);  
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
+        // play again button
         const playAgainButton = this.add.sprite(this.scale.width / 2, this.scale.height *.85, 'playAgain')
             .setInteractive()
             .setDepth(250);
-
         playAgainButton.on('pointerdown', () => {
             this.isRestarting = false;
 
@@ -54,11 +53,9 @@ export default class youWin extends Phaser.Scene {
 
             this.scene.start('chooseCar');
         });
-
         playAgainButton.on('pointerover', () => {
             this.input.setDefaultCursor('pointer');
         });
-
         playAgainButton.on('pointerout', () => {
             this.input.setDefaultCursor('auto');
         });

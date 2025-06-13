@@ -47,7 +47,7 @@ export default class levelBonus extends Phaser.Scene {
         this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
         this.isScorePaused = false;
-        this.timeLeft = 25; // RESET time
+        this.timeLeft = 25;
         this.isRestarting = false;
         this.levelCompleted = false;
         this.currentLaneIndex = 1;
@@ -254,7 +254,7 @@ export default class levelBonus extends Phaser.Scene {
             if (distance <= moveAmount) {
                 this.car.x = this.targetX;
             } else {
-                this.car.x += Math.sign(this.targetX - this.car.x) * moveAmount; // move closer
+                this.car.x += Math.sign(this.targetX - this.car.x) * moveAmount;
             }
         } else {
             this.car.x = this.targetX;

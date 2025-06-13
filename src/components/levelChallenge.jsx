@@ -162,6 +162,7 @@ export default class levelChallenge extends Phaser.Scene {
 
         let correct = false;
 
+        // animate and set correct when reaction matches instruction
         if (this.currentCommand === 'Turn Left' && keyCode === 'ArrowLeft') {
             correct = true;
             this.animateSteeringWheel('left');
@@ -176,11 +177,13 @@ export default class levelChallenge extends Phaser.Scene {
             this.hornSound.play();
         }
 
+        // after a response, get rid of the timer
         if (this.responseTimer) {
             this.responseTimer.remove();
             this.responseTimer = null;
         }
 
+        // correct response
         if (correct) {
             if (this.commandText) {
                 this.commandText.destroy();
@@ -196,7 +199,9 @@ export default class levelChallenge extends Phaser.Scene {
                 this.scheduleNextCommand();
             });
 
-        } else {
+        } 
+        // incorrect response
+        else {
             if (this.commandText) {
                 this.commandText.destroy();
                 this.commandText = null;

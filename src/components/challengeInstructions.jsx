@@ -5,6 +5,8 @@ export default class challengeInstructions extends Phaser.Scene {
     constructor() {
         super({ key: 'challengeInstructions' });
 
+        // won't need score and selectedCarIndex in this scene,
+        // but need to pass to future scenes
         this.score;
         this.selectedCarIndex;
     }
@@ -21,6 +23,9 @@ export default class challengeInstructions extends Phaser.Scene {
     create() {
 
         loadSounds(this);
+
+        // show different instructions based on playing with keys on
+        // desktop or touch on mobile
         let background;
         if (this.sys.game.device.os.desktop) {
             background = this.add.image(0, 0, 'desktopChallengeInstructions');
@@ -34,17 +39,16 @@ export default class challengeInstructions extends Phaser.Scene {
         this.startButton = this.add.image(this.scale.width / 2, this.scale.height * 0.73, 'startButton').setInteractive();
         this.startButton.setScale(0.75);
 
+        // button to start challenge level
         this.startButton.on('pointerdown', () => {
             challengeLevel(this, 'levelChallenge', this.score, this.selectedCarIndex);
             this.gameStartSound.play();
         });
-
         this.startButton.on('pointerover', () => {
             this.startButton.setScale(0.78);
             this.input.setDefaultCursor('pointer');
 
         });
-
         this.startButton.on('pointerout', () => {
             this.startButton.setScale(0.75);
             this.input.setDefaultCursor('auto');

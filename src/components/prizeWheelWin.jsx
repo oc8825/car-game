@@ -12,9 +12,9 @@ export default class prizeWheelWin extends Phaser.Scene {
     create(data) {
         loadSounds(this);
         
-        const score = data.score || 50;
+        // set background depending on result from wheel
+        const score = data.score || 0;
         let backgroundKey = 'EOWin';
-
         if (data.prize.includes('Jess')) {
             backgroundKey = 'jessWin';
             this.prizeSound.play();
@@ -47,16 +47,15 @@ export default class prizeWheelWin extends Phaser.Scene {
             backgroundKey = 'EOWin';
             this.youLostSound.play();
         }
-
         let background = this.add.image(0, 0, backgroundKey);
         background.setOrigin(0, 0);
         background.setDisplaySize(this.scale.width, this.scale.height);
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
+        // play again button
         const playAgainButton = this.add.sprite(this.scale.width / 2, this.scale.height *.85, 'playAgain')
             .setInteractive()
             .setDepth(250);
-
         playAgainButton.on('pointerdown', () => {
             this.isRestarting = false;
 
@@ -70,11 +69,9 @@ export default class prizeWheelWin extends Phaser.Scene {
 
             this.scene.start('chooseCar');
         });
-
         playAgainButton.on('pointerover', () => {
             this.input.setDefaultCursor('pointer');
         });
-
         playAgainButton.on('pointerout', () => {
             this.input.setDefaultCursor('auto');
         });
