@@ -105,12 +105,15 @@ export class TiltControl {
         }
 
         if (!this.laneChangeCooldown) {
-            if (tilt > this.tiltThreshold) {
-                this.callback(1); // move right
-                this.startCooldown();
-            } else if (tilt < -this.tiltThreshold) {
-                this.callback(-1); // move left
-                this.startCooldown();
+            if (!this.levelCompleted && !this.isRestarting) {
+                if (tilt > this.tiltThreshold) {
+                    this.callback(1); // move right
+                    this.startCooldown();
+                }
+                else if (tilt < -this.tiltThreshold) {
+                    this.callback(-1); // move left
+                    this.startCooldown();
+                }
             }
         }
     }
