@@ -109,14 +109,14 @@ export function restartLevel(scene) {
         scene.input.setDefaultCursor('auto');
     });
 
-    const loseText = scene.add.text(scene.scale.width / 2, scene.scale.height *.4, 'CRASH!', {
+    scene.add.text(scene.scale.width / 2, scene.scale.height *.4, 'CRASH!', {
         fontSize: '100px',
         fill: '#fff',
         align: 'center',
         fontStyle: 'bold'
     }).setOrigin(0.5).setDepth(250);
 
-    const scoreText = scene.add.text(scene.scale.width / 2, scene.scale.height * .455 , `Score: ${scene.score}`, {
+    scene.add.text(scene.scale.width / 2, scene.scale.height * .455 , `Score: ${scene.score}`, {
         fontSize: '60px',
         fill: '#fff',
         align: 'center',
