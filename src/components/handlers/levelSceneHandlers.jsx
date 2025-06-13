@@ -87,7 +87,7 @@ export function restartLevel(scene) {
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(220);
 
-    const restartButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'restartButton')
+    const restartButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height * .55, 'restartButton')
         .setInteractive()
         .setDepth(250);
 
@@ -109,8 +109,15 @@ export function restartLevel(scene) {
         scene.input.setDefaultCursor('auto');
     });
 
-    const loseText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5, 'Game Over!', {
-        fontSize: '75px',
+    const loseText = scene.add.text(scene.scale.width / 2, scene.scale.height *.4, 'CRASH!', {
+        fontSize: '100px',
+        fill: '#fff',
+        align: 'center',
+        fontStyle: 'bold'
+    }).setOrigin(0.5).setDepth(250);
+
+    const scoreText = scene.add.text(scene.scale.width / 2, scene.scale.height * .455 , `Score: ${scene.score}`, {
+        fontSize: '60px',
         fill: '#fff',
         align: 'center',
         fontStyle: 'bold'
