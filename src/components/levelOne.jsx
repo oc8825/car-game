@@ -80,7 +80,7 @@ export default class levelOne extends Phaser.Scene {
 
         loadSounds(this);
 
-        // only ask for tilt permissions in level one
+        // enable tilting
         this.scene.pause();
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
         this.tiltControl.enableTiltControls(() => {
