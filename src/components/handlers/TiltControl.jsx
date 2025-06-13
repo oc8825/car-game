@@ -1,27 +1,3 @@
-/* async function requestTiltPermission() {
-  if (typeof DeviceOrientationEvent?.requestPermission === 'function') {
-    try {
-      const result = await DeviceOrientationEvent.requestPermission();
-      if (result === 'granted') {
-        localStorage.setItem('tiltGranted', 'true');
-        window.addEventListener('deviceorientation', handleOrientation);
-      }
-    } catch (e) {
-      console.error('Permission request denied:', e);
-    }
-  } else {
-    // For non-iOS devices or browsers that don't require permission
-    window.addEventListener('deviceorientation', handleOrientation);
-  }
-}
-
-// On page load
-if (localStorage.getItem('tiltGranted') === 'true') {
-  // still need a user gesture to re-request
-  document.getElementById('startButton').addEventListener('click', requestTiltPermission);
-}
-*/
-
 export class TiltControl {
     constructor(scene, callback) {
         this.scene = scene;
@@ -105,7 +81,7 @@ export class TiltControl {
         }
 
         if (!this.laneChangeCooldown) {
-            if (!this.levelCompleted && !this.isRestarting) {
+            if (!this.scene.levelCompleted && !this.scene.isRestarting) {
                 if (tilt > this.tiltThreshold) {
                     this.callback(1); // move right
                     this.startCooldown();
