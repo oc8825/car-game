@@ -14,29 +14,23 @@ export function spawnSpecificObstacle(scene, type, obstacles, xPosition, level) 
         velocityY = 800;
     }
 
-
+    // all obstacles move same speed as background, except tire moves
+    // toward player
     switch (type) {
         case 'oil1':
         case 'oil2':
         case 'oil3':
-            obstacle.setVelocityY(velocityY);
-            break;
         case 'cone':
-            obstacle.setVelocityY(velocityY);
-            break;
         case 'block1':
         case 'block2':
         case 'block3':
+        case 'spikes':
             obstacle.setVelocityY(velocityY);
             break;
         case 'tire':
             obstacle.setVelocityY(velocityY + 250);
             obstacle.rotationSpeed = 0.07;
             break;
-        case 'spikes':
-            obstacle.setVelocityY(velocityY);
-            break;
-
     }
 }
 
@@ -56,19 +50,16 @@ export function spawnSpecificItem(scene, type, items, xPosition, level) {
         velocityY = 800;
     }
 
+    // all items move same speed as background, except foam finger and
+    // water bottle move towards player
     switch (type) {
         case 'hat':
-            item.setVelocityY(velocityY);
-            break;
         case 'socks':
-            item.setVelocityY(velocityY);
-            break;
         case 'shirt':
             item.setVelocityY(velocityY);
             break;
         case 'foamFinger':
             item.setVelocityY(velocityY + 100);
-            item.rotationSpeed = 0.01;
             break;
         case 'waterBottle':
             item.setVelocityY(velocityY + 200);

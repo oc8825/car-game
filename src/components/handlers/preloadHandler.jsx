@@ -1,5 +1,5 @@
 export function preloadAssets(scene) {
-
+   // preload sound effects
    scene.load.audio('crash', 'assets/audio/crash.mp3');
    scene.load.audio('collect', 'assets/audio/collect.mp3');
    scene.load.audio('gameOver', 'assets/audio/gameOver.mp3');
@@ -15,9 +15,11 @@ export function preloadAssets(scene) {
    scene.load.audio('skid', 'assets/audio/skid.mp3');
    scene.load.audio('horn', 'assets/audio/horn.mp3');
    scene.load.audio('click', 'assets/audio/click.mp3');
-   scene.load.image('finishLine', 'assets/images/finishLine.png');
    scene.load.audio('wheelSpin', 'assets/audio/wheelSpin.mp3');
    scene.load.audio('youLost', 'assets/audio/youLost.mp3');
+
+   // preload image assets
+   scene.load.image('finishLine', 'assets/images/finishLine.png');
    scene.load.image('ground', 'assets/images/background.png');
    scene.load.image('oil1', 'assets/images/oil1.png');
    scene.load.image('oil2', 'assets/images/oil2.png');
@@ -83,10 +85,10 @@ export function preloadAssets(scene) {
    scene.load.image('playAgain', 'assets/images/playAgain.png');
    scene.load.image('challengeBackground', 'assets/images/challengeBackground.png');
 
+   // preload all frames for animations
    for (let i = 1; i <= 40; i++) {
       scene.load.image(`confetti${i}`, `assets/animations/confetti/confetti (${i}).png`);
    }
-
    for (let i = 1; i <= 11; i++) {
       scene.load.image(`explosion${i}`, `assets/animations/explosion/explosion (${i}).png`);
    }
