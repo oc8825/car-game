@@ -9,8 +9,6 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
     if (scene.timerEvent) scene.timerEvent.paused = true;
     if (scene.scoreEvent) scene.scoreEvent.paused = true;
     if (scene.car) scene.car.setVelocity(0, 0);
-    // is the following line needed? Figure out when tryu to get tilting into all levels without asking permission every time
-    // same question for other functions in this file
     if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
 
