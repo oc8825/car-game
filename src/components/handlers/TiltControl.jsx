@@ -9,6 +9,7 @@ export class TiltControl {
         this.laneChangeCooldown = false;
         this.isTiltSupported = this.checkTiltSupport();
         this.isTiltEnabled = false;
+        this.boundHandleMotion = this.handleMotion.bind(this)
     }
 
     checkTiltSupport() {
@@ -21,7 +22,7 @@ export class TiltControl {
     // ask for permission and turn on tilt controls
     enableTiltControls() {
         if (!this.isTiltSupported) {
-            window.addEventListener('devicemotion', this.handleMotion.bind(this));
+            window.addEventListener('devicemotion', this.boundHandleMotion);
             this.isTiltEnabled = true;
             this.scene.scene.resume(); 
             return;
@@ -50,7 +51,7 @@ export class TiltControl {
                         if (response === 'granted') {
                             console.log('Permission granted for tilt controls!');
                             TiltControl.hasEnabledTilt = true;
-                            window.addEventListener('devicemotion', this.handleMotion.bind(this));
+                            window.addEventListener('devicemotion', this.boundHandleMotion);
                             document.body.removeChild(enableTiltButton);
                             this.scene.scene.resume();
                             this.isTiltEnabled = true;
@@ -68,7 +69,7 @@ export class TiltControl {
             else {
                 console.log('Tilt controls enabled (no permission required).');
                 TiltControl.hasEnabledTilt = true;
-                window.addEventListener('devicemotion', this.handleMotion.bind(this));
+                window.addEventListener('devicemotion', this.boundHandleMotion);
                 document.body.removeChild(enableTiltButton);
                 this.scene.scene.resume();
                 this.isTiltEnabled = true; 
@@ -81,14 +82,14 @@ export class TiltControl {
     // already enabling it previously
     enableTiltControlsIfPreviouslyEnabled() {
         if (!this.isTiltSupported) {
-            window.addEventListener('devicemotion', this.handleMotion.bind(this));
+            window.addEventListener('devicemotion', this.boundHandleMotion);
             this.isTiltEnabled = true;
             this.scene.scene.resume(); 
             return;
         }
         
         if (TiltControl.hasEnabledTilt) {
-            window.addEventListener('devicemotion', this.handleMotion.bind(this));
+            window.addEventListener('devicemotion', this.boundHandleMotion);
             this.isTiltEnabled = true;
             this.scene.scene.resume();
         }
@@ -132,7 +133,7 @@ export class TiltControl {
 
     disableTiltControls() {
         if (this.isTiltEnabled) {
-            window.removeEventListener('devicemotion', this.handleMotion.bind(this));
+            window.removeEventListener('devicemotion', this.boundHandleMotion);
             this.isTiltEnabled = false;
             console.log('Tilt controls have been disabled.');
         }
