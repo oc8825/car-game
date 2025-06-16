@@ -15,10 +15,11 @@ export class TiltControl {
         );
     }
 
+    // ask for permission and turn on tilt controls
     enableTiltControls() {
         if (!this.isTiltSupported) {
             window.addEventListener('devicemotion', this.handleMotion.bind(this));
-            this.isTilTEnabled = true;
+            this.isTiltEnabled = true;
             this.scene.scene.resume(); 
             return;
         }
@@ -39,6 +40,7 @@ export class TiltControl {
         document.body.appendChild(enableTiltButton);
 
         enableTiltButton.addEventListener('click', () => {
+            // ask permission if needed
             if (typeof DeviceMotionEvent.requestPermission === 'function') {
                 DeviceMotionEvent.requestPermission()
                     .then((response) => {
@@ -47,7 +49,7 @@ export class TiltControl {
                             window.addEventListener('devicemotion', this.handleMotion.bind(this));
                             document.body.removeChild(enableTiltButton);
                             this.scene.scene.resume();
-                            this.isTiltEnabled = true; // Mark tilt controls as enabled
+                            this.isTiltEnabled = true;
                         } else {
                             console.error('Permission denied for tilt controls.');
                             alert('Permission denied. Tilt controls are unavailable.');
@@ -57,17 +59,20 @@ export class TiltControl {
                         console.error('Error requesting permission:', error);
                         alert('Unable to enable tilt controls. ' + error);
                     });
-            } else {
+            } 
+            // turn on automatically if don't need permission
+            else {
                 console.log('Tilt controls enabled (no permission required).');
                 window.addEventListener('devicemotion', this.handleMotion.bind(this));
                 document.body.removeChild(enableTiltButton);
                 this.scene.scene.resume();
-                this.isTiltEnabled = true; // Mark tilt controls as enabled
+                this.isTiltEnabled = true; 
 
             }
         });
     }
 
+    // change lanes depending on tilt direction
     handleMotion(event) {
         let tilt;
         const angle = screen.orientation.angle;
@@ -94,6 +99,8 @@ export class TiltControl {
         }
     }
 
+    // add cooldown so the player doesn't accidentally change lanes
+    // multiple times for one tilt
     startCooldown() {
         this.laneChangeCooldown = true;
         this.scene.time.delayedCall(300, () => {
