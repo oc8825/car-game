@@ -19,9 +19,13 @@ export default class youWin extends Phaser.Scene {
         let backgroundKey = '0Win';
         if (score >= 0 && score < 100) {
             backgroundKey = '0Win';
-        } else if (score >= 100 && score < 150) {
+        } else if (score >= 100 && score < 143) {
             backgroundKey = '100Win';
-        } else if (score >= 150 && score < 200) {
+        } else if (score == 143) {
+            backgroundKey = '143Win';
+        } else if (score > 143 && score < 150) {
+            backgroundKey = '100Win';
+        }else if (score >= 150 && score < 200) {
             backgroundKey = '150Win';
         } else if (score >= 200 && score < 250) {
             backgroundKey = '200Win';

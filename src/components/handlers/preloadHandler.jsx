@@ -56,6 +56,7 @@ export function preloadAssets(scene) {
    scene.load.image('carYellow', 'assets/images/carYellow.png');
    scene.load.image('0Win', 'assets/images/0Win.png');
    scene.load.image('100Win', 'assets/images/100Win.png');
+   scene.load.image('143Win', 'assets/images/143Win.png');
    scene.load.image('150Win', 'assets/images/150Win.png');
    scene.load.image('200Win', 'assets/images/200Win.png');
    scene.load.image('250Win', 'assets/images/250Win.png');

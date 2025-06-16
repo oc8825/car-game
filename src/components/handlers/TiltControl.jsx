@@ -80,7 +80,14 @@ export class TiltControl {
     // enable tilt controls without asking for permission in subsequent levels after
     // already enabling it previously
     enableTiltControlsIfPreviouslyEnabled() {
-        if (this.isTiltSupported || TiltControl.hasEnabledTilt) {
+        if (!this.isTiltSupported) {
+            window.addEventListener('devicemotion', this.handleMotion.bind(this));
+            this.isTiltEnabled = true;
+            this.scene.scene.resume(); 
+            return;
+        }
+        
+        if (TiltControl.hasEnabledTilt) {
             window.addEventListener('devicemotion', this.handleMotion.bind(this));
             this.isTiltEnabled = true;
             this.scene.scene.resume();

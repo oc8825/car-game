@@ -82,9 +82,7 @@ export default class levelThree extends Phaser.Scene {
         // enable tilting
         this.scene.pause();
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
-        this.tiltControl.enableTiltControlsIfPreviouslyEnabled(() => {
-            this.scene.start();
-        });
+        this.tiltControl.enableTiltControlsIfPreviouslyEnabled();
 
         this.levelUpSound.play();
 
