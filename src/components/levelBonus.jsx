@@ -64,7 +64,7 @@ export default class levelBonus extends Phaser.Scene {
         // enable tilting
         this.scene.pause();
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
-        this.tiltControl.enableTiltControls(() => {
+        this.tiltControl.enableTiltControlsIfPreviouslyEnabled(() => {
             this.scene.start();
         });
 

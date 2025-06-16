@@ -1,4 +1,7 @@
 export class TiltControl {
+
+    static hasEnabledTilt = false;
+
     constructor(scene, callback) {
         this.scene = scene;
         this.callback = callback;
@@ -46,6 +49,7 @@ export class TiltControl {
                     .then((response) => {
                         if (response === 'granted') {
                             console.log('Permission granted for tilt controls!');
+                            TiltControl.hasEnabledTilt = true;
                             window.addEventListener('devicemotion', this.handleMotion.bind(this));
                             document.body.removeChild(enableTiltButton);
                             this.scene.scene.resume();
@@ -63,6 +67,7 @@ export class TiltControl {
             // turn on automatically if don't need permission
             else {
                 console.log('Tilt controls enabled (no permission required).');
+                TiltControl.hasEnabledTilt = true;
                 window.addEventListener('devicemotion', this.handleMotion.bind(this));
                 document.body.removeChild(enableTiltButton);
                 this.scene.scene.resume();
@@ -70,6 +75,16 @@ export class TiltControl {
 
             }
         });
+    }
+
+    // enable tilt controls without asking in subsequent levels after
+    // we've already asked for permission
+    enableTiltControlsIfPreviouslyEnabled() {
+        if (this.isTiltSupported || TiltControl.hasEnabledTilt) {
+            window.addEventListener('devicemotion', this.handleMotion.bind(this));
+            this.isTiltEnabled = true;
+            this.scene.scene.resume();
+        }
     }
 
     // change lanes depending on tilt direction
