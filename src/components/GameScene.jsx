@@ -20,6 +20,9 @@ class GameScene extends Phaser.Scene {
 }
 
 const buildPhaserGame = ({ parent }) => {
+    const BASE_GAME_WIDTH = 1080;
+    const BASE_GAME_HEIGHT = 1920;
+    
     let scaleMode;
 
     // take up entire screen on mobile-like, portrait devices, fit within
@@ -29,15 +32,17 @@ const buildPhaserGame = ({ parent }) => {
         scaleMode = Phaser.Scale.ENVELOP; 
     }
     
-    const baseConfig = {
+    const config = {
         type: Phaser.AUTO,
-        width: 1080,  
-        height: 1920, 
+        width: BASE_GAME_WIDTH,  
+        height: BASE_GAME_HEIGHT, 
         scale: { 
             mode: scaleMode, 
-            autoCenter: Phaser.Scale.CENTER_BOTH, 
+            autoCenter: Phaser.Scale.CENTER_BOTH,
+            width: BASE_GAME_WIDTH,  
+            height: BASE_GAME_HEIGHT, 
         },
-        scene: [loadingScreen, startScreen, instructionsScreen, chooseCar, levelOne, levelTwo, levelThree, levelBonus, challengeInstructions, levelChallenge, prizeWheel, prizeWheelWin, youWin, GameScene], // add game scenes here
+        scene: [loadingScreen, startScreen, instructionsScreen, chooseCar, levelOne, levelTwo, levelThree, levelBonus, challengeInstructions, levelChallenge, prizeWheel, prizeWheelWin, youWin, GameScene],
         physics: {
             default: 'arcade',
             arcade: {
@@ -48,7 +53,27 @@ const buildPhaserGame = ({ parent }) => {
         parent, 
     };
 
-    return new Phaser.Game(baseConfig);
+    const game = new Phaser.Game(config);
+
+    // keeping base width and height, size to inner width and height so it
+    // doesn't get covered by search bars / UI elements on mobile
+    const resizeCanvasToViewport = () => {
+        const canvas = game.canvas;
+        if (canvas) {
+            canvas.style.width = `${window.innerWidth}px`;
+            canvas.style.height = `${window.innerHeight}px`;
+        }
+        game.scale.resize(window.innerWidth, window.innerHeight);
+    };
+
+    // resize on load and whenever screen size/dimensions change
+    window.addEventListener('resize', resizeCanvasToViewport);
+    window.addEventListener('orientationchange', resizeCanvasToViewport);
+    window.addEventListener('load', () => {
+        setTimeout(resizeCanvasToViewport, 100); 
+    });
+
+    return game;
 };
 
 export { buildPhaserGame };
