@@ -55,24 +55,20 @@ const buildPhaserGame = ({ parent }) => {
 
     const game = new Phaser.Game(config);
 
-    // keeping base width and height, size to inner width and height so it
-    // doesn't get covered by search bars / UI elements on mobile
-    const resizeCanvasToViewport = () => {
+    const resizeCanvasStyle = () => {
         const canvas = game.canvas;
-        if (canvas) {
-            canvas.style.width = `${window.innerWidth}px`;
-            canvas.style.height = `${window.innerHeight}px`;
-        }
-        game.scale.resize(window.innerWidth, window.innerHeight);
+        if (!canvas) return;
+
+        canvas.style.width = '100vw';
+        canvas.style.height = '100vh';
+        canvas.style.display = 'block';
     };
 
-    // resize on load and whenever screen size/dimensions change
-    window.addEventListener('resize', resizeCanvasToViewport);
-    window.addEventListener('orientationchange', resizeCanvasToViewport);
+    window.addEventListener('resize', resizeCanvasStyle);
+    window.addEventListener('orientationchange', resizeCanvasStyle);
     window.addEventListener('load', () => {
-        setTimeout(resizeCanvasToViewport, 100); 
+        setTimeout(resizeCanvasStyle, 100);
     });
-
     return game;
 };
 
