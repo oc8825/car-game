@@ -1,6 +1,6 @@
 import { TiltControl } from '/src/components/handlers/TiltControl';
 import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
-import { chalBufferLevel, restartLevel } from '/src/components/handlers/levelSceneHandlers';
+import { chalInstructionsLevel, restartLevel } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { slip } from '/src/components/handlers/animationHandlers'
@@ -322,7 +322,7 @@ export default class levelThree extends Phaser.Scene {
 
         // handle switching levels or restarting
         if (this.timeLeft == 0) {
-            chalBufferLevel(this, 'challengeInstructions', this.score, this.selectedCarIndex)
+            chalInstructionsLevel(this, 'challengeInstructions', this.score, this.selectedCarIndex)
         } else if (this.timeLeft == 0 && this.isRestarting) {
             restartLevel(this);
         }

@@ -213,7 +213,7 @@ export function winScreenFromChallenge(scene) {
 
 }
 
-export function chalBufferLevel(scene, nextLevelKey, score, selectedCarIndex) {
+export function chalInstructionsLevel(scene, nextLevelKey, score, selectedCarIndex) {
     if (scene.levelCompleted) return;
     scene.levelCompleted = true;
     scene.isScorePaused = true;
