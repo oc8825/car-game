@@ -192,7 +192,7 @@ export default class levelChallenge extends Phaser.Scene {
             this.timeBar.setVisible(false);
 
             this.commandsLeft--;
-            this.scoreText.setText(`Commands Left: ${this.commandsLeft}`);
+            this.scoreText.setText(`Instructions Left: ${this.commandsLeft}`);
 
             this.time.delayedCall(300, () => {
                 this.inputLocked = false; 
