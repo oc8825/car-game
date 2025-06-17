@@ -104,6 +104,13 @@ export default class levelOne extends Phaser.Scene {
             finishLine.setVelocityY(500);
         });
 
+        // sound effect on winning level
+        /* Use delayed call rather than playing when this.levelCompleted = true
+        because then it immediately starts next level */  
+        this.time.delayedCall(20000, () => {
+            this.winGameSound.play();
+        });
+
         // create lanes and start car in middle lane
         this.lanes = [this.scale.width / 6, this.scale.width / 2, this.scale.width * 5 / 6];
         this.currentLaneIndex = 1;
