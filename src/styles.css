@@ -35,7 +35,7 @@ body {
   min-height: 100vh;
   position: relative; */
   
-  background-image: url('./assets/images/fitBackground.png');
+  background-image: url('/assets/images/fitBackground.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;;
