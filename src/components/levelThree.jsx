@@ -33,6 +33,10 @@ export default class levelThree extends Phaser.Scene {
         this.slipDuration = 600;
         this.isSlipping = false;
 
+        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
+        this.isPausedForTilt = false;
+        this.isPausedForOrientation = false;
+
         this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'block1', 'block2', 'block3', 'cone', 'tire', 'spikes'];
         this.obstacleSpawnIntervals = {
             oil1: 2598,

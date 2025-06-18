@@ -28,6 +28,10 @@ export default class levelBonus extends Phaser.Scene {
         this.isScorePaused = false;
         this.isTiltEnabled = false;
 
+        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
+        this.isPausedForTilt = false;
+        this.isPausedForOrientation = false;
+
         this.itemTypes = ['hat', 'socks', 'foamFinger', 'shirt', 'waterBottle'];
         this.itemSpawnIntervals = {
             hat: 1000,

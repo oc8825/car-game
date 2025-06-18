@@ -22,6 +22,10 @@ export default class levelTwo extends Phaser.Scene {
 
         this.orientation = null;
 
+        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
+        this.isPausedForTilt = false;
+        this.isPausedForOrientation = false;
+
         this.laneChangeCooldown = false;
         this.currentLaneIndex = 1;
 

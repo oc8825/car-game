@@ -6,6 +6,10 @@ export default class chooseCar extends Phaser.Scene {
         super({ key: 'chooseCar' });
         this.selectedCarIndex = 0;
         this.carColors = ['carRed', 'carOrange', 'carYellow', 'carGreen', 'carBlue', 'carPurple'];
+
+        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
+        this.isPausedForTilt = false;
+        this.isPausedForOrientation = false;
     }
 
     preload() {

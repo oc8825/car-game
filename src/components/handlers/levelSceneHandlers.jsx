@@ -360,7 +360,7 @@ export const lockOrientation = (scene) => {
     rotateText.setOrigin(0.5);
     rotateText.setDepth(300);
 
-    let isPausedDueToOrientation = false;
+    scene.isPausedForOrientation = false;
     
     // if in landscape on mobile, pause until back in portrait
     const checkOrientation = () => {
@@ -368,18 +368,21 @@ export const lockOrientation = (scene) => {
         const isLandscape = window.innerWidth > window.innerHeight;
 
         if (isMobile && isLandscape) {
-            if (!isPausedDueToOrientation) {
+            if (!scene.isPausedForOrientation) {
                 scene.scene.pause();
-                isPausedDueToOrientation = true;
+                scene.isPausedForOrientation = true;
             }
             overlay.setVisible(true);
             pauseText.setVisible(true);
             rotateText.setVisible(true);
         }
         else {
-            if (isPausedDueToOrientation) {
-                isPausedDueToOrientation = false;
-                scene.scene.resume();
+            if (scene.isPausedForOrientation) {
+                scene.isPausedForOrientation = false;
+                
+                if (!scene.isPausedForTilt) {
+                    scene.scene.resume();
+                }
             }
             overlay.setVisible(false);
             pauseText.setVisible(false);

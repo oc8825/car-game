@@ -5,6 +5,10 @@ import { bonusLevel, lockOrientation } from '/src/components/handlers/levelScene
 export default class levelChallenge extends Phaser.Scene {
     constructor() {
         super({ key: 'levelChallenge' });
+
+        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
+        this.isPausedForTilt = false;
+        this.isPausedForOrientation = false;
     }
 
     init(data) {

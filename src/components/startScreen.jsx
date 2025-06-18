@@ -4,6 +4,10 @@ import { lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 export default class startScreen extends Phaser.Scene {
     constructor() {
         super({ key: 'startScreen' });
+
+        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
+        this.isPausedForTilt = false;
+        this.isPausedForOrientation = false;
     }
 
     preload() {

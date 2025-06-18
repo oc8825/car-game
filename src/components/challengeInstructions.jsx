@@ -9,11 +9,16 @@ export default class challengeInstructions extends Phaser.Scene {
         // but need to pass to future scenes
         this.score;
         this.selectedCarIndex;
+
+        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
+        this.isPausedForTilt = false;
+        this.isPausedForOrientation = false;
     }
 
     init(data) {
         this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
+        
     }
 
     preload() {

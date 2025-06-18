@@ -24,7 +24,10 @@ export class TiltControl {
         if (!this.isTiltSupported) {
             window.addEventListener('devicemotion', this.boundHandleMotion);
             this.isTiltEnabled = true;
-            this.scene.scene.resume(); 
+            this.scene.isPausedForTilt = false;
+            if (!this.scene.isPausedForOrientation) {
+                this.scene.scene.resume(); 
+            }
             return;
         }
 
@@ -53,7 +56,10 @@ export class TiltControl {
                             TiltControl.hasEnabledTilt = true;
                             window.addEventListener('devicemotion', this.boundHandleMotion);
                             document.body.removeChild(enableTiltButton);
-                            this.scene.scene.resume();
+                            this.scene.isPausedForTilt = false;
+                            if (!this.scene.isPausedForOrientation) {
+                                this.scene.scene.resume(); 
+                            }
                             this.isTiltEnabled = true;
                         } else {
                             console.error('Permission denied for tilt controls.');
@@ -71,7 +77,10 @@ export class TiltControl {
                 TiltControl.hasEnabledTilt = true;
                 window.addEventListener('devicemotion', this.boundHandleMotion);
                 document.body.removeChild(enableTiltButton);
-                this.scene.scene.resume();
+                this.scene.isPausedForTilt = false;
+                if (!this.scene.isPausedForOrientation) {
+                    this.scene.scene.resume(); 
+                }
                 this.isTiltEnabled = true; 
 
             }
@@ -84,14 +93,20 @@ export class TiltControl {
         if (!this.isTiltSupported) {
             window.addEventListener('devicemotion', this.boundHandleMotion);
             this.isTiltEnabled = true;
-            this.scene.scene.resume(); 
+            this.scene.isPausedForTilt = false;
+            if (!this.scene.isPausedForOrientation) {
+                this.scene.scene.resume(); 
+            } 
             return;
         }
         
         if (TiltControl.hasEnabledTilt) {
             window.addEventListener('devicemotion', this.boundHandleMotion);
             this.isTiltEnabled = true;
-            this.scene.scene.resume();
+            this.scene.isPausedForTilt = false;
+            if (!this.scene.isPausedForOrientation) {
+                this.scene.scene.resume(); 
+            }
         }
     }
 

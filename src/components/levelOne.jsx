@@ -32,6 +32,10 @@ export default class levelOne extends Phaser.Scene {
         this.isScorePaused = false;
         this.restarting;
 
+        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
+        this.isPausedForTilt = false;
+        this.isPausedForOrientation = false;
+
         this.slipTime = 0;
         this.slipDuration = 600;
         this.isSlipping = false;
@@ -83,6 +87,7 @@ export default class levelOne extends Phaser.Scene {
         lockOrientation(this);
 
         // enable tilting
+        this.isPausedForTilt = true;
         this.scene.pause();
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
         this.tiltControl.enableTiltControls(() => {

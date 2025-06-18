@@ -4,6 +4,10 @@ import { lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 export default class prizeWheel extends Phaser.Scene {
   constructor() {
     super('prizeWheel');
+
+    // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
+    this.isPausedForTilt = false;
+    this.isPausedForOrientation = false;
   }
 
   preload() {
