@@ -351,7 +351,7 @@ export const lockOrientation = (scene) => {
     pauseText.setOrigin(0.5);
     pauseText.setDepth(300);
     const rotateText = scene.add.text(scene.scale.width / 2, scene.scale.height * .55,
-        'Please rotate device to portait', {
+        'Please rotate device to portrait', {
         fontSize: '40px',
         fill: '#fff',
         align: 'center',
