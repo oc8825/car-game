@@ -332,3 +332,74 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
         });
     });
 }
+
+export const lockOrientation = (scene) => {
+    if(scene._orientationOverlay) return;
+    
+    // gray out screen and display please rotate message
+    const overlay = scene.add.graphics();
+    overlay.fillStyle(0x000000, 0.85);
+    overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
+    overlay.setDepth(300);
+    const pauseText = scene.add.text(scene.scale.width / 2, scene.scale.height * .45,
+        'PAUSED', {
+        fontSize: '60px',
+        fill: '#fff',
+        align: 'center',
+        fontStyle: 'bold'
+    });
+    pauseText.setOrigin(0.5);
+    pauseText.setDepth(300);
+    const rotateText = scene.add.text(scene.scale.width / 2, scene.scale.height * .55,
+        'Please rotate device to portait', {
+        fontSize: '40px',
+        fill: '#fff',
+        align: 'center',
+        fontStyle: 'bold'
+    });
+    rotateText.setOrigin(0.5);
+    rotateText.setDepth(300);
+
+    let isPausedDueToOrientation = false;
+    
+    // if in landscape on mobile, pause until back in portrait
+    const checkOrientation = () => {
+        const isMobile = !scene.sys.game.device.os.desktop;
+        const isLandscape = window.innerWidth > window.innerHeight;
+
+        if (isMobile && isLandscape) {
+            if (!isPausedDueToOrientation) {
+                scene.scene.pause();
+                isPausedDueToOrientation = true;
+            }
+            overlay.setVisible(true);
+            pauseText.setVisible(true);
+            rotateText.setVisible(true);
+        }
+        else {
+            if (isPausedDueToOrientation) {
+                isPausedDueToOrientation = false;
+                scene.scene.resume();
+            }
+            overlay.setVisible(false);
+            pauseText.setVisible(false);
+            rotateText.setVisible(false);
+        }
+    };
+
+    scene._orientationCheckHandler = checkOrientation
+
+    window.addEventListener('orientationchange', checkOrientation);
+    window.addEventListener('resize', checkOrientation);
+    checkOrientation();
+
+    // remove so we don't have multiple listeners acting on orienatation changes
+    scene.events.once('shutdown', () => {
+        window.removeEventListener('orientationchange', scene._orientationCheckHandler);
+        window.removeEventListener('resize', scene._orientationCheckHandler);
+        scene._orientationOverlay = null;
+        scene._orientationCheckHandler = null;
+    });
+
+    scene._orientationOverlay = true;
+};

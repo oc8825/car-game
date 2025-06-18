@@ -1,6 +1,6 @@
 import { TiltControl } from '/src/components/handlers/TiltControl';
 import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
-import { showLevelUpScene, restartLevel } from '/src/components/handlers/levelSceneHandlers';
+import { showLevelUpScene, restartLevel, lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { slip } from '/src/components/handlers/animationHandlers'
@@ -77,6 +77,8 @@ export default class levelTwo extends Phaser.Scene {
     create() {
 
         loadSounds(this);
+
+        lockOrientation(this);
 
         // enable tilting
         this.scene.pause();

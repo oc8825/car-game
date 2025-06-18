@@ -1,4 +1,5 @@
 import { loadSounds } from '/src/components/handlers/soundHandler';
+import { lockOrientation } from './handlers/levelSceneHandlers';
 
 export default class instructionsScren extends Phaser.Scene {
     constructor() {
@@ -11,6 +12,8 @@ export default class instructionsScren extends Phaser.Scene {
 
     create() {
         loadSounds(this);
+
+        lockOrientation(this);
 
         // give different instructions based on playing with keys on 
         // desktop or touch on mobile

@@ -1,6 +1,6 @@
 import { TiltControl } from '/src/components/handlers/TiltControl';
 import { handleItemCollision } from '/src/components/handlers/collisionHandlers';
-import { winScreen, restartLevel } from '/src/components/handlers/levelSceneHandlers';
+import { winScreen, restartLevel, lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 
@@ -60,6 +60,8 @@ export default class levelBonus extends Phaser.Scene {
     create() {
 
         loadSounds(this);
+
+        lockOrientation(this);
 
         // enable tilting
         this.scene.pause();

@@ -1,4 +1,5 @@
 import { loadSounds } from '/src/components/handlers/soundHandler';
+import { lockOrientation } from './handlers/levelSceneHandlers';
 
 export default class chooseCar extends Phaser.Scene {
     constructor() {
@@ -13,6 +14,8 @@ export default class chooseCar extends Phaser.Scene {
 
     create() {
         loadSounds(this);
+
+        lockOrientation(this);
 
         // delay by one frame so camera is accurate
         this.time.delayedCall(1, () => {

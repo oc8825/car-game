@@ -1,4 +1,5 @@
 import { loadSounds } from '/src/components/handlers/soundHandler';
+import { lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 
 export default class youWin extends Phaser.Scene {
     constructor() {
@@ -12,6 +13,9 @@ export default class youWin extends Phaser.Scene {
     create(data) {
 
         loadSounds(this);
+
+        lockOrientation(this);
+
         this.prizeSound.play();
 
         // set background depending on score

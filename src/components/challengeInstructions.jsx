@@ -1,5 +1,5 @@
 import { loadSounds } from '/src/components/handlers/soundHandler';
-import { challengeLevel } from './handlers/levelSceneHandlers';
+import { challengeLevel, lockOrientation } from './handlers/levelSceneHandlers';
 
 export default class challengeInstructions extends Phaser.Scene {
     constructor() {
@@ -23,6 +23,8 @@ export default class challengeInstructions extends Phaser.Scene {
     create() {
 
         loadSounds(this);
+
+        lockOrientation(this);
 
         // show different instructions based on playing with keys on
         // desktop or touch on mobile

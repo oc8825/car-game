@@ -1,4 +1,5 @@
 import { loadSounds } from '/src/components/handlers/soundHandler';
+import { lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 
 export default class startScreen extends Phaser.Scene {
     constructor() {
@@ -12,6 +13,8 @@ export default class startScreen extends Phaser.Scene {
     create() {
 
         loadSounds(this);
+
+        lockOrientation(this);
 
         // background
         let background = this.add.image(0, 0, 'startBackground');

@@ -1,6 +1,6 @@
 import { winScreenFromChallenge } from './handlers/levelSceneHandlers';
 import { loadSounds } from '/src/components/handlers/soundHandler';
-import { bonusLevel } from '/src/components/handlers/levelSceneHandlers';
+import { bonusLevel, lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 
 export default class levelChallenge extends Phaser.Scene {
     constructor() {
@@ -29,6 +29,8 @@ export default class levelChallenge extends Phaser.Scene {
 
     create() {
         loadSounds(this);
+
+        lockOrientation(this);
 
         // background
         let background = this.add.image(0, 0, 'challengeBackground');

@@ -1,4 +1,5 @@
 import { loadSounds } from '/src/components/handlers/soundHandler';
+import { lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 
 export default class prizeWheelWin extends Phaser.Scene {
     constructor() {
@@ -11,6 +12,8 @@ export default class prizeWheelWin extends Phaser.Scene {
 
     create(data) {
         loadSounds(this);
+
+        lockOrientation(this);
         
         // set background depending on result from wheel
         const score = data.score || 0;
