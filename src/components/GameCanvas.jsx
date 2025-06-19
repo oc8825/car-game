@@ -7,9 +7,9 @@ const GameCanvas = () => {
 
   useEffect(() => {
     // scroll slightly to hide search bar
-    setTimeout(() => {
+    /* setTimeout(() => {
       window.scrollTo(0, 2000);
-    }, 100);
+    }, 100); */
     
     // ensure game doesn't get covered by UI elements on mobile
     const setViewportHeight = () => {
@@ -23,6 +23,15 @@ const GameCanvas = () => {
     const phaserGame = buildPhaserGame({
       parent: gameContainerRef.current,
     });
+
+    document.body.style.overflow = 'auto';
+    document.body.style.height = '100vh';
+
+    setTimeout(() => {
+      window.scrollTo(0, 1);
+      document.body.style.overflow = 'hidden';
+      document.body.style.height = '100%';
+    }, 100);
 
     return () => {
       window.removeEventListener('resize', setViewportHeight);
