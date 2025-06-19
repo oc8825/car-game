@@ -25,7 +25,7 @@ const GameCanvas = () => {
     });
 
     document.body.style.overflow = 'auto';
-    document.body.style.height = '100vh';
+    document.body.style.height = '200vh';
 
     setTimeout(() => {
       window.scrollTo(0, 200);
