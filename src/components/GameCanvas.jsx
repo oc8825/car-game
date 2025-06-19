@@ -8,7 +8,7 @@ const GameCanvas = () => {
   useEffect(() => {
     // scroll slightly to hide search bar
     setTimeout(() => {
-      window.scrollTo(0, 1);
+      window.scrollTo(0, 50);
     }, 100);
     
     // ensure game doesn't get covered by UI elements on mobile
