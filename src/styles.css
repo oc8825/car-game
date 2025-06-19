@@ -31,9 +31,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* min-width: 320px;
-  min-height: 100vh;
-  position: relative; */
   
   background-image: url('/assets/images/fitBackground.png');
   background-size: cover;

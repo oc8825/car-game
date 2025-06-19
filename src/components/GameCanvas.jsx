@@ -6,6 +6,11 @@ const GameCanvas = () => {
   const gameContainerRef = useRef(null);
 
   useEffect(() => {
+    // scroll slightly to hide search bar
+    setTimeout(() => {
+      window.scrollTo(0, 1);
+    }, 100);
+    
     // ensure game doesn't get covered by UI elements on mobile
     const setViewportHeight = () => {
       const vh = window.innerHeight * 0.01;
