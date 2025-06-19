@@ -47,3 +47,12 @@ body {
   position: relative;
   overflow: hidden;
 }
+
+/* Decrease size and shift slightly down to avoid getting covered
+by mobile browser UI */
+@media (max-width: 768px) {
+  #game-container > div {
+    transform: scaleY(0.99) translateY(1.28vh); /* Shrinks + shifts down slightly */
+    transform-origin: top center;
+  }
+}
