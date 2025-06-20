@@ -64,6 +64,12 @@ export class TiltControl {
                         } else {
                             console.error('Permission denied for tilt controls.');
                             alert('Permission denied. Tilt controls are unavailable.');
+                            document.body.removeChild(enableTiltButton);
+                            this.scene.isPausedForTilt = false;
+                            if (!this.scene.isPausedForOrientation) {
+                                this.scene.scene.resume(); 
+                            }
+                            this.isTiltEnabled = true;
                         }
                     })
                     .catch((error) => {
