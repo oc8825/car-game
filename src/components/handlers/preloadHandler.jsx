@@ -6,7 +6,7 @@ export function preloadAssets(scene) {
    scene.load.audio('newLevel', 'assets/audio/newLevel.mp3');
    scene.load.audio('losePoints', 'assets/audio/losePoints.mp3');
    scene.load.audio('prize', 'assets/audio/prize.mp3');
-   scene.load.audio('winGame', 'assets/audio/winGame.wav');
+   scene.load.audio('winLevel', 'assets/audio/winLevel.wav');
    scene.load.audio('gameStart', 'assets/audio/gameStart.mp3');
    scene.load.audio('wrong', 'assets/audio/wrong.mp3');
    scene.load.audio('skid', 'assets/audio/skid.mp3');

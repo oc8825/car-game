@@ -112,7 +112,7 @@ export default class levelThree extends Phaser.Scene {
         because then it immediately starts next level */  
         this.time.delayedCall(45000, () => {
             if(!this.isRestarting) {
-                this.winGameSound.play();
+                this.winLevelSound.play();
             }
         });
 
