@@ -1,6 +1,7 @@
 export class TiltControl {
 
     static hasEnabledTilt = false;
+    static hasDisabledTilt = false;
 
     constructor(scene, callback) {
         this.scene = scene;
@@ -64,6 +65,7 @@ export class TiltControl {
                         } else {
                             console.error('Permission denied for tilt controls.');
                             alert('Permission denied. Tilt controls are unavailable.');
+                            TiltControl.hasDisabledTilt = true;
                             document.body.removeChild(enableTiltButton);
                             this.scene.isPausedForTilt = false;
                             if (!this.scene.isPausedForOrientation) {
@@ -96,7 +98,7 @@ export class TiltControl {
     // enable tilt controls without asking for permission in subsequent levels after
     // already enabling it previously
     enableTiltControlsIfPreviouslyEnabled() {
-        if (!this.isTiltSupported) {
+        if (!this.isTiltSupported || TiltControl.hasDisabledTilt) {
             window.addEventListener('devicemotion', this.boundHandleMotion);
             this.isTiltEnabled = true;
             this.scene.isPausedForTilt = false;
