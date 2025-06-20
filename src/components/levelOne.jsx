@@ -90,9 +90,16 @@ export default class levelOne extends Phaser.Scene {
         this.isPausedForTilt = true;
         this.scene.pause();
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
-        this.tiltControl.enableTiltControls(() => {
-            this.scene.start();
-        });
+        if (!this.tiltControl.hasEnabledTilt && !this.tiltControl.hasDisabledTilt) {
+            // have not yet enabled or disabled, so ask permission
+            this.tiltControl.enableTiltControls(() => {
+                this.scene.start();
+            });
+        }
+        else {
+            // already enabled or disabled, so use previous answer
+            this.tiltControl.enableTiltControlsIfPreviouslyEnabled();
+        }
 
 
         this.levelUpSound.play();
