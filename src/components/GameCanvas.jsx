@@ -21,7 +21,7 @@ const GameCanvas = () => {
       phaserGameRef.current = buildPhaserGame({
         parent: gameContainerRef.current,
       });
-    }, 50);
+    }, 100);
 
     return () => {
       window.removeEventListener('resize', setViewportHeight);
