@@ -111,7 +111,9 @@ export default class levelThree extends Phaser.Scene {
         /* Use delayed call rather than playing when this.levelCompleted = true
         because then it immediately starts next level */  
         this.time.delayedCall(45000, () => {
-            this.winGameSound.play();
+            if(!this.isRestarting) {
+                this.winGameSound.play();
+            }
         });
 
         // create lanes and start car in middle lane
