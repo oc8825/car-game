@@ -32,7 +32,7 @@ export class TiltControl {
         }
 
         const enableTiltButton = document.createElement('button');
-        enableTiltButton.innerText = 'Enable Tilt Controls';
+        enableTiltButton.innerText = 'Tap to Enable/Disable Tilt Controls';
         enableTiltButton.style.position = 'absolute';
         enableTiltButton.style.top = '50%';
         enableTiltButton.style.left = '50%';
