@@ -52,7 +52,7 @@ body {
 by mobile browser UI */
 @media (max-width: 768px) {
   #game-container > div {
-    transform: scaleY(0.99) translateY(1.28vh); /* Shrinks + shifts down slightly */
+    transform: scaleY(0.98) translateY(1.29vh);
     transform-origin: top center;
   }
 }

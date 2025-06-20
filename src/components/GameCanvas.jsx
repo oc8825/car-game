@@ -4,12 +4,9 @@ import { buildPhaserGame } from '/src/components/GameScene';
 
 const GameCanvas = () => {
   const gameContainerRef = useRef(null);
+  const phaserGameRef = useRef(null);
 
-  useEffect(() => {
-    setTimeout(() => {
-      window.scrollTo(0, 1);
-    }, 100);
-    
+  useEffect(() => {    
     // ensure game doesn't get covered by UI elements on mobile
     const setViewportHeight = () => {
       const vh = window.innerHeight * 0.01;
@@ -19,15 +16,20 @@ const GameCanvas = () => {
     window.addEventListener('resize', setViewportHeight);
     window.addEventListener('orientationchange', setViewportHeight);
 
-    const phaserGame = buildPhaserGame({
-      parent: gameContainerRef.current,
-    });
+    // delay build slightly so vh properly set
+    setTimeout(() => {
+      phaserGameRef.current = buildPhaserGame({
+        parent: gameContainerRef.current,
+      });
+    }, 50);
 
     return () => {
       window.removeEventListener('resize', setViewportHeight);
       window.removeEventListener('orientationchange', setViewportHeight);
 
-      phaserGame.destroy(true);
+      if (phaserGameRef.current) {
+        phaserGameRef.current.destroy(true);
+      }
     };
   }, []);
 
