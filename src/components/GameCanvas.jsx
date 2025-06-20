@@ -9,14 +9,14 @@ const GameCanvas = () => {
   useEffect(() => {    
     // ensure game doesn't get covered by UI elements on mobile
     const setViewportHeight = () => {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
+      const dvh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--dvh', `${dvh}px`);
     };
     setViewportHeight();
     window.addEventListener('resize', setViewportHeight);
     window.addEventListener('orientationchange', setViewportHeight);
 
-    // delay build slightly so vh properly set
+    // delay build slightly so dvh properly set
     setTimeout(() => {
       phaserGameRef.current = buildPhaserGame({
         parent: gameContainerRef.current,

@@ -59,8 +59,8 @@ const buildPhaserGame = ({ parent }) => {
         const canvas = game.canvas;
         if (!canvas) return;
 
-        canvas.style.width = '100vw';
-        canvas.style.height = '100vh';
+        canvas.style.width = '100dvw';
+        canvas.style.height = '100dvh';
         canvas.style.display = 'block';
     };
 

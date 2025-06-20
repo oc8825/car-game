@@ -1,5 +1,5 @@
 :root {
-  --vh: 100%;
+  --dvh: 100%;
   
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -39,8 +39,8 @@ body {
 }
 
 #game-container {
-  width: 100vw;
-  height: calc(var(--vh, 1vh) * 100);
+  width: 100dvw;
+  height: calc(var(--dvh, 1dvh) * 100);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,10 +49,10 @@ body {
 }
 
 /* Decrease size and shift slightly down to avoid getting covered
-by mobile browser UI */
+by mobile browser UI 
 @media (max-width: 768px) {
   #game-container > div {
     transform: scaleY(0.98) translateY(1.29vh);
     transform-origin: top center;
   }
-}
+} */
