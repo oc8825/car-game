@@ -3,7 +3,7 @@ export function preloadAssets(scene) {
    scene.load.audio('crash', 'assets/audio/crash.mp3');
    scene.load.audio('collect', 'assets/audio/collect.mp3');
    scene.load.audio('gameOver', 'assets/audio/gameOver.mp3');
-   scene.load.audio('levelUp', 'assets/audio/levelUp.mp3');
+   scene.load.audio('newLevel', 'assets/audio/newLevel.mp3');
    scene.load.audio('losePoints', 'assets/audio/losePoints.mp3');
    scene.load.audio('oilSlip', 'assets/audio/oilSlip.mp3');
    scene.load.audio('prize', 'assets/audio/prize.mp3');

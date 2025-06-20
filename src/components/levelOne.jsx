@@ -102,7 +102,7 @@ export default class levelOne extends Phaser.Scene {
         }
 
 
-        this.levelUpSound.play();
+        this.newLevelSound.play();
 
         // background
         this.ground = this.add.tileSprite(

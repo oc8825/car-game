@@ -89,7 +89,7 @@ export default class levelTwo extends Phaser.Scene {
         this.tiltControl = new TiltControl(this, (direction) => this.changeLane(direction));
         this.tiltControl.enableTiltControlsIfPreviouslyEnabled();
 
-        this.levelUpSound.play();
+        this.newLevelSound.play();
 
         // background
         this.ground = this.add.tileSprite(

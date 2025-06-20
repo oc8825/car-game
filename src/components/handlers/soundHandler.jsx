@@ -3,7 +3,7 @@ export const loadSounds = (scene) => {
     scene.collectSound = scene.sound.add('collect', { volume: 0.1 });
     scene.crashSound = scene.sound.add('crash', { volume: 0.1 });
     scene.gameOverSound = scene.sound.add('gameOver', { volume: 0.1 });
-    scene.levelUpSound = scene.sound.add('levelUp', { volume: 0.1 });
+    scene.newLevelSound = scene.sound.add('newLevel', { volume: 0.1 });
     scene.oilSlipSound = scene.sound.add('oilSlip', { volume: 0.1 });
     scene.winGameSound = scene.sound.add('winGame', { volume: 0.1 });
     scene.prizeSound = scene.sound.add('prize', { volume: 0.1 });
