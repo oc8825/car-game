@@ -27,7 +27,7 @@ export default class chooseCar extends Phaser.Scene {
 
 
             // background
-            let background = this.add.image(0, 0, 'tempBackground');
+            let background = this.add.image(0, 0, 'chooseCarBackground');
             background.setOrigin(0, 0);
             background.setDisplaySize(this.scale.width, BASE_GAME_HEIGHT);
             background.setScale(Math.max(this.scale.width / background.width, BASE_GAME_HEIGHT / background.height));

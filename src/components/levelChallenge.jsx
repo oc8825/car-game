@@ -45,7 +45,8 @@ export default class levelChallenge extends Phaser.Scene {
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
         // steering wheel sprite
-        this.steeringWheel = this.add.sprite(this.scale.width / 2, BASE_GAME_HEIGHT * .72, 'steeringWheel');
+        this.steeringWheel = this.add.sprite(this.scale.width / 2, BASE_GAME_HEIGHT * .7, 'steeringWheel');
+        this.steeringWheel.setScale(1.2);
 
         // time bar displaying how long player has to react
         this.timeBar = this.add.rectangle(this.scale.width / 2, BASE_GAME_HEIGHT * 0.33, 300, 30, 0xffffff).setOrigin(0.5);
@@ -257,7 +258,7 @@ export default class levelChallenge extends Phaser.Scene {
         } else if (action === 'honk') {
             this.tweens.add({
                 targets: this.steeringWheel,
-                scale: 1.3,
+                scale: 1.4,
                 duration: 100,
                 yoyo: true,
                 ease: 'Sine.easeInOut'
