@@ -1,3 +1,5 @@
+const BASE_GAME_HEIGHT = 1920;
+
 export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, selectedCarIndex) {
     if (scene.levelCompleted) return;
     scene.levelCompleted = true;
@@ -20,7 +22,7 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
     overlay.fillStyle(0x000000, 0.7);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(200);
-    const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
+    const levelUpText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2.5,
         `Level ${nextLevelNumber} Starting In:`, {
         fontSize: '65px',
         fill: '#fff',
@@ -31,7 +33,7 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
     levelUpText.setDepth(250);
 
     // create countdown and start next level after three seconds
-    const countdownText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2, '3', {
+    const countdownText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2, '3', {
         fontSize: '90px',
         fill: '#fff',
         align: 'center',
@@ -84,14 +86,14 @@ export function restartLevel(scene) {
     overlay.fillStyle(0x000000, 0.7);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(220);
-    scene.add.text(scene.scale.width / 2, scene.scale.height *.4, 'CRASH!', {
+    scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT *.4, 'CRASH!', {
         fontSize: '100px',
         fill: '#fff',
         align: 'center',
         fontStyle: 'bold'
     }).setOrigin(0.5).setDepth(250);
 
-    scene.add.text(scene.scale.width / 2, scene.scale.height * .455 , `Score: ${scene.score}`, {
+    scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT * .455 , `Score: ${scene.score}`, {
         fontSize: '60px',
         fill: '#fff',
         align: 'center',
@@ -99,7 +101,7 @@ export function restartLevel(scene) {
     }).setOrigin(0.5).setDepth(250);
 
     // restart button pauses previous scenes and starts back over at chooseCar
-    const restartButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height * .55, 'restartButton')
+    const restartButton = scene.add.sprite(scene.scale.width / 2, BASE_GAME_HEIGHT * .55, 'restartButton')
         .setInteractive()
         .setDepth(250);
     restartButton.on('pointerdown', () => {
@@ -140,7 +142,7 @@ export function winScreen(scene) {
     overlay.fillStyle(0x000000, 0.7);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(200);
-    const winText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
+    const winText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2.5,
         "Check out what you won!", {
         fontSize: '60px',
         fill: '#fff',
@@ -151,7 +153,7 @@ export function winScreen(scene) {
     winText.setDepth(250);
 
     // button to claim prize
-    scene.prizeButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'prizeButton')
+    scene.prizeButton = scene.add.sprite(scene.scale.width / 2, BASE_GAME_HEIGHT / 2, 'prizeButton')
         .setInteractive().setDepth(250);
     scene.prizeButton.on('pointerdown', () => {
         scene.isRestarting = false;
@@ -187,7 +189,7 @@ export function winScreenFromChallenge(scene) {
     overlay.fillStyle(0x000000, 0.8);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(200);
-    const winText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
+    const winText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2.5,
         "Challenge level failed,\n but check out\nwhat you won!", {
         fontSize: '60px',
         fill: '#fff',
@@ -198,7 +200,7 @@ export function winScreenFromChallenge(scene) {
     winText.setDepth(250);
 
     // button to claim prize
-    scene.prizeButton = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'prizeButton')
+    scene.prizeButton = scene.add.sprite(scene.scale.width / 2, BASE_GAME_HEIGHT / 2, 'prizeButton')
         .setInteractive().setDepth(250);
     scene.prizeButton.on('pointerdown', () => {
         scene.isRestarting = false;
@@ -235,7 +237,7 @@ export function chalInstructionsLevel(scene, nextLevelKey, score, selectedCarInd
     overlay.fillStyle(0x000000, 0.7);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(200);
-    const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
+    const levelUpText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2.5,
         'CHALLENGE LEVEL INCOMING!', {
         fontSize: '55px',
         fill: '#fff',
@@ -246,7 +248,7 @@ export function chalInstructionsLevel(scene, nextLevelKey, score, selectedCarInd
     levelUpText.setDepth(250);
 
     // create countdown and switch to challenge instructions after three seconds
-    const countdownText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2, '3', {
+    const countdownText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2, '3', {
         fontSize: '90px',
         fill: '#fff',
         align: 'center',
@@ -293,7 +295,7 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
     overlay.fillStyle(0x000000, 0.7);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(200);
-    const levelUpText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2.5,
+    const levelUpText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2.5,
         'BONUS LEVEL INCOMING!', {
         fontSize: '60px',
         fill: '#fff',
@@ -304,7 +306,7 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
     levelUpText.setDepth(250);
 
     // create countdown and start bonus level after three seconds
-    const countdownText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2, '3', {
+    const countdownText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2, '3', {
         fontSize: '90px',
         fill: '#fff',
         align: 'center',
@@ -341,7 +343,7 @@ export const lockOrientation = (scene) => {
     overlay.fillStyle(0x000000, 0.85);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(300);
-    const pauseText = scene.add.text(scene.scale.width / 2, scene.scale.height * .45,
+    const pauseText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT * .45,
         'PAUSED', {
         fontSize: '60px',
         fill: '#fff',
@@ -350,7 +352,7 @@ export const lockOrientation = (scene) => {
     });
     pauseText.setOrigin(0.5);
     pauseText.setDepth(300);
-    const rotateText = scene.add.text(scene.scale.width / 2, scene.scale.height * .55,
+    const rotateText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT * .55,
         'Please rotate device to portrait', {
         fontSize: '40px',
         fill: '#fff',

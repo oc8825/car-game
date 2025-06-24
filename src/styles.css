@@ -22,7 +22,9 @@
 html, body {
   margin: 0;
   padding: 0;
+  width: 100vw;
   width: 100dvw;
+  height: 100vh;
   height: 100dvh;
   overflow: hidden;
 }
@@ -47,12 +49,3 @@ body {
   position: relative;
   overflow: hidden;
 }
-
-/* Decrease size and shift slightly down to avoid getting covered
-by mobile browser UI 
-@media (max-width: 768px) {
-  #game-container > div {
-    transform: scaleY(0.98) translateY(1.29vh);
-    transform-origin: top center;
-  }
-} */

@@ -39,6 +39,7 @@ export function preloadAssets(scene) {
    scene.load.image('scoreboard', 'assets/images/scoreboard.png');
    scene.load.image('restartButton', 'assets/images/restartButton.png');
    scene.load.image('startBackground', 'assets/images/startBackground.png');
+   scene.load.image('tempBackground', 'assets/images/tempBackground.png');
    scene.load.image('playButton', 'assets/images/playButton.png');
    scene.load.image('rightArrow', 'assets/images/rightArrow.png');
    scene.load.image('leftArrow', 'assets/images/leftArrow.png');

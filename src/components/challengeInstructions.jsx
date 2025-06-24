@@ -1,6 +1,8 @@
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { challengeLevel, lockOrientation } from './handlers/levelSceneHandlers';
 
+const BASE_GAME_HEIGHT = 1920;
+
 export default class challengeInstructions extends Phaser.Scene {
     constructor() {
         super({ key: 'challengeInstructions' });
@@ -43,7 +45,7 @@ export default class challengeInstructions extends Phaser.Scene {
         background.setDisplaySize(this.scale.width, this.scale.height);
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
-        this.startButton = this.add.image(this.scale.width / 2, this.scale.height * 0.73, 'startButton').setInteractive();
+        this.startButton = this.add.image(this.scale.width / 2, BASE_GAME_HEIGHT * 0.73, 'startButton').setInteractive();
         this.startButton.setScale(0.75);
 
         // button to start challenge level

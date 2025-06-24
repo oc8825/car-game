@@ -1,5 +1,7 @@
 import { preloadAssets } from '/src/components/handlers/preloadHandler';
 
+const BASE_GAME_HEIGHT = 1920;
+
 export default class LoadingScene extends Phaser.Scene {
     constructor() {
         super({ key: 'LoadingScene' });
@@ -7,7 +9,7 @@ export default class LoadingScene extends Phaser.Scene {
 
     preload() {
         // loading text
-        this.add.text(this.scale.width / 2, this.scale.height / 2, 'Loading...', {
+        this.add.text(this.scale.width / 2, BASE_GAME_HEIGHT / 2, 'Loading...', {
             fontSize: '55px',
             color: '#ffffff',
             fontStyle: 'bold',

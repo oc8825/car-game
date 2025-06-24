@@ -1,5 +1,5 @@
 export const loadSounds = (scene) => {
-    // all sounds have been preloaded, now add them to specific scene
+    // all sounds have been preloaded, now add them to given specific scene
     scene.collectSound = scene.sound.add('collect', { volume: 0.1 });
     scene.crashSound = scene.sound.add('crash', { volume: 0.1 });
     scene.gameOverSound = scene.sound.add('gameOver', { volume: 0.1 });

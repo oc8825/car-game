@@ -1,6 +1,8 @@
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 
+const BASE_GAME_HEIGHT = 1920;
+
 export default class youWin extends Phaser.Scene {
     constructor() {
         super({ key: 'youWin' });
@@ -50,7 +52,7 @@ export default class youWin extends Phaser.Scene {
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
         // play again button
-        const playAgainButton = this.add.sprite(this.scale.width / 2, this.scale.height *.85, 'playAgain')
+        const playAgainButton = this.add.sprite(this.scale.width / 2, BASE_GAME_HEIGHT *.85, 'playAgain')
             .setInteractive()
             .setDepth(250);
         playAgainButton.on('pointerdown', () => {

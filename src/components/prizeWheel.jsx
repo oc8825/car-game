@@ -1,6 +1,8 @@
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 
+const BASE_GAME_HEIGHT = 1920;
+
 export default class prizeWheel extends Phaser.Scene {
   constructor() {
     super('prizeWheel');
@@ -25,8 +27,8 @@ export default class prizeWheel extends Phaser.Scene {
     background.setDisplaySize(this.scale.width, this.scale.height);
     background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
-    const centerX = this.cameras.main.centerX;
-    const centerY = this.cameras.main.centerY;
+    const centerX = this.scale.width / 2;
+    const centerY = BASE_GAME_HEIGHT / 2;
 
     // all parts of wheel
     this.wheel = this.add.image(centerX, centerY, 'wheel').setOrigin(0.5);

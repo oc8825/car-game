@@ -21,26 +21,27 @@ class GameScene extends Phaser.Scene {
 
 const buildPhaserGame = ({ parent }) => {
     const BASE_GAME_WIDTH = 1080;
-    const BASE_GAME_HEIGHT = 1920;
     
-    let scaleMode;
-
-    // take up entire screen on mobile-like, portrait devices, fit within
-    // screen on others
-    scaleMode = Phaser.Scale.FIT;
-    /* if (window.innerWidth < 768 && window.innerHeight > window.innerWidth*1.4 && window.innerHeight < window.innerWidth*2.3) {
-        scaleMode = Phaser.Scale.ENVELOP; 
-    } */
+    // on desktop and more horizontal mobile devices, use FIT  mode and 16:9 aspect ratio
+    let baseGameHeight = 1920;
+    let scaleMode = Phaser.Scale.FIT;
+    let centerMode = Phaser.Scale.CENTER_BOTH;
+    // on mobile devices, use WIDTH_CONTROLS_HEIGHT and more buffer on bottom that can be cut off
+    if (window.innerWidth < 768 && window.innerHeight > window.innerWidth*1.4 && window.innerHeight < window.innerWidth*2.25) {
+        scaleMode = Phaser.Scale.WIDTH_CONTROLS_HEIGHT; 
+        baseGameHeight = 2440;
+        centerMode = Phaser.Scale.CENTER_HORIZONTALLY;
+    }
     
     const config = {
         type: Phaser.AUTO,
         width: BASE_GAME_WIDTH,  
-        height: BASE_GAME_HEIGHT, 
+        height: baseGameHeight, 
         scale: { 
             mode: scaleMode, 
-            autoCenter: Phaser.Scale.CENTER_BOTH,
+            autoCenter: centerMode,  
             width: BASE_GAME_WIDTH,  
-            height: BASE_GAME_HEIGHT, 
+            height: baseGameHeight, 
         },
         scene: [loadingScreen, startScreen, instructionsScreen, chooseCar, levelOne, levelTwo, levelThree, levelBonus, challengeInstructions, levelChallenge, prizeWheel, prizeWheelWin, youWin, GameScene],
         physics: {
@@ -64,6 +65,7 @@ const buildPhaserGame = ({ parent }) => {
         canvas.style.display = 'block';
     };
 
+    resizeCanvasStyle();
     window.addEventListener('resize', resizeCanvasStyle);
     window.addEventListener('orientationchange', resizeCanvasStyle);
     window.addEventListener('load', () => {

@@ -1,6 +1,8 @@
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 
+const BASE_GAME_HEIGHT = 1920;
+
 export default class startScreen extends Phaser.Scene {
     constructor() {
         super({ key: 'startScreen' });
@@ -21,13 +23,13 @@ export default class startScreen extends Phaser.Scene {
         lockOrientation(this);
 
         // background
-        let background = this.add.image(0, 0, 'startBackground');
+        let background = this.add.image(0, 0, 'tempBackground');
         background.setOrigin(0, 0); 
-        background.setDisplaySize(this.scale.width, this.scale.height); 
-        background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
+        background.setDisplaySize(this.scale.width, BASE_GAME_HEIGHT); 
+        background.setScale(Math.max(this.scale.width / background.width, BASE_GAME_HEIGHT / background.height));
 
         // play button
-        this.playButton = this.add.image(this.scale.width / 2, this.scale.height * 0.75, 'playButton').setInteractive();
+        this.playButton = this.add.image(this.scale.width / 2, BASE_GAME_HEIGHT * 0.75, 'playButton').setInteractive();
         this.playButton.setScale(0.5);
         this.playButton.on('pointerdown', () => {
             this.scene.start('instructionsScreen');

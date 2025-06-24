@@ -2,6 +2,8 @@ import { winScreenFromChallenge } from './handlers/levelSceneHandlers';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { bonusLevel, lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 
+const BASE_GAME_HEIGHT = 1920;
+
 export default class levelChallenge extends Phaser.Scene {
     constructor() {
         super({ key: 'levelChallenge' });
@@ -43,13 +45,13 @@ export default class levelChallenge extends Phaser.Scene {
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
         // steering wheel sprite
-        this.steeringWheel = this.add.sprite(this.scale.width / 2, this.scale.height * .72, 'steeringWheel');
+        this.steeringWheel = this.add.sprite(this.scale.width / 2, BASE_GAME_HEIGHT * .72, 'steeringWheel');
 
         // time bar displaying how long player has to react
-        this.timeBar = this.add.rectangle(this.scale.width / 2, this.scale.height * 0.33, 300, 30, 0xffffff).setOrigin(0.5);
+        this.timeBar = this.add.rectangle(this.scale.width / 2, BASE_GAME_HEIGHT * 0.33, 300, 30, 0xffffff).setOrigin(0.5);
 
         // score
-        this.scoreText = this.add.text(this.scale.width / 2, this.scale.height * 0.2, `Instructions Left: ${this.commandsLeft}`, {
+        this.scoreText = this.add.text(this.scale.width / 2, BASE_GAME_HEIGHT * 0.2, `Instructions Left: ${this.commandsLeft}`, {
             fontSize: '45px',
             color: '#ffffff',
             fontStyle: 'bold'
@@ -128,7 +130,7 @@ export default class levelChallenge extends Phaser.Scene {
 
         if (this.commandText) this.commandText.destroy();
 
-        this.commandText = this.add.text(this.scale.width / 2, this.scale.height * 0.25, this.currentCommand, {
+        this.commandText = this.add.text(this.scale.width / 2, BASE_GAME_HEIGHT * 0.25, this.currentCommand, {
             fontSize: '100px',
             fontStyle: 'bold',
             color: '#ffffff'

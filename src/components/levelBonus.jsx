@@ -4,6 +4,8 @@ import { winScreen, restartLevel, lockOrientation } from '/src/components/handle
 import { spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 
+const BASE_GAME_HEIGHT = 1920;
+
 export default class levelBonus extends Phaser.Scene {
     constructor() {
         super({ key: 'levelBonus' });
@@ -104,7 +106,7 @@ export default class levelBonus extends Phaser.Scene {
         // car sprite
         const carColors = ['carRed', 'carOrange', 'carYellow', 'carGreen', 'carBlue', 'carPurple'];
         const selectedCarColor = carColors[this.selectedCarIndex];
-        this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], this.scale.height * 7 / 8, selectedCarColor);
+        this.car = this.physics.add.sprite(this.lanes[this.currentLaneIndex], BASE_GAME_HEIGHT * 7 / 8, selectedCarColor);
         this.car.setScale(0.6);
         this.car.setOrigin(0.5, 0.5);
         this.car.setDepth(50);
@@ -147,7 +149,7 @@ export default class levelBonus extends Phaser.Scene {
         this.levelText.setDepth(100);
 
         // scoreboard
-        this.scoreboard = this.add.image(this.scale.width / 2, 130, 'scoreboard');
+        this.scoreboard = this.add.image(this.scale.width / 2, 128, 'scoreboard');
         this.scoreboard.setScale(1);
         this.scoreboard.setDepth(1);
 
