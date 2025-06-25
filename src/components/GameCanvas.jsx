@@ -14,25 +14,24 @@ const GameCanvas = () => {
 
     let refreshTimeout = null;
 
-  const updateAndRefresh = () => {
-    const newHeight = window.innerHeight;
-    const dvh = newHeight * 0.01;
-    document.documentElement.style.setProperty('--dvh', `${dvh}px`);
+    const updateAndRefresh = () => {
+      const newHeight = window.innerHeight;
+      const dvh = newHeight * 0.01;
+      document.documentElement.style.setProperty('--dvh', `${dvh}px`);
 
-    if (phaserGameRef.current && Math.abs(newHeight - prevHeight.current) > 50) {
-      prevHeight.current = newHeight;
+      if (phaserGameRef.current && Math.abs(newHeight - prevHeight.current) > 50) {
+        prevHeight.current = newHeight;
 
-      // Debounce the refresh slightly
-      if (refreshTimeout) clearTimeout(refreshTimeout);
+        // Delay refresh slighty so dimensions have updated correctly
+        if (refreshTimeout) clearTimeout(refreshTimeout);
 
-      refreshTimeout = setTimeout(() => {
-        console.log('Calling scale.refresh() after debounce', newHeight);
-        phaserGameRef.current.scale.refresh();
-      }, 200); // Wait a bit for layout to settle
-    }
-  };
+        refreshTimeout = setTimeout(() => {
+          console.log('Calling scale.refresh() after debounce', newHeight);
+          phaserGameRef.current.scale.refresh();
+        }, 200);
+      }
+    };
 
-    // Set initial dvh
     updateViewport();
 
     // Delay game build, then attach listeners
@@ -41,7 +40,6 @@ const GameCanvas = () => {
         parent: gameContainerRef.current,
       });
 
-      // Only attach resize/orientation listeners AFTER game is built
       window.addEventListener('resize', updateAndRefresh);
       window.addEventListener('orientationchange', updateAndRefresh);
     }, 100);
