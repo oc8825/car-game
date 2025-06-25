@@ -5,16 +5,24 @@ import { buildPhaserGame } from '/src/components/GameScene';
 const GameCanvas = () => {
   const gameContainerRef = useRef(null);
   const phaserGameRef = useRef(null);
+  const prevHeight = useRef(window.innerHeight);
 
   useEffect(() => {    
-    // ensure game doesn't get covered by UI elements on mobile
-    const setViewportHeight = () => {
-      const dvh = window.innerHeight * 0.01;
+    const updateViewportAndRefresh = () => {
+      const newHeight = window.innerHeight;
+      const dvh = newHeight * 0.01;
       document.documentElement.style.setProperty('--dvh', `${dvh}px`);
+
+      // refresh if changed height
+      if (phaserGameRef.current && Math.abs(newHeight - prevHeight.current) > 50) {
+        prevHeight.current = newHeight;
+        phaserGameRef.current.scale.refresh();
+      }
     };
-    setViewportHeight();
-    window.addEventListener('resize', setViewportHeight);
-    window.addEventListener('orientationchange', setViewportHeight);
+
+    // initial dvh
+    const initialDvh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--dvh', `${initialDvh}px`);
 
     // delay build slightly so dvh properly set
     setTimeout(() => {
@@ -23,9 +31,12 @@ const GameCanvas = () => {
       });
     }, 100);
 
+    window.addEventListener('resize', updateViewportAndRefresh);
+    window.addEventListener('orientationchange', updateViewportAndRefresh);
+
     return () => {
-      window.removeEventListener('resize', setViewportHeight);
-      window.removeEventListener('orientationchange', setViewportHeight);
+      window.removeEventListener('resize', updateViewportAndRefresh);
+      window.removeEventListener('orientationchange', updateViewportAndRefresh);
 
       if (phaserGameRef.current) {
         phaserGameRef.current.destroy(true);
@@ -39,7 +50,7 @@ const GameCanvas = () => {
             ref={gameContainerRef}
             style={{ 
               width: '100dvw', 
-              height: '100dvh', 
+              height: 'calc(var(--dvh, 1dvh) * 100)', 
             }}
           />
         </div>
