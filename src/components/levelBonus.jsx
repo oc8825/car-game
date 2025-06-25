@@ -136,7 +136,7 @@ export default class levelBonus extends Phaser.Scene {
         // initial time and time update
         const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
         this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
-        this.timerText.setDepth(10);
+        this.timerText.setDepth(51);
         this.timerEvent = this.time.addEvent({
             delay: 1000,
             callback: this.updateTimer,
@@ -151,7 +151,7 @@ export default class levelBonus extends Phaser.Scene {
         // scoreboard
         this.scoreboard = this.add.image(this.scale.width / 2, 128, 'scoreboard');
         this.scoreboard.setScale(1);
-        this.scoreboard.setDepth(1);
+        this.scoreboard.setDepth(50);
 
         // set up controls for lane switching
         this.targetX = this.lanes[this.currentLaneIndex];
