@@ -24,7 +24,7 @@ export class TiltControl {
     enableTiltControls() {
         if (!this.isTiltSupported) {
             window.addEventListener('devicemotion', this.boundHandleMotion);
-            this.isTiltEnabled = true;
+            this.isTiltEnabled = false; // if tilt stops working, change this back to true
             this.scene.isPausedForTilt = false;
             if (!this.scene.isPausedForOrientation) {
                 this.scene.scene.resume(); 
