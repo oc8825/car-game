@@ -36,12 +36,12 @@ export default class startScreen extends Phaser.Scene {
             this.gameStartSound.play();
         });
         this.playButton.on('pointerover', () => {
-            this.playButton.setScale(0.6);  
+            this.playButton.setScale(0.8);  
             this.input.setDefaultCursor('pointer');
 
         });
         this.playButton.on('pointerout', () => {
-            this.playButton.setScale(0.5);  
+            this.playButton.setScale(0.7);  
             this.input.setDefaultCursor('auto');
 
         });
