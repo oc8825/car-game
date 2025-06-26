@@ -250,6 +250,7 @@ export default class levelOne extends Phaser.Scene {
         const baseFontSize = 100;
         const minFontSize = 10;
 
+        // use testText to determine max font size that can fit in rectangle
         const testText = this.add.text(0, 0, `${this.score}`, {
             fontSize: `${baseFontSize}px`,
             fontStyle: 'bold'
