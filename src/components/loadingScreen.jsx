@@ -9,11 +9,23 @@ export default class LoadingScene extends Phaser.Scene {
 
     preload() {
         // loading text
-        this.add.text(this.scale.width / 2, BASE_GAME_HEIGHT / 2, 'Loading...', {
+        this.loadingText = document.createElement('div');
+        this.loadingText.innerText = 'Loading...';
+        this.loadingText.style.position = 'absolute';
+        this.loadingText.style.top = '50%';
+        this.loadingText.style.left = '50%';
+        this.loadingText.style.transform = 'translate(-50%, -50%)';
+        this.loadingText.style.fontSize = '20px';
+        this.loadingText.style.color = '#fff';
+        this.loadingText.style.zIndex = '100';
+        this.loadingText.style.display = 'block';
+        this.loadingText.style.textAlign = 'center';
+        document.body.appendChild(this.loadingText);
+        /* this.add.text(this.scale.width / 2, BASE_GAME_HEIGHT / 2, 'Loading...', {
             fontSize: '55px',
             color: '#ffffff',
             fontStyle: 'bold',
-        }).setOrigin(0.5);
+        }).setOrigin(0.5); */
 
         // load assets for entire game during this scene
         preloadAssets(this);
@@ -21,6 +33,9 @@ export default class LoadingScene extends Phaser.Scene {
 
     create() {
         // send to actual start screen once done loading
+        if (this.loadingText) {
+            this.loadingText.remove();
+        }
         this.scene.start('startScreen');
     }
 }
