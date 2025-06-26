@@ -44,6 +44,7 @@ export class TiltControl {
         enableTiltButton.style.color = '#fff';
         enableTiltButton.style.border = 'none';
         enableTiltButton.style.cursor = 'pointer';
+        enableTiltButton.style.zIndex = '350';
 
         document.body.appendChild(enableTiltButton);
 

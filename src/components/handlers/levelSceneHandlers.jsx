@@ -340,27 +340,36 @@ export const lockOrientation = (scene) => {
     
     // gray out screen and display please rotate message
     const overlay = scene.add.graphics();
-    overlay.fillStyle(0x000000, 0.85);
+    overlay.fillStyle(0xeaeaea);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(300);
-    const pauseText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT * .45,
-        'PAUSED', {
-        fontSize: '60px',
-        fill: '#fff',
-        align: 'center',
-        fontStyle: 'bold'
-    });
-    pauseText.setOrigin(0.5);
-    pauseText.setDepth(300);
-    const rotateText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT * .55,
-        'Please rotate device to portrait', {
-        fontSize: '40px',
-        fill: '#fff',
-        align: 'center',
-        fontStyle: 'bold'
-    });
-    rotateText.setOrigin(0.5);
-    rotateText.setDepth(300);
+
+    // use DOM so can actually center text
+    const pauseText = document.createElement('div');
+    pauseText.innerText = 'PAUSED!';
+    pauseText.style.position = 'absolute';
+    pauseText.style.top = '30%';
+    pauseText.style.left = '50%';
+    pauseText.style.transform = 'translate(-50%, -50%)';
+    pauseText.style.fontSize = '45px';
+    pauseText.style.color = '#000';
+    pauseText.style.zIndex = '301';
+    pauseText.style.display = 'none';
+    pauseText.style.fontWeight = 'bold';
+    document.body.appendChild(pauseText);
+
+    const rotateText = document.createElement('div');
+    rotateText.innerText = 'Please rotate device\nto portrait to continue';
+    rotateText.style.position = 'absolute';
+    rotateText.style.top = '70%';
+    rotateText.style.left = '50%';
+    rotateText.style.transform = 'translate(-50%, -50%)';
+    rotateText.style.fontSize = '25px';
+    rotateText.style.color = '#000';
+    rotateText.style.zIndex = '301';
+    rotateText.style.display = 'none';
+    rotateText.style.textAlign = 'center';
+    document.body.appendChild(rotateText);
 
     scene.isPausedForOrientation = false;
     
@@ -375,8 +384,8 @@ export const lockOrientation = (scene) => {
                 scene.isPausedForOrientation = true;
             }
             overlay.setVisible(true);
-            pauseText.setVisible(true);
-            rotateText.setVisible(true);
+            pauseText.style.display = 'block';
+            rotateText.style.display = 'block';
         }
         else {
             if (scene.isPausedForOrientation) {
@@ -387,8 +396,8 @@ export const lockOrientation = (scene) => {
                 }
             }
             overlay.setVisible(false);
-            pauseText.setVisible(false);
-            rotateText.setVisible(false);
+            pauseText.style.display = 'none';
+            rotateText.style.display = 'none';
         }
     };
 

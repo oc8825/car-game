@@ -24,7 +24,6 @@ const GameCanvas = () => {
 
         // Delay refresh slighty so dimensions have updated correctly
         if (refreshTimeout) clearTimeout(refreshTimeout);
-
         refreshTimeout = setTimeout(() => {
           console.log('Calling scale.refresh() after debounce', newHeight);
           phaserGameRef.current.scale.refresh();
