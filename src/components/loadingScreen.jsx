@@ -21,11 +21,6 @@ export default class LoadingScene extends Phaser.Scene {
         this.loadingText.style.display = 'block';
         this.loadingText.style.textAlign = 'center';
         document.body.appendChild(this.loadingText);
-        /* this.add.text(this.scale.width / 2, BASE_GAME_HEIGHT / 2, 'Loading...', {
-            fontSize: '55px',
-            color: '#ffffff',
-            fontStyle: 'bold',
-        }).setOrigin(0.5); */
 
         // load assets for entire game during this scene
         preloadAssets(this);
