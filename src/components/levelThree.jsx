@@ -10,34 +10,33 @@ const BASE_GAME_HEIGHT = 1920;
 export default class levelThree extends Phaser.Scene {
     constructor() {
         super({ key: 'levelThree' });
+
         this.ground = null;
         this.car = null;
-        this.speedY = 1;
-        this.scoreDigitLength = 1;
 
+        this.scoreDigitLength = 1;
+        this.score;
+        this.isScorePaused = false;
+        this.emitter;
+
+        this.levelCompleted = false;
         this.level = 3;
+        this.isRestarting = false;
+
         this.timerText = null;
         this.timerEvent = null;
         this.timeLeft = 45;
-        this.score;
-
-        this.orientation = null;
 
         this.laneChangeCooldown = false;
         this.currentLaneIndex = 1;
-
-        this.isRestarting = false;
-        this.levelCompleted = false;
-        this.isScorePaused = false;
         this.isTiltEnabled = false;
+
+        this.isPausedForTilt = false;
+        this.isPausedForOrientation = false;
 
         this.slipTime = 0;
         this.slipDuration = 600;
         this.isSlipping = false;
-
-        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
-        this.isPausedForTilt = false;
-        this.isPausedForOrientation = false;
 
         this.obstacleTypes = ['oil1', 'oil2', 'oil3', 'block1', 'block2', 'block3', 'cone', 'tire', 'spikes'];
         this.obstacleSpawnIntervals = {
@@ -61,10 +60,6 @@ export default class levelThree extends Phaser.Scene {
             waterBottle: 4060,
         };
 
-        this.emitter;
-        this.speed2 = 0;
-        this.speedDown = 0;
-
     }
 
     init(data) {
@@ -78,11 +73,9 @@ export default class levelThree extends Phaser.Scene {
     }
 
     preload() {
-
     }
 
     create() {
-
         loadSounds(this);
 
         lockOrientation(this);
@@ -141,7 +134,7 @@ export default class levelThree extends Phaser.Scene {
             handleItemCollision(this, car, item);
         }, null, this);
 
-        // initial score and score update
+        //initial score and setting up score increment
         this.scoreText = this.add.text(890, 150, `${this.score}`, {
             fontSize: '100px',
             color: '#ffffff',
@@ -157,7 +150,7 @@ export default class levelThree extends Phaser.Scene {
             loop: true
         });
 
-        // initial time and time update
+        // initial time and setting up time update
         const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
         this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
         this.timerText.setDepth(51);
@@ -168,7 +161,7 @@ export default class levelThree extends Phaser.Scene {
             loop: true
         });
 
-        // initial level
+        // display level
         this.levelText = this.add.text(170, 105, '3', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
         this.levelText.setDepth(100);
 
@@ -209,7 +202,7 @@ export default class levelThree extends Phaser.Scene {
                 callbackScope: this,
                 loop: true
             });
-
+            // stop spawning obstacles before finish line appears
             this.time.delayedCall(42967, () => {
                 obstacleSpawnEvent.remove(false); 
             });
@@ -228,7 +221,7 @@ export default class levelThree extends Phaser.Scene {
                 callbackScope: this,
                 loop: true
             });
-
+            // stop spawning items before finish line appears
             this.time.delayedCall(42967, () => {
                 itemSpawnEvent.remove(false); 
             });
@@ -246,6 +239,7 @@ export default class levelThree extends Phaser.Scene {
 
     }
 
+    // helper method to reformat score
     updateScoreText() {
         const rectWidth = 130;
         const rectHeight = 100;
@@ -253,6 +247,7 @@ export default class levelThree extends Phaser.Scene {
         const baseFontSize = 100;
         const minFontSize = 10;
 
+        // use testText to determine max font size that can fit in rectangle
         const testText = this.add.text(0, 0, `${this.score}`, {
             fontSize: `${baseFontSize}px`,
             fontStyle: 'bold'
@@ -272,6 +267,7 @@ export default class levelThree extends Phaser.Scene {
         testText.destroy();
     }
 
+    // update score and call helper to reformat it
     incrementScore() {
         if (!this.isScorePaused) {
             const newScore = this.score + 1;
@@ -280,13 +276,15 @@ export default class levelThree extends Phaser.Scene {
             if (newLength !== this.scoreDigitLength) {
                 this.scoreDigitLength = newLength;
                 this.score = newScore;
-                this.updateScoreText(); // font size
+                this.updateScoreText();
             } else {
                 this.score = newScore;
-                this.scoreText.setText(`${this.score}`); // update text
+                this.scoreText.setText(`${this.score}`);
             }
         }
     }
+
+    // update and reformat time
     updateTimer() {
         this.timeLeft -= 1;
 
@@ -299,23 +297,24 @@ export default class levelThree extends Phaser.Scene {
     }
 
     update() {
-        const speed = 1000; // in pixels per second
+        // move car towards desired position
+        const speed = 1000; // pixels per second of car side-to-side speed
         const threshold = 1;
         const distance = Math.abs(this.car.x - this.targetX);
-        // move if car not at the target position
         if (distance > threshold) {
             const moveAmount = speed * this.game.loop.delta / 1000;
             if (distance <= moveAmount) {
                 this.car.x = this.targetX;
             } else {
-                this.car.x += Math.sign(this.targetX - this.car.x) * moveAmount; // move closer
+                this.car.x += Math.sign(this.targetX - this.car.x) * moveAmount;
             }
         } else {
             this.car.x = this.targetX;
         }
 
+        // scroll background
         if (!this.isRestarting && !this.levelCompleted) {
-            const groundScrollSpeed = 800; // in pixels per second
+            const groundScrollSpeed = 800; // pixels per second of background speed
             const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
             this.ground.tilePositionY -= pixelsPerFrame;
         }
@@ -350,6 +349,7 @@ export default class levelThree extends Phaser.Scene {
 
     }
 
+    // set targetX based on direction we want to change lanes in
     changeLane(direction) {
         this.currentLaneIndex = Phaser.Math.Clamp(
             this.currentLaneIndex + direction,
@@ -360,6 +360,8 @@ export default class levelThree extends Phaser.Scene {
         this.targetX = this.lanes[this.currentLaneIndex];
     }
 
+    // check if lane is clear for obstacle (can't have obstacles too close
+    // horizontally or vertically, can't have items too close vertically)
     isLaneClearForObstacle(laneX) {
         let minYDistance = this.car.height;
         let xBuffer = this.car.height;
@@ -373,6 +375,7 @@ export default class levelThree extends Phaser.Scene {
         return !(closeObstacle || closeItem);
     }
 
+    // check if lane is clear for item (can't have anything too close vertically)
     isLaneClearForItem(laneX) {
         let minDistance = 150;
         let spawnY = 300;
