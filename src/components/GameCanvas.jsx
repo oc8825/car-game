@@ -35,18 +35,6 @@ const GameCanvas = () => {
     updateViewport();
 
     // Delay game build, then attach listeners
-    requestAnimationFrame(() => {
-      phaserGameRef.current = buildPhaserGame({
-        parent: gameContainerRef.current,
-      });
-
-      // Attach resize listeners after game is built
-      window.addEventListener('resize', updateAndRefresh);
-      window.addEventListener('orientationchange', updateAndRefresh);
-    });
-
-    /* OLD:
-    // Delay game build, then attach listeners
     setTimeout(() => {
       phaserGameRef.current = buildPhaserGame({
         parent: gameContainerRef.current,
@@ -55,7 +43,6 @@ const GameCanvas = () => {
       window.addEventListener('resize', updateAndRefresh);
       window.addEventListener('orientationchange', updateAndRefresh);
     }, 100);
-    */
 
     // Cleanup
     return () => {
