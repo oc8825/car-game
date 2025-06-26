@@ -32,6 +32,14 @@ const buildPhaserGame = ({ parent }) => {
         baseGameHeight = 2440;
         centerMode = Phaser.Scale.CENTER_HORIZONTALLY;
     }
+    // if loads on an iphone in landscape, still use mobile settings so looks good when rotate to portrait
+    // can't guarantee good portrait behavior on android devices, so just do this for iphone
+    // other devices loaded in landscape will default to FIT mode
+    if (navigator.userAgent.toLowerCase().includes('iphone')) {
+        scaleMode = Phaser.Scale.WIDTH_CONTROLS_HEIGHT; 
+        baseGameHeight = 2440;
+        centerMode = Phaser.Scale.CENTER_HORIZONTALLY;
+    }
     
     const config = {
         type: Phaser.AUTO,
