@@ -13,11 +13,15 @@ export class TiltControl {
         this.boundHandleMotion = this.handleMotion.bind(this)
     }
 
+    
     checkTiltSupport() {
-        return (
-            typeof DeviceMotionEvent !== 'undefined' &&
-            (navigator.userAgent.toLowerCase().includes('android') || navigator.userAgent.toLowerCase().includes('iphone'))
-        );
+        const ua = navigator.userAgent.toLowerCase();
+        const isMobile = /android|iphone|ipad|ipod/.test(ua);
+        const hasMotionSupport = typeof DeviceMotionEvent !== 'undefined';
+
+        const isKnownNoTiltDevice = ua.includes('crkey') || ua.includes('nest hub') || ua.includes('googletv');
+
+        return hasMotionSupport && isMobile && !isKnownNoTiltDevice;
     }
 
     // ask for permission and turn on tilt controls

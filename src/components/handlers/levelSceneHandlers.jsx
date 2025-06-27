@@ -375,10 +375,31 @@ export const lockOrientation = (scene) => {
     
     // if in landscape on mobile, pause until back in portrait
     const checkOrientation = () => {
-        const isMobile = !scene.sys.game.device.os.desktop;
         const isLandscape = window.innerWidth > window.innerHeight;
+        
+        // check for devices that are able to rotate to portrait
+        const canRotate = 'orientation' in screen || 'DeviceOrientationEvent' in window;
+        const isLikelyMobile = () => {
+            const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            const ua = navigator.userAgent.toLowerCase();
+            return hasTouch && (/android|iphone|ipad|ipod/.test(ua) || 
+            (screen.orientation && typeof screen.orientation.lock === 'function'));
+        };
+        const fixedOrientationDevice = () => {
+            const ua = navigator.userAgent.toLowerCase();
+            return (
+                ua.includes('crkey') ||
+                ua.includes('smart-tv') ||
+                ua.includes('netcast') ||
+                ua.includes('tizen') ||
+                ua.includes('googletv') ||
+                ua.includes('roku') ||
+                ua.includes('firetv')
+            );
+        };
+        const shouldEnforcePortrait = isLikelyMobile() && canRotate && !fixedOrientationDevice();
 
-        if (isMobile && isLandscape) {
+        if (shouldEnforcePortrait && isLandscape) {
             if (!scene.isPausedForOrientation) {
                 scene.scene.pause();
                 scene.isPausedForOrientation = true;
