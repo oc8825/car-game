@@ -7,12 +7,10 @@ export default class challengeInstructions extends Phaser.Scene {
     constructor() {
         super({ key: 'challengeInstructions' });
 
-        // won't need score and selectedCarIndex in this scene,
-        // but need to pass to future scenes
+        // won't need score and selectedCarIndex in this scene, but need to pass to future scenes
         this.score;
         this.selectedCarIndex;
 
-        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
         this.isPausedForTilt = false;
         this.isPausedForOrientation = false;
     }
@@ -20,15 +18,12 @@ export default class challengeInstructions extends Phaser.Scene {
     init(data) {
         this.score = data.score || 0;
         this.selectedCarIndex = data.selectedCarIndex || 0;
-        
     }
 
     preload() {
- 
     }
 
     create() {
-
         loadSounds(this);
 
         lockOrientation(this);
@@ -45,10 +40,9 @@ export default class challengeInstructions extends Phaser.Scene {
         background.setDisplaySize(this.scale.width, this.scale.height);
         background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
+        // button to start challenge level
         this.startButton = this.add.image(this.scale.width / 2, BASE_GAME_HEIGHT * 0.73, 'startButton').setInteractive();
         this.startButton.setScale(0.75);
-
-        // button to start challenge level
         this.startButton.on('pointerdown', () => {
             challengeLevel(this, 'levelChallenge', this.score, this.selectedCarIndex);
             this.gameStartSound.play();

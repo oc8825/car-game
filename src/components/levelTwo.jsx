@@ -58,7 +58,6 @@ export default class levelTwo extends Phaser.Scene {
             shirt: 4176,
             waterBottle: 4260,
         };
-
     }
 
     init(data) {

@@ -41,7 +41,6 @@ export default class levelBonus extends Phaser.Scene {
             shirt: 2500,
             waterBottle: 3000,
         };
-
     }
 
     init(data) {

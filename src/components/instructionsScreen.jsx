@@ -7,13 +7,11 @@ export default class instructionsScren extends Phaser.Scene {
     constructor() {
         super({ key: 'instructionsScreen' });
 
-        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
         this.isPausedForTilt = false;
         this.isPausedForOrientation = false;
     }
 
     preload() {
-
     }
 
     create() {
@@ -30,7 +28,7 @@ export default class instructionsScren extends Phaser.Scene {
             background = this.add.image(0, 0, 'mobileInstructions');
         }
         background.setOrigin(0, 0);
-        background.setDisplaySize(this.scale.width, BASE_GAME_HEIGHT);  // Set the background size to fit the screen
+        background.setDisplaySize(this.scale.width, BASE_GAME_HEIGHT);
         background.setScale(Math.max(this.scale.width / background.width, BASE_GAME_HEIGHT / background.height));
 
         // choose car button
@@ -48,9 +46,5 @@ export default class instructionsScren extends Phaser.Scene {
             this.chooseCarButton.setScale(1.5); 
             this.input.setDefaultCursor('auto');
         });
-
     }
-
-
 }
-

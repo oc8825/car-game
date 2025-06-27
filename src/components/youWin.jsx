@@ -7,24 +7,21 @@ export default class youWin extends Phaser.Scene {
     constructor() {
         super({ key: 'youWin' });
 
-        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
         this.isPausedForTilt = false;
         this.isPausedForOrientation = false;
     }
 
     preload() {
-
     }
 
     create(data) {
-
         loadSounds(this);
 
         lockOrientation(this);
 
         this.prizeSound.play();
 
-        // set background depending on score
+        // set background depending on score, or switch to prize wheel scene if score >= 350
         const score = data.score || 0;
         let backgroundKey = '0Win';
         if (score >= 0 && score < 100) {
