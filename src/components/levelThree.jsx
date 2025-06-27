@@ -343,10 +343,7 @@ export default class levelThree extends Phaser.Scene {
             restartLevel(this);
         }
 
-        // update score and level
         this.scoreText.setText(`${this.score}`);
-        this.levelText.setText(`${this.level}`);
-
     }
 
     // set targetX based on direction we want to change lanes in

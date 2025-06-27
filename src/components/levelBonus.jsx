@@ -9,28 +9,27 @@ const BASE_GAME_HEIGHT = 1920;
 export default class levelBonus extends Phaser.Scene {
     constructor() {
         super({ key: 'levelBonus' });
+        
         this.ground = null;
         this.car = null;
-        this.speedY = 1;
 
+        this.scoreDigitLength = 1;
+        this.score;
+        this.isScorePaused = false;
+        this.emitter;
+
+        this.levelCompleted = false;
         this.level = "B";
+        this.isRestarting = false;
+
         this.timerText = null;
         this.timerEvent = null;
         this.timeLeft = 25;
-        this.score;
-        this.scoreDigitLength = 1;
-
-        this.orientation = null;
 
         this.laneChangeCooldown = false;
         this.currentLaneIndex = 1;
-
-        this.isRestarting = false;
-        this.levelCompleted = false;
-        this.isScorePaused = false;
         this.isTiltEnabled = false;
 
-        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
         this.isPausedForTilt = false;
         this.isPausedForOrientation = false;
 
@@ -42,10 +41,6 @@ export default class levelBonus extends Phaser.Scene {
             shirt: 2500,
             waterBottle: 3000,
         };
-
-        this.emitter;
-        this.speed2 = 0;
-        this.speedDown = 0;
 
     }
 
@@ -60,11 +55,9 @@ export default class levelBonus extends Phaser.Scene {
     }
 
     preload() {
-
     }
 
     create() {
-
         loadSounds(this);
 
         lockOrientation(this);
@@ -117,7 +110,7 @@ export default class levelBonus extends Phaser.Scene {
             handleItemCollision(this, car, item);
         }, null, this);
 
-        // inital score and score update
+        // initial score and setting up score increment
         this.scoreText = this.add.text(890, 150, `${this.score}`, {
             fontSize: '100px',
             color: '#ffffff',
@@ -133,7 +126,7 @@ export default class levelBonus extends Phaser.Scene {
             loop: true
         });        
 
-        // initial time and time update
+        // initial time and setting up time update
         const initialFormattedTime = this.timeLeft < 10 ? `0${this.timeLeft}` : `${this.timeLeft}`;
         this.timerText = this.add.text(555, 32, `${initialFormattedTime}`, { fontSize: '70px', fill: 'white', fontStyle: 'bold' });
         this.timerText.setDepth(51);
@@ -145,7 +138,7 @@ export default class levelBonus extends Phaser.Scene {
         });
 
         // initial level
-        this.levelText = this.add.text(170, 105, '3', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
+        this.levelText = this.add.text(170, 105, 'B', { fontSize: '95px', fill: 'white', fontStyle: 'bold' });
         this.levelText.setDepth(100);
 
         // scoreboard
@@ -185,7 +178,7 @@ export default class levelBonus extends Phaser.Scene {
                 callbackScope: this,
                 loop: true
             });
-
+            // stop spawning items before finish line appears
             this.time.delayedCall(22969, () => {
                 itemSpawnEvent.remove(false); 
             });
@@ -203,6 +196,7 @@ export default class levelBonus extends Phaser.Scene {
 
     }
 
+    // helper method to reformat score
     updateScoreText() {
         const rectWidth = 130;
         const rectHeight = 100;
@@ -210,6 +204,7 @@ export default class levelBonus extends Phaser.Scene {
         const baseFontSize = 100;
         const minFontSize = 10;
 
+        // use testText to determine max font size that can fit in rectangle
         const testText = this.add.text(0, 0, `${this.score}`, {
             fontSize: `${baseFontSize}px`,
             fontStyle: 'bold'
@@ -229,6 +224,7 @@ export default class levelBonus extends Phaser.Scene {
         testText.destroy();
     }
 
+    // update score and call helper to reformat it
     incrementScore() {
         if (!this.isScorePaused) {
             const newScore = this.score + 1;
@@ -245,6 +241,7 @@ export default class levelBonus extends Phaser.Scene {
         }
     }
 
+    // update and reformat time
     updateTimer() {
         this.timeLeft -= 1;
 
@@ -257,11 +254,10 @@ export default class levelBonus extends Phaser.Scene {
     }
 
     update() {
-
-        const speed = 1000; // in pixels per second
+        // move car towards desired position
+        const speed = 1000; // pixels per second of car side-to-side speed
         const threshold = 1;
         const distance = Math.abs(this.car.x - this.targetX);
-        // move if car not at the target position
         if (distance > threshold) {
             const moveAmount = speed * this.game.loop.delta / 1000;
             if (distance <= moveAmount) {
@@ -273,8 +269,9 @@ export default class levelBonus extends Phaser.Scene {
             this.car.x = this.targetX;
         }
 
+        // scroll background
         if (!this.isRestarting && !this.levelCompleted) {
-            const groundScrollSpeed = 800; // in pixels per second
+            const groundScrollSpeed = 800; // pixels per second of background speed
             const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
             this.ground.tilePositionY -= pixelsPerFrame;
         }
@@ -293,11 +290,10 @@ export default class levelBonus extends Phaser.Scene {
             restartLevel(this);
         }
 
-        // update score and level
         this.scoreText.setText(`${this.score}`);
-        this.levelText.setText(`${this.level}`);
     }
 
+    // set targetX based on direction we want to change lanes in
     changeLane(direction) {
         this.currentLaneIndex = Phaser.Math.Clamp(
             this.currentLaneIndex + direction,
@@ -308,6 +304,7 @@ export default class levelBonus extends Phaser.Scene {
         this.targetX = this.lanes[this.currentLaneIndex];
     }
 
+    // check if lane is clear for item (can't have anything too close vertically)
     isLaneClearForItem(laneX) {
         let minDistance = 150;
         let spawnY = 300;

@@ -23,8 +23,9 @@ export class TiltControl {
     // ask for permission and turn on tilt controls
     enableTiltControls() {
         if (!this.isTiltSupported) {
-            window.addEventListener('devicemotion', this.boundHandleMotion);
+            window.addEventListener('devicemotion', this.boundHandleMotion); // why adding listener when tilt isn't supported?
             this.isTiltEnabled = false; // if tilt stops working, change this back to true
+            // could i just get rid of two lines above?
             this.scene.isPausedForTilt = false;
             if (!this.scene.isPausedForOrientation) {
                 this.scene.scene.resume(); 
@@ -96,8 +97,8 @@ export class TiltControl {
         });
     }
 
-    // enable tilt controls without asking for permission in subsequent levels after
-    // already enabling it previously
+    // use player's previous answer of enabling/disabling tilt to set up
+    // tilt for subsequent levels
     enableTiltControlsIfPreviouslyEnabled() {
         if (!this.isTiltSupported || TiltControl.hasDisabledTilt) {
             window.addEventListener('devicemotion', this.boundHandleMotion);
@@ -146,7 +147,7 @@ export class TiltControl {
         }
     }
 
-    // add cooldown so the player doesn't accidentally change lanes
+    // cooldown so the player doesn't accidentally change lanes
     // multiple times for one tilt
     startCooldown() {
         this.laneChangeCooldown = true;
