@@ -8,7 +8,6 @@ export default class levelChallenge extends Phaser.Scene {
     constructor() {
         super({ key: 'levelChallenge' });
 
-        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
         this.isPausedForTilt = false;
         this.isPausedForOrientation = false;
     }
@@ -30,7 +29,6 @@ export default class levelChallenge extends Phaser.Scene {
     }
 
     preload() {
-
     }
 
     create() {
@@ -51,14 +49,14 @@ export default class levelChallenge extends Phaser.Scene {
         // time bar displaying how long player has to react
         this.timeBar = this.add.rectangle(this.scale.width / 2, BASE_GAME_HEIGHT * 0.33, 300, 30, 0xffffff).setOrigin(0.5);
 
-        // score
-        this.scoreText = this.add.text(this.scale.width / 2, BASE_GAME_HEIGHT * 0.2, `Instructions Left: ${this.commandsLeft}`, {
+        // display intructions for player to execute
+        this.instructionText = this.add.text(this.scale.width / 2, BASE_GAME_HEIGHT * 0.2, `Instructions Left: ${this.commandsLeft}`, {
             fontSize: '45px',
             color: '#ffffff',
             fontStyle: 'bold'
         }).setOrigin(0.5,0);
 
-        //strike feature
+        // display starting blank strike boxes
         const strikeSize = 85;
         const strikeSpacing = 90;
         const totalWidth = (this.maxStrikes - 1) * strikeSpacing;
@@ -111,6 +109,7 @@ export default class levelChallenge extends Phaser.Scene {
         this.scheduleNextCommand();
     }
 
+    // check if new intruction needed and call helper showNextCommand if so
     scheduleNextCommand() {
         if (this.isGameOver) return;
         
@@ -124,6 +123,7 @@ export default class levelChallenge extends Phaser.Scene {
         });
     }
 
+    // reset instruction, timer for player to respond in, and time bar displaying that time
     showNextCommand() {
         if (this.isGameOver) return;
         
@@ -159,12 +159,13 @@ export default class levelChallenge extends Phaser.Scene {
                 this.commandText.destroy();
                 this.commandText = null;
             }
-            this.applyStrikeWithPause();
+            this.applyStrike();
         }, [], this);
 
         this.isFirstCommand = false;
     }
 
+    // react to correct or incorrect response based on user reaction keyCode
     handleInput(keyCode) {
         if (this.inputLocked || this.isGameOver) return; 
         this.inputLocked = true;    
@@ -201,7 +202,7 @@ export default class levelChallenge extends Phaser.Scene {
             this.timeBar.setVisible(false);
 
             this.commandsLeft--;
-            this.scoreText.setText(`Instructions Left: ${this.commandsLeft}`);
+            this.instructionText.setText(`Instructions Left: ${this.commandsLeft}`);
 
             this.time.delayedCall(300, () => {
                 this.inputLocked = false; 
@@ -215,11 +216,13 @@ export default class levelChallenge extends Phaser.Scene {
                 this.commandText.destroy();
                 this.commandText = null;
             }
-            this.applyStrikeWithPause();
+            this.applyStrike();
         }
     }
 
-    applyStrikeWithPause() {
+    // User pressed wrong button or timed out, give them a strike and
+    // slight delay before next instructions
+    applyStrike() {
         this.timeBar.setVisible(false);
         this.wrongSound.play();
 
@@ -238,6 +241,7 @@ export default class levelChallenge extends Phaser.Scene {
         }
     }
 
+    // briefly turn steering wheel left, right, or enlarge depedning on action
     animateSteeringWheel(action) {
         if (action === 'left') {
             this.tweens.add({
@@ -266,6 +270,8 @@ export default class levelChallenge extends Phaser.Scene {
         }
     }
 
+    // if lose challenge, skip bonus level and give prize based on the player's
+    // score at the end of level three
     gameOver() {
         if (this.isGameOver) return;
         this.isGameOver = true;
@@ -276,6 +282,7 @@ export default class levelChallenge extends Phaser.Scene {
         winScreenFromChallenge(this);
     }
 
+    // start bonus level if beat challenge
     winGame() {
         bonusLevel(this, 'levelBonus', this.score, this.selectedCarIndex);
     }
