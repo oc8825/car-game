@@ -7,13 +7,11 @@ export default class prizeWheelWin extends Phaser.Scene {
     constructor() {
         super({ key: 'prizeWheelWin' });
 
-        // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
         this.isPausedForTilt = false;
         this.isPausedForOrientation = false;
     }
 
     preload() {
-
     }
 
     create(data) {
@@ -21,37 +19,30 @@ export default class prizeWheelWin extends Phaser.Scene {
 
         lockOrientation(this);
         
-        // set background depending on result from wheel
-        const score = data.score || 0;
+        // set background and sound effect depending on result from wheel
+        // const score = data.score || 0;
         let backgroundKey = 'EOWin';
         if (data.prize.includes('Jess')) {
             backgroundKey = 'jessWin';
             this.prizeSound.play();
-
         } else if (data.prize.includes('Gautam')) {
             backgroundKey = 'gautamWin';
             this.prizeSound.play();
-
         } else if (data.prize.includes('Thomas')) {
             backgroundKey = 'thomasWin';
             this.prizeSound.play();
-
         } else if (data.prize.includes('Jimmy')) {
             backgroundKey = 'jimmyWin';
             this.prizeSound.play();
-
         } else if (data.prize.includes('Vaidhy')) {
             backgroundKey = 'vaidhyWin';
             this.prizeSound.play();
-
         } else if (data.prize.includes('Brandon')) {
             backgroundKey = 'brandonWin';
             this.prizeSound.play();
-
         } else if (data.prize.includes('Cali')) {
             backgroundKey = 'caliWin';
             this.prizeSound.play();
-
         } else if (data.prize.includes('ErikaandOwen')) {
             backgroundKey = 'EOWin';
             this.youLostSound.play();
@@ -67,7 +58,6 @@ export default class prizeWheelWin extends Phaser.Scene {
             .setDepth(250);
         playAgainButton.on('pointerdown', () => {
             this.isRestarting = false;
-
             this.scene.stop('levelOne');
             this.scene.stop('levelTwo');
             this.scene.stop('levelThree');
@@ -75,7 +65,6 @@ export default class prizeWheelWin extends Phaser.Scene {
             this.scene.stop('levelBonus');
             this.scene.stop('prizeWheel');
             this.scene.stop();
-
             this.scene.start('chooseCar');
         });
         playAgainButton.on('pointerover', () => {

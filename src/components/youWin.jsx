@@ -54,14 +54,12 @@ export default class youWin extends Phaser.Scene {
             .setDepth(250);
         playAgainButton.on('pointerdown', () => {
             this.isRestarting = false;
-
             this.scene.stop('levelOne');
             this.scene.stop('levelTwo');
             this.scene.stop('levelThree');
             this.scene.stop('levelChallenge');
             this.scene.stop('levelBonus');
             this.scene.stop();
-
             this.scene.start('chooseCar');
         });
         playAgainButton.on('pointerover', () => {

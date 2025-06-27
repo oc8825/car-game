@@ -7,13 +7,11 @@ export default class prizeWheel extends Phaser.Scene {
   constructor() {
     super('prizeWheel');
 
-    // flags so pausing/resuming for turning on tilt and portrait lock don't conflict
     this.isPausedForTilt = false;
     this.isPausedForOrientation = false;
   }
 
   preload() {
-
   }
 
   create() {
@@ -27,6 +25,7 @@ export default class prizeWheel extends Phaser.Scene {
     background.setDisplaySize(this.scale.width, this.scale.height);
     background.setScale(Math.max(this.scale.width / background.width, this.scale.height / background.height));
 
+    // calculate center of screen for positioning wheel
     const centerX = this.scale.width / 2;
     const centerY = BASE_GAME_HEIGHT / 2;
 
@@ -74,11 +73,13 @@ export default class prizeWheel extends Phaser.Scene {
   spinWheel() {
     if (this.isSpinning) return;
 
+    // determine degrees of spin
     this.isSpinning = true;
     const rounds = Phaser.Math.Between(2, 4); // random number of full spins
     const extraDegrees = Phaser.Math.Between(0, 360); // random amount of extra rotation
     const totalDegrees = rounds * 360 + extraDegrees;
 
+    // rotate totalDegrees
     this.tweens.add({
       targets: this.wheel,
       angle: totalDegrees,
@@ -93,14 +94,13 @@ export default class prizeWheel extends Phaser.Scene {
     });
   }
 
+  // use the final rotation angle of the wheel to determine which prize the pin points to
   getPrize(angle) {
     const sectors = 8;
     const sectorAngle = 360 / sectors;
 
     const normalizedAngle = (360 - angle + sectorAngle / 2) % 360;
-
     const index = Math.floor(normalizedAngle / sectorAngle);
-
     const prizes = [
       "Jess",
       "Jimmy",
