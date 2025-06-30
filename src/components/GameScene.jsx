@@ -51,6 +51,7 @@ const buildPhaserGame = ({ parent }) => {
             width: BASE_GAME_WIDTH,  
             height: baseGameHeight, 
         },
+        transparent: true,
         scene: [loadingScreen, startScreen, instructionsScreen, chooseCar, levelOne, levelTwo, levelThree, levelBonus, challengeInstructions, levelChallenge, prizeWheel, prizeWheelWin, youWin, GameScene],
         physics: {
             default: 'arcade',

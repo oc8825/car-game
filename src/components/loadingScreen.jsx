@@ -14,7 +14,7 @@ export default class LoadingScene extends Phaser.Scene {
         this.loadingText.style.left = '50%';
         this.loadingText.style.transform = 'translate(-50%, -50%)';
         this.loadingText.style.fontSize = '20px';
-        this.loadingText.style.color = '#fff';
+        this.loadingText.style.color = '#07f4fd';
         this.loadingText.style.zIndex = '100';
         this.loadingText.style.display = 'block';
         this.loadingText.style.textAlign = 'center';

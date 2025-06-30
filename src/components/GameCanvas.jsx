@@ -33,7 +33,7 @@ const GameCanvas = () => {
 
     updateViewport();
 
-    // Delay game build, then attach listeners
+    // Delay game build and attach listeners after build
     setTimeout(() => {
       phaserGameRef.current = buildPhaserGame({
         parent: gameContainerRef.current,
