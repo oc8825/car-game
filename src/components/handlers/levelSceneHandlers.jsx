@@ -342,7 +342,7 @@ export const lockOrientation = (scene) => {
     const overlay = scene.add.graphics();
     overlay.fillStyle(0xeaeaea);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
-    overlay.setDepth(300);
+    overlay.setDepth(350);
 
     // use DOM so can actually center text
     const pauseText = document.createElement('div');
@@ -353,7 +353,7 @@ export const lockOrientation = (scene) => {
     pauseText.style.transform = 'translate(-50%, -50%)';
     pauseText.style.fontSize = '45px';
     pauseText.style.color = '#000';
-    pauseText.style.zIndex = '301';
+    pauseText.style.zIndex = '351';
     pauseText.style.display = 'none';
     pauseText.style.fontWeight = 'bold';
     document.body.appendChild(pauseText);
@@ -366,7 +366,7 @@ export const lockOrientation = (scene) => {
     rotateText.style.transform = 'translate(-50%, -50%)';
     rotateText.style.fontSize = '25px';
     rotateText.style.color = '#000';
-    rotateText.style.zIndex = '301';
+    rotateText.style.zIndex = '351';
     rotateText.style.display = 'none';
     rotateText.style.textAlign = 'center';
     document.body.appendChild(rotateText);

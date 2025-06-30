@@ -37,40 +37,67 @@ export class TiltControl {
             return;
         }
 
+        const prompt = document.createElement('div');
+        prompt.innerText = 'Enable tilt controls?';
+        prompt.style.position = 'absolute';
+        prompt.style.top = '40%';
+        prompt.style.left = '25%';
+        prompt.style.fontSize = '25px';
+        prompt.style.width = 'calc(50% - 1px)';
+        prompt.style.height = '70px';
+        prompt.style.whiteSpace = 'normal';
+        prompt.style.display = 'flex';
+        prompt.style.justifyContent = 'center';
+        prompt.style.alignItems = 'center';
+        prompt.style.textAlign = 'center';
+        prompt.style.lineHeight = '1.2';
+        prompt.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        prompt.style.color = '#fff';
+        prompt.style.border = '2px solid white';
+        prompt.style.cursor = 'pointer';
+        prompt.style.zIndex = '300';
+        document.body.appendChild(prompt);
+
         const enableTiltButton = document.createElement('button');
         enableTiltButton.innerText = 'YES';
         enableTiltButton.style.position = 'absolute';
-        enableTiltButton.style.top = '50%';
-        enableTiltButton.style.left = '50%';
+        enableTiltButton.style.top = 'calc(40% + 74px)';
+        enableTiltButton.style.left = 'calc(50% + 2px)';
         enableTiltButton.style.fontSize = '20px';
-        enableTiltButton.style.width = '25vw';
-        enableTiltButton.style.height = '10vh';
+        enableTiltButton.style.width = '25%';
+        enableTiltButton.style.height = '50px';
         enableTiltButton.style.whiteSpace = 'normal';
+        enableTiltButton.style.display = 'flex';
+        enableTiltButton.style.justifyContent = 'center';
+        enableTiltButton.style.alignItems = 'center';
         enableTiltButton.style.textAlign = 'center';
         enableTiltButton.style.lineHeight = '1.2';
         enableTiltButton.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
         enableTiltButton.style.color = '#fff';
         enableTiltButton.style.border = '2px solid white';
         enableTiltButton.style.cursor = 'pointer';
-        enableTiltButton.style.zIndex = '350';
+        enableTiltButton.style.zIndex = '300';
         document.body.appendChild(enableTiltButton);
 
         const disableTiltButton = document.createElement('button');
         disableTiltButton.innerText = 'NO';
         disableTiltButton.style.position = 'absolute';
-        disableTiltButton.style.top = '50%';
+        disableTiltButton.style.top = 'calc(40% + 74px)';
         disableTiltButton.style.left = '25%';
         disableTiltButton.style.fontSize = '20px';
-        disableTiltButton.style.width = '25vw';
-        disableTiltButton.style.height = '10vh';
+        disableTiltButton.style.width = '25%';
+        disableTiltButton.style.height = '50px';
         disableTiltButton.style.whiteSpace = 'normal';
+        disableTiltButton.style.display = 'flex';
+        disableTiltButton.style.justifyContent = 'center';
+        disableTiltButton.style.alignItems = 'center';
         disableTiltButton.style.textAlign = 'center';
         disableTiltButton.style.lineHeight = '1.2';
         disableTiltButton.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
         disableTiltButton.style.color = '#fff';
         disableTiltButton.style.border = '2px solid white';
         disableTiltButton.style.cursor = 'pointer';
-        disableTiltButton.style.zIndex = '350';
+        disableTiltButton.style.zIndex = '300';
         document.body.appendChild(disableTiltButton);
 
         enableTiltButton.addEventListener('click', () => {
@@ -84,6 +111,7 @@ export class TiltControl {
                             window.addEventListener('devicemotion', this.boundHandleMotion);
                             document.body.removeChild(enableTiltButton);
                             document.body.removeChild(disableTiltButton);
+                            document.body.removeChild(prompt);
                             this.scene.isPausedForTilt = false;
                             if (!this.scene.isPausedForOrientation) {
                                 this.scene.scene.resume(); 
@@ -95,6 +123,7 @@ export class TiltControl {
                             TiltControl.hasDisabledTilt = true;
                             document.body.removeChild(enableTiltButton);
                             document.body.removeChild(disableTiltButton);
+                            document.body.removeChild(prompt);
                             this.scene.isPausedForTilt = false;
                             if (!this.scene.isPausedForOrientation) {
                                 this.scene.scene.resume(); 
@@ -114,6 +143,7 @@ export class TiltControl {
                 window.addEventListener('devicemotion', this.boundHandleMotion);
                 document.body.removeChild(enableTiltButton);
                 document.body.removeChild(disableTiltButton);
+                document.body.removeChild(prompt);
                 this.scene.isPausedForTilt = false;
                 if (!this.scene.isPausedForOrientation) {
                     this.scene.scene.resume(); 
@@ -125,10 +155,10 @@ export class TiltControl {
 
         disableTiltButton.addEventListener('click', () => {
             console.log('Permission denied for tilt controls.');
-            // alert('Permission denied. Tilt controls are unavailable.');
             TiltControl.hasDisabledTilt = true;
             document.body.removeChild(enableTiltButton);
             document.body.removeChild(disableTiltButton);
+            document.body.removeChild(prompt);
             this.scene.isPausedForTilt = false;
             if (!this.scene.isPausedForOrientation) {
                 this.scene.scene.resume(); 
