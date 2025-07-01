@@ -7,17 +7,17 @@ const GameCanvas = () => {
   const prevHeight = useRef(window.innerHeight);
 
   useEffect(() => {
+    // recalculate dvh
     const updateViewport = () => {
       const dvh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--dvh', `${dvh}px`);
     };
 
+    // given a big enough change in viewport, refresh to new dimensions
     let refreshTimeout = null;
-
     const updateAndRefresh = () => {
       const newHeight = window.innerHeight;
-      const dvh = newHeight * 0.01;
-      document.documentElement.style.setProperty('--dvh', `${dvh}px`);
+      updateViewport();
 
       if (phaserGameRef.current && Math.abs(newHeight - prevHeight.current) > 50) {
         prevHeight.current = newHeight;
@@ -44,7 +44,6 @@ const GameCanvas = () => {
       const game = phaserGameRef.current;
       if (game == null) return;
       const actualDuration = new Date().getTime() - now;
-
       game.config.speedFactor = actualDuration > 1000 ? 2 : 1;
 
       window.addEventListener('resize', updateAndRefresh);
