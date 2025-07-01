@@ -6,7 +6,7 @@ export class TiltControl {
     constructor(scene, callback) {
         this.scene = scene;
         this.callback = callback;
-        this.tiltThreshold = 2; // sensitivity
+        this.tiltThreshold = 2; // sensitivity (lower = more sensitive)
         this.laneChangeCooldown = false;
         this.isTiltSupported = this.checkTiltSupport();
         this.isTiltEnabled = false;
@@ -43,7 +43,7 @@ export class TiltControl {
         prompt.style.top = '40%';
         prompt.style.left = '25%';
         prompt.style.fontSize = '25px';
-        prompt.style.width = 'calc(50% - 1px)';
+        prompt.style.width = 'calc(50% - 2px)';
         prompt.style.height = '70px';
         prompt.style.whiteSpace = 'normal';
         prompt.style.display = 'flex';
@@ -61,7 +61,7 @@ export class TiltControl {
         const enableTiltButton = document.createElement('button');
         enableTiltButton.innerText = 'YES';
         enableTiltButton.style.position = 'absolute';
-        enableTiltButton.style.top = 'calc(40% + 74px)';
+        enableTiltButton.style.top = 'calc(40% + 75px)';
         enableTiltButton.style.left = 'calc(50% + 2px)';
         enableTiltButton.style.fontSize = '20px';
         enableTiltButton.style.width = '25%';
@@ -82,7 +82,7 @@ export class TiltControl {
         const disableTiltButton = document.createElement('button');
         disableTiltButton.innerText = 'NO';
         disableTiltButton.style.position = 'absolute';
-        disableTiltButton.style.top = 'calc(40% + 74px)';
+        disableTiltButton.style.top = 'calc(40% + 75px)';
         disableTiltButton.style.left = '25%';
         disableTiltButton.style.fontSize = '20px';
         disableTiltButton.style.width = '25%';
