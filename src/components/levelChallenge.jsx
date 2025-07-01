@@ -8,6 +8,8 @@ export default class levelChallenge extends Phaser.Scene {
     constructor() {
         super({ key: 'levelChallenge' });
 
+        this.levelCompleted = false;
+
         this.isPausedForTilt = false;
         this.isPausedForOrientation = false;
     }
@@ -26,6 +28,7 @@ export default class levelChallenge extends Phaser.Scene {
         this.inputLocked = false; 
         this.isFirstCommand = true;
         this.isGameOver = false;
+        this.levelCompleted = false;
     }
 
     preload() {
@@ -70,7 +73,7 @@ export default class levelChallenge extends Phaser.Scene {
             this.strikeIcons.push(icon);
         }
 
-        // hande user reaction for desktop
+        // handle user reaction for desktop
         this.input.keyboard.on('keydown', (event) => {
             this.handleInput(event.code);
         });
@@ -114,6 +117,7 @@ export default class levelChallenge extends Phaser.Scene {
         if (this.isGameOver) return;
         
         if (this.commandsLeft <= 0) {
+            this.levelCompleted = true;
             this.winGame();
             return;
         }
@@ -167,7 +171,7 @@ export default class levelChallenge extends Phaser.Scene {
 
     // react to correct or incorrect response based on user reaction keyCode
     handleInput(keyCode) {
-        if (this.inputLocked || this.isGameOver) return; 
+        if (this.inputLocked || this.isGameOver || this.levelCompleted) return; 
         this.inputLocked = true;    
 
         let correct = false;
