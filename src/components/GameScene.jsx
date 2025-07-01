@@ -65,6 +65,7 @@ const buildPhaserGame = ({ parent }) => {
 
     const game = new Phaser.Game(config);
 
+    // detect changes in viewport and resize Canvas accordingly
     const resizeCanvasStyle = () => {
         const canvas = game.canvas;
         if (!canvas) return;
@@ -73,7 +74,6 @@ const buildPhaserGame = ({ parent }) => {
         canvas.style.height = '100dvh';
         canvas.style.display = 'block';
     };
-
     resizeCanvasStyle();
     window.addEventListener('resize', resizeCanvasStyle);
     window.addEventListener('orientationchange', resizeCanvasStyle);
