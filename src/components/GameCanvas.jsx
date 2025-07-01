@@ -33,11 +33,19 @@ const GameCanvas = () => {
 
     updateViewport();
 
-    // Delay game build and attach listeners after build
+    // Detect if in lower power mode and set speedFactor accordingly
+    const now = new Date().getTime();
     setTimeout(() => {
+      // Delay game build and attach listeners after build
       phaserGameRef.current = buildPhaserGame({
         parent: gameContainerRef.current,
       });
+
+      const game = phaserGameRef.current;
+      if (game == null) return;
+      const actualDuration = new Date().getTime() - now;
+
+      game.config.speedFactor = actualDuration > 1000 ? 2 : 1;
 
       window.addEventListener('resize', updateAndRefresh);
       window.addEventListener('orientationchange', updateAndRefresh);
