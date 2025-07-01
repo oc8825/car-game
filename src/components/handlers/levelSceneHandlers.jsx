@@ -1,3 +1,5 @@
+import { TiltControl } from '/src/components/handlers/TiltControl';
+
 const BASE_GAME_HEIGHT = 1920;
 
 export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, selectedCarIndex) {
@@ -337,7 +339,7 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
 
 export const lockOrientation = (scene) => {
     if(scene._orientationOverlay) return;
-    
+
     // gray out screen and display please rotate message
     const overlay = scene.add.graphics();
     overlay.fillStyle(0xeaeaea);
@@ -348,7 +350,7 @@ export const lockOrientation = (scene) => {
     const pauseText = document.createElement('div');
     pauseText.innerText = 'PAUSED!';
     pauseText.style.position = 'absolute';
-    pauseText.style.top = '30%';
+    pauseText.style.top = '40%';
     pauseText.style.left = '50%';
     pauseText.style.transform = 'translate(-50%, -50%)';
     pauseText.style.fontSize = '45px';
@@ -361,7 +363,7 @@ export const lockOrientation = (scene) => {
     const rotateText = document.createElement('div');
     rotateText.innerText = 'Please rotate device\nto portrait to continue';
     rotateText.style.position = 'absolute';
-    rotateText.style.top = '70%';
+    rotateText.style.top = 'calc(40% + 80px)';
     rotateText.style.left = '50%';
     rotateText.style.transform = 'translate(-50%, -50%)';
     rotateText.style.fontSize = '25px';
@@ -407,6 +409,17 @@ export const lockOrientation = (scene) => {
             overlay.setVisible(true);
             pauseText.style.display = 'block';
             rotateText.style.display = 'block';
+            if (scene.tiltControl) {
+                if (scene.tiltControl.prompt) {
+                    scene.tiltControl.prompt.style.display = 'none';
+                }
+                if (scene.tiltControl.enableTiltButton) {
+                    scene.tiltControl.enableTiltButton.style.display = 'none';
+                }
+                if (scene.tiltControl.disableTiltButton) {
+                    scene.tiltControl.disableTiltButton.style.display = 'none';
+                }
+            }
         }
         else {
             if (scene.isPausedForOrientation) {
@@ -419,6 +432,17 @@ export const lockOrientation = (scene) => {
             overlay.setVisible(false);
             pauseText.style.display = 'none';
             rotateText.style.display = 'none';
+            if (scene.tiltControl) {
+                if (scene.tiltControl.prompt) {
+                    scene.tiltControl.prompt.style.display = 'block';
+                }
+                if (scene.tiltControl.enableTiltButton) {
+                    scene.tiltControl.enableTiltButton.style.display = 'block';
+                }
+                if (scene.tiltControl.disableTiltButton) {
+                    scene.tiltControl.disableTiltButton.style.display = 'block';
+                }
+            }
         }
     };
 
