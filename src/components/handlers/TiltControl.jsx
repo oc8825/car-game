@@ -1,5 +1,6 @@
 export class TiltControl {
 
+    // save user's perference so don't need to ask again
     static hasEnabledTilt = false;
     static hasDisabledTilt = false;
 
@@ -18,17 +19,16 @@ export class TiltControl {
         const isMobile = /android|iphone|ipad|ipod/.test(ua);
         const hasMotionSupport = typeof DeviceMotionEvent !== 'undefined';
 
+        // exclude devices that would pass these checks but don't allow tilting
         const isKnownNoTiltDevice = ua.includes('crkey') || ua.includes('nest hub') || ua.includes('googletv');
 
         return hasMotionSupport && isMobile && !isKnownNoTiltDevice;
     }
 
-    // ask for permission and turn on tilt controls
+    // ask for permission and turn on tilt controls if enabled
     enableTiltControls() {
+        // tilt not allowed, don't bother asking permission from device
         if (!this.isTiltSupported) {
-            window.addEventListener('devicemotion', this.boundHandleMotion); // why adding listener when tilt isn't supported?
-            this.isTiltEnabled = false; // if tilt stops working, change this back to true
-            // could i just get rid of two lines above?
             this.scene.isPausedForTilt = false;
             if (!this.scene.isPausedForOrientation) {
                 this.scene.scene.resume(); 
@@ -36,6 +36,7 @@ export class TiltControl {
             return;
         }
 
+        // display text asking user if they want to enable tilt
         this.prompt = document.createElement('div');
         this.prompt.innerText = 'Enable tilt controls?';
         this.prompt.style.position = 'absolute';
@@ -57,6 +58,7 @@ export class TiltControl {
         this.prompt.style.zIndex = '300';
         document.body.appendChild(this.prompt);
 
+        // YES (enable tilt) button
         this.enableTiltButton = document.createElement('button');
         this.enableTiltButton.innerText = 'YES';
         this.enableTiltButton.style.position = 'absolute';
@@ -78,6 +80,7 @@ export class TiltControl {
         this.enableTiltButton.style.zIndex = '300';
         document.body.appendChild(this.enableTiltButton);
 
+        // NO (disable tilt) button
         this.disableTiltButton = document.createElement('button');
         this.disableTiltButton.innerText = 'NO';
         this.disableTiltButton.style.position = 'absolute';
@@ -99,12 +102,13 @@ export class TiltControl {
         this.disableTiltButton.style.zIndex = '300';
         document.body.appendChild(this.disableTiltButton);
 
+        // user wants to enable tilt, ask permission from device
         this.enableTiltButton.addEventListener('click', () => {
-            // ask permission if needed
             if (typeof DeviceMotionEvent.requestPermission === 'function') {
                 DeviceMotionEvent.requestPermission()
                     .then((response) => {
                         if (response === 'granted') {
+                            // tilt permissions granted
                             TiltControl.hasEnabledTilt = true;
                             window.addEventListener('devicemotion', this.boundHandleMotion);
                             document.body.removeChild(this.enableTiltButton);
@@ -116,6 +120,7 @@ export class TiltControl {
                             }
                             this.isTiltEnabled = true;
                         } else {
+                            // tilt permissions denied
                             TiltControl.hasDisabledTilt = true;
                             document.body.removeChild(this.enableTiltButton);
                             document.body.removeChild(this.disableTiltButton);
@@ -143,11 +148,11 @@ export class TiltControl {
                 if (!this.scene.isPausedForOrientation) {
                     this.scene.scene.resume(); 
                 }
-                this.isTiltEnabled = true; 
-
+                this.isTiltEnabled = true;
             }
         });
 
+        // user doesn't want to enable tilt, don't bother asking permission from device
         this.disableTiltButton.addEventListener('click', () => {
             TiltControl.hasDisabledTilt = true;
             document.body.removeChild(this.enableTiltButton);
@@ -166,8 +171,6 @@ export class TiltControl {
     // tilt for subsequent levels
     enableTiltControlsIfPreviouslyEnabled() {
         if (!this.isTiltSupported || TiltControl.hasDisabledTilt) {
-            window.addEventListener('devicemotion', this.boundHandleMotion);
-            this.isTiltEnabled = true;
             this.scene.isPausedForTilt = false;
             if (!this.scene.isPausedForOrientation) {
                 this.scene.scene.resume(); 
@@ -212,8 +215,7 @@ export class TiltControl {
         }
     }
 
-    // cooldown so the player doesn't accidentally change lanes
-    // multiple times for one tilt
+    // cooldown so the player doesn't accidentally change lanes multiple times for one tilt
     startCooldown() {
         this.laneChangeCooldown = true;
         this.scene.time.delayedCall(300, () => {
