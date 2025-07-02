@@ -373,7 +373,7 @@ export default class levelThree extends Phaser.Scene {
 
     // check if lane is clear for item (can't have anything too close vertically)
     isLaneClearForItem(laneX) {
-        let minDistance = 150;
+        let minDistance = 250;
         let spawnY = 300;
         const closeObstacle = this.obstacles.getChildren().some(obj =>
             Math.abs(obj.x - laneX) < 10 && Math.abs(obj.y - spawnY) < minDistance
