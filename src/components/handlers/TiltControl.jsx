@@ -105,7 +105,6 @@ export class TiltControl {
                 DeviceMotionEvent.requestPermission()
                     .then((response) => {
                         if (response === 'granted') {
-                            console.log('Permission granted for tilt controls!');
                             TiltControl.hasEnabledTilt = true;
                             window.addEventListener('devicemotion', this.boundHandleMotion);
                             document.body.removeChild(this.enableTiltButton);
@@ -117,8 +116,6 @@ export class TiltControl {
                             }
                             this.isTiltEnabled = true;
                         } else {
-                            console.log('Permission denied for tilt controls.');
-                            // alert('Permission denied. Tilt controls are unavailable.');
                             TiltControl.hasDisabledTilt = true;
                             document.body.removeChild(this.enableTiltButton);
                             document.body.removeChild(this.disableTiltButton);
@@ -137,7 +134,6 @@ export class TiltControl {
             } 
             // turn on automatically if don't need permission
             else {
-                console.log('Tilt controls enabled (no permission required).');
                 TiltControl.hasEnabledTilt = true;
                 window.addEventListener('devicemotion', this.boundHandleMotion);
                 document.body.removeChild(this.enableTiltButton);
@@ -153,7 +149,6 @@ export class TiltControl {
         });
 
         this.disableTiltButton.addEventListener('click', () => {
-            console.log('Permission denied for tilt controls.');
             TiltControl.hasDisabledTilt = true;
             document.body.removeChild(this.enableTiltButton);
             document.body.removeChild(this.disableTiltButton);
@@ -230,7 +225,6 @@ export class TiltControl {
         if (this.isTiltEnabled) {
             window.removeEventListener('devicemotion', this.boundHandleMotion);
             this.isTiltEnabled = false;
-            console.log('Tilt controls have been disabled.');
         }
     }
 }
