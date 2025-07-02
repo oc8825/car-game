@@ -3,6 +3,14 @@ import { lockOrientation } from '/src/components/handlers/levelSceneHandlers';
 
 const BASE_GAME_HEIGHT = 1920;
 
+const updateAndRefresh = () => {
+    const dvh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--dvh', `${dvh}px`);
+    setTimeout(() => {
+        this.refresh();
+    }, 50);
+};
+
 export default class startScreen extends Phaser.Scene {
     constructor() {
         super({ key: 'startScreen' });
@@ -18,6 +26,9 @@ export default class startScreen extends Phaser.Scene {
         loadSounds(this);
 
         lockOrientation(this);
+
+        // refresh size in case loaded improperly and not fit to screen
+        updateAndRefresh();
 
         // background
         let background = this.add.image(0, 0, 'startBackground');
