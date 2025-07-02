@@ -37,7 +37,7 @@ export function handleObstacleCollision(scene, car, obstacle) {
 
     obstacle.destroy();
 
-    // as score could change, ensure it fits in scoreboard given digit length
+    // as score could change, ensure it still fits in scoreboard given digit length
     const length = `${scene.score}`.length;
     scene.scoreDigitLength = length;
     scene.updateScoreText();
@@ -82,7 +82,7 @@ export function handleItemCollision(scene, car, item) {
 
     item.destroy();
 
-    // as score changes, ensure it fits in scoreboard given digit length
+    // as score changes, ensure it still fits in scoreboard given digit length
     const length = `${scene.score}`.length;
     scene.scoreDigitLength = length;
     scene.updateScoreText();

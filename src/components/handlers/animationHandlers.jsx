@@ -3,7 +3,6 @@ export function emit(scene, texture, x, y) {
     if (!scene.emitter) return;
     scene.emitter.setTexture(texture);
     scene.emitter.emitParticleAt(x, y);
-
 }
 
 // confetti animation
@@ -89,8 +88,7 @@ export function explosion(scene, x, y) {
     explosionSprite.play('explosion');
 }
 
-// manually rotate car as using sprite form scene rather than 
-// creating new one
+// manually rotate car as using sprite from scene rather than creating new one
 export function slip(scene) {
     if (scene.isSlipping) {
         scene.slipTime += scene.game.loop.delta;

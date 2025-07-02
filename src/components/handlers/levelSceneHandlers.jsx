@@ -1,29 +1,28 @@
-import { TiltControl } from '/src/components/handlers/TiltControl';
-
 const BASE_GAME_HEIGHT = 1920;
 
 export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, selectedCarIndex) {
     if (scene.levelCompleted) return;
+
+    // set flags and pause game flow
     scene.levelCompleted = true;
     scene.isScorePaused = true;
     scene.isRestarting = false;
-
-    // pause game flow
     scene.physics.pause();
     if (scene.timerEvent) scene.timerEvent.paused = true;
     if (scene.scoreEvent) scene.scoreEvent.paused = true;
     if (scene.car) scene.car.setVelocity(0, 0);
     if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
-
     if (scene.obstacles) scene.obstacles.clear(true, true);
     if (scene.items) scene.items.clear(true, true);
 
-    // gray out screen and display level up message
+    // gray out screen
     const overlay = scene.add.graphics();
     overlay.fillStyle(0x000000, 0.7);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(200);
+
+    // display level up message
     const levelUpText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2.5,
         `Level ${nextLevelNumber} Starting In:`, {
         fontSize: '65px',
@@ -68,26 +67,27 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
 
 export function restartLevel(scene) {
     if (scene.isRestarting) return;
+
+    // set flags and pause game flow
     scene.isRestarting = true;
     scene.isScorePaused = true;
     scene.levelCompleted = false;
-
-    // pause game flow
     scene.physics.pause();
     if (scene.timerEvent) scene.timerEvent.paused = true;
     if (scene.scoreEvent) scene.scoreEvent.paused = true;
     if (scene.car) scene.car.setVelocity(0, 0);
     if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
-
     if (scene.obstacles) scene.obstacles.clear(true, true);
     if (scene.items) scene.items.clear(true, true);
 
-    // gray out screen and display restart message
+    // gray out screen
     const overlay = scene.add.graphics();
     overlay.fillStyle(0x000000, 0.7);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(220);
+
+    // display restart message
     scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT *.4, 'CRASH!', {
         fontSize: '100px',
         fill: '#fff',
@@ -95,6 +95,7 @@ export function restartLevel(scene) {
         fontStyle: 'bold'
     }).setOrigin(0.5).setDepth(250);
 
+    // display score
     scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT * .455 , `Score: ${scene.score}`, {
         fontSize: '60px',
         fill: '#fff',
@@ -125,25 +126,27 @@ export function restartLevel(scene) {
 
 export function winScreen(scene) {
     if (scene.levelCompleted) return;
+
+    // set flags and pause game flow
     scene.levelCompleted = true;
     scene.isScorePaused = true;
     scene.isRestarting = false;
-
-    // pause game flow
     scene.physics.pause();
     if (scene.timerEvent) scene.timerEvent.paused = true;
     if (scene.scoreEvent) scene.scoreEvent.paused = true;
     if (scene.car) scene.car.setVelocity(0, 0);
     if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
+    if (scene.obstacles) scene.obstacles.clear(true, true);
+    if (scene.items) scene.items.clear(true, true);
 
-    if (scene.items) scene.items.clear(true, true)
-
-    // gray out screen and display win message
+    // gray out screen
     const overlay = scene.add.graphics();
     overlay.fillStyle(0x000000, 0.7);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(200);
+
+    // display win message
     const winText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2.5,
         "Check out what you won!", {
         fontSize: '60px',
@@ -172,11 +175,11 @@ export function winScreen(scene) {
 
 export function winScreenFromChallenge(scene) {
     if (scene.levelCompleted) return;
+
+    // set flags and pause game flow
     scene.levelCompleted = true;
     scene.isScorePaused = true;
     scene.isRestarting = false;
-
-    // pause game flow
     scene.physics.pause();
     if (scene.timerEvent) scene.timerEvent.paused = true;
     if (scene.scoreEvent) scene.scoreEvent.paused = true;
@@ -184,13 +187,13 @@ export function winScreenFromChallenge(scene) {
     if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
 
-    if (scene.items) scene.items.clear(true, true)
-
-    // gray out screen and display win message
+    // gray out screen
     const overlay = scene.add.graphics();
     overlay.fillStyle(0x000000, 0.8);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(200);
+
+    // display win message (challenge failed, but can still claim prize with current score)
     const winText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2.5,
         "Challenge level failed,\n but check out\nwhat you won!", {
         fontSize: '60px',
@@ -219,26 +222,27 @@ export function winScreenFromChallenge(scene) {
 
 export function chalInstructionsLevel(scene, nextLevelKey, score, selectedCarIndex) {
     if (scene.levelCompleted) return;
+
+    // set flags and pause game flow
     scene.levelCompleted = true;
     scene.isScorePaused = true;
     scene.isRestarting = false;
-
-    // pause game flow
     scene.physics.pause();
     if (scene.timerEvent) scene.timerEvent.paused = true;
     if (scene.scoreEvent) scene.scoreEvent.paused = true;
     if (scene.car) scene.car.setVelocity(0, 0);
     if (scene.tiltControl) scene.tiltControl.disableTiltControls();
     scene.input.keyboard.removeAllListeners();
-
     if (scene.obstacles) scene.obstacles.clear(true, true);
     if (scene.items) scene.items.clear(true, true);
 
-    // gray out screen and display entering-challenge-level message
+    // gray out screen
     const overlay = scene.add.graphics();
     overlay.fillStyle(0x000000, 0.7);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(200);
+
+    // display message that user is entering challenge level
     const levelUpText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2.5,
         'CHALLENGE LEVEL INCOMING!', {
         fontSize: '55px',
@@ -292,11 +296,13 @@ export function challengeLevel(scene, nextLevelKey, score, selectedCarIndex) {
 export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
     scene.input.keyboard.removeAllListeners();
 
-    // gray out screen and display bonus level message
+    // gray out screen
     const overlay = scene.add.graphics();
     overlay.fillStyle(0x000000, 0.7);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(200);
+
+    // display bonus level message
     const levelUpText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT / 2.5,
         'BONUS LEVEL INCOMING!', {
         fontSize: '60px',
@@ -340,13 +346,14 @@ export function bonusLevel(scene, nextLevelKey, score, selectedCarIndex) {
 export const lockOrientation = (scene) => {
     if(scene._orientationOverlay) return;
 
-    // gray out screen and display please rotate message
+    // don't just darken screen, but fully cover it
     const overlay = scene.add.graphics();
     overlay.fillStyle(0xeaeaea);
     overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
     overlay.setDepth(350);
 
     // use DOM so can actually center text
+    // display paused message
     const pauseText = document.createElement('div');
     pauseText.innerText = 'PAUSED!';
     pauseText.style.position = 'absolute';
@@ -360,6 +367,7 @@ export const lockOrientation = (scene) => {
     pauseText.style.fontWeight = 'bold';
     document.body.appendChild(pauseText);
 
+    // ask user to rotate back to portrait
     const rotateText = document.createElement('div');
     rotateText.innerText = 'Please rotate device\nto portrait to continue';
     rotateText.style.position = 'absolute';
@@ -375,10 +383,10 @@ export const lockOrientation = (scene) => {
 
     scene.isPausedForOrientation = false;
     
-    // if in landscape on mobile, pause until back in portrait
+    // if in landscape on device that rotates, pause until back in portrait
     const checkOrientation = () => {
         const isLandscape = window.innerWidth > window.innerHeight;
-        
+
         // check for devices that are able to rotate to portrait
         const canRotate = 'orientation' in screen || 'DeviceOrientationEvent' in window;
         const isLikelyMobile = () => {
@@ -402,13 +410,18 @@ export const lockOrientation = (scene) => {
         const shouldEnforcePortrait = isLikelyMobile() && canRotate && !fixedOrientationDevice();
 
         if (shouldEnforcePortrait && isLandscape) {
+            // in landscape on device that can rotate, pause scene
             if (!scene.isPausedForOrientation) {
                 scene.scene.pause();
                 scene.isPausedForOrientation = true;
             }
+
+            // display pause and rotate messages
             overlay.setVisible(true);
             pauseText.style.display = 'block';
             rotateText.style.display = 'block';
+            
+            // hide tilt control messages/buttons if needed
             if (scene.tiltControl) {
                 if (scene.tiltControl.prompt) {
                     scene.tiltControl.prompt.style.display = 'none';
@@ -422,6 +435,7 @@ export const lockOrientation = (scene) => {
             }
         }
         else {
+            // no longer need to be paused, resume scene
             if (scene.isPausedForOrientation) {
                 scene.isPausedForOrientation = false;
                 
@@ -429,9 +443,13 @@ export const lockOrientation = (scene) => {
                     scene.scene.resume();
                 }
             }
+
+            // hide pause and rotate messages
             overlay.setVisible(false);
             pauseText.style.display = 'none';
             rotateText.style.display = 'none';
+
+            // re-display tilt control messages/buttons if needed
             if (scene.tiltControl) {
                 if (scene.tiltControl.prompt) {
                     scene.tiltControl.prompt.style.display = 'block';

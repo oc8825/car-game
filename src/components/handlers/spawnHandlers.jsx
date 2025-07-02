@@ -3,7 +3,7 @@ export function spawnSpecificObstacle(scene, type, obstacles, xPosition, level) 
     if (scene.isRestarting) return;
 
     const obstacle = obstacles.create(xPosition, 300, type);
-    obstacle.setScale(0.34);
+    obstacle.setScale(0.35);
     obstacle.setDepth(45);
 
     // set base velocity depending on level
@@ -39,7 +39,7 @@ export function spawnSpecificItem(scene, type, items, xPosition, level) {
     if (scene.isRestarting) return;
 
     const item = items.create(xPosition, 300, type);
-    item.setScale(0.34);
+    item.setScale(0.35);
     item.setDepth(45);
 
     // set base velocity depending on level
