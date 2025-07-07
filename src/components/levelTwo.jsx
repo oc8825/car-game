@@ -1,6 +1,6 @@
 import { TiltControl } from '/src/components/handlers/TiltControl';
 import { handleObstacleCollision, handleItemCollision } from '/src/components/handlers/collisionHandlers';
-import { showLevelUpScene, restartLevel, lockOrientation } from '/src/components/handlers/levelSceneHandlers';
+import { showLevelUpScene, restartLevel, lockOrientation, pause } from '/src/components/handlers/levelSceneHandlers';
 import { spawnSpecificObstacle, spawnSpecificItem } from '/src/components/handlers/spawnHandlers';
 import { loadSounds } from '/src/components/handlers/soundHandler';
 import { slip } from '/src/components/handlers/animationHandlers'
@@ -33,6 +33,7 @@ export default class levelTwo extends Phaser.Scene {
 
         this.isPausedForTilt = false;
         this.isPausedForOrientation = false;
+        this.isPausedByUser = false;
 
         this.slipTime = 0;
         this.slipDuration = 600;
@@ -234,6 +235,22 @@ export default class levelTwo extends Phaser.Scene {
             blendMode: 'ADD',
             emitting: false
         });
+
+        // pause button
+        this.pauseButton = this.add.image(this.scale.width * .93, BASE_GAME_HEIGHT * .17, 'pauseButton').setInteractive();
+        this.pauseButton.setAlpha(0.7);
+        this.pauseButton.setDepth(150);
+        this.pauseButton.on('pointerdown', () => {
+            if (!this.isPausedByUser && !this.isRestarting && !this.levelCompleted) {
+                pause(this);
+            }
+        });
+       
+        this.input.keyboard.on('keydown-ESC', () => {
+            if (!this.isPausedByUser && !this.isRestarting && !this.levelCompleted) {
+                pause(this);
+            }
+        });
     }
 
     // helper method to reformat score
@@ -310,7 +327,7 @@ export default class levelTwo extends Phaser.Scene {
         }
 
         // scroll background
-        if (!this.isRestarting && !this.levelCompleted) {
+        if (!this.isRestarting && !this.levelCompleted && !this.isPausedByUser) {
             const groundScrollSpeed = 650; // pixels per second of background speed
             const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
             this.ground.tilePositionY -= pixelsPerFrame;
@@ -345,6 +362,7 @@ export default class levelTwo extends Phaser.Scene {
 
     // set targetX based on direction we want to change lanes in
     changeLane(direction) {
+        if (this.isPausedByUser) return;
         this.currentLaneIndex = Phaser.Math.Clamp(
             this.currentLaneIndex + direction,
             0,

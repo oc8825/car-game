@@ -1,6 +1,5 @@
-import { winScreenFromChallenge } from './handlers/levelSceneHandlers';
 import { loadSounds } from '/src/components/handlers/soundHandler';
-import { bonusLevel, lockOrientation } from '/src/components/handlers/levelSceneHandlers';
+import { winScreenFromChallenge, bonusLevel, lockOrientation, pause } from '/src/components/handlers/levelSceneHandlers';
 
 const BASE_GAME_HEIGHT = 1920;
 
@@ -12,6 +11,7 @@ export default class levelChallenge extends Phaser.Scene {
 
         this.isPausedForTilt = false;
         this.isPausedForOrientation = false;
+        this.isPausedByUser = false;
     }
 
     init(data) {
@@ -109,6 +109,23 @@ export default class levelChallenge extends Phaser.Scene {
             }
         });
         
+        // pause button
+        this.pauseButton = this.add.image(this.scale.width * .91, BASE_GAME_HEIGHT * .05, 'pauseButton').setInteractive();
+        this.pauseButton.setScale(1.25);
+        this.pauseButton.setAlpha(0.7);
+        this.pauseButton.setDepth(150);
+        this.pauseButton.on('pointerdown', () => {
+            if (!this.isPausedByUser && !this.isRestarting && !this.levelCompleted) {
+                pause(this);
+            }
+        });
+        
+        this.input.keyboard.on('keydown-ESC', () => {
+            if (!this.isPausedByUser && !this.isRestarting && !this.levelCompleted) {
+                pause(this);
+            }
+        });
+
         this.scheduleNextCommand();
     }
 
@@ -171,7 +188,7 @@ export default class levelChallenge extends Phaser.Scene {
 
     // react to correct or incorrect response based on user reaction keyCode
     handleInput(keyCode) {
-        if (this.inputLocked || this.isGameOver || this.levelCompleted) return; 
+        if (this.inputLocked || this.isGameOver || this.levelCompleted || this.isPausedByUser) return; 
         this.inputLocked = true;    
 
         let correct = false;

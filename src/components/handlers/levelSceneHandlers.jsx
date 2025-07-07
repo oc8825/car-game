@@ -485,6 +485,9 @@ export function pause (scene) {
     scene.physics.pause();
     scene.time.paused = true;
     scene.isPausedByUser = true;
+    if (scene.timeBarTween) {
+        scene.timeBarTween.pause();
+    }
     
     // gray out screen
     const overlay = scene.add.graphics();
@@ -522,6 +525,9 @@ export function pause (scene) {
         scene.physics.resume();
         scene.time.paused = false;
         scene.isPausedByUser = false;
+        if (scene.timeBarTween) {
+            scene.timeBarTween.resume();
+        }
     });
     resumeButton.on('pointerover', () => {
         this.input.setDefaultCursor('pointer');
