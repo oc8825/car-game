@@ -480,3 +480,53 @@ export const lockOrientation = (scene) => {
 
     scene._orientationOverlay = true;
 };
+
+export function pause (scene) {
+    scene.physics.pause();
+    scene.time.paused = true;
+    scene.isPausedByUser = true;
+    
+    // gray out screen
+    const overlay = scene.add.graphics();
+    overlay.fillStyle(0x000000, 0.7);
+    overlay.fillRect(0, 0, scene.scale.width, scene.scale.height);
+    overlay.setDepth(200);
+
+    // display paused message
+    const pauseText = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT *.4, 'PAUSED', {
+        fontSize: '100px',
+        fill: '#fff',
+        align: 'center',
+        fontStyle: 'bold'
+    }).setOrigin(0.5).setDepth(250);
+
+    // display score
+    const scoretext = scene.add.text(scene.scale.width / 2, BASE_GAME_HEIGHT * .455 , `Score: ${scene.score}`, {
+        fontSize: '60px',
+        fill: '#fff',
+        align: 'center',
+        fontStyle: 'bold'
+    }).setOrigin(0.5).setDepth(250);
+
+    // resume button
+    const resumeButton = scene.add.sprite(scene.scale.width / 2, BASE_GAME_HEIGHT * .6, 'resumeButton').setInteractive().setDepth(250);
+    resumeButton.on('pointerdown', (pointer, localX, localY, event) => {
+        // ensure pressing resume doesn't also change lanes
+        event.stopPropagation();
+
+        // remove pause screen elements and resume game
+        overlay.destroy();
+        resumeButton.destroy();
+        scoretext.destroy();
+        pauseText.destroy();
+        scene.physics.resume();
+        scene.time.paused = false;
+        scene.isPausedByUser = false;
+    });
+    resumeButton.on('pointerover', () => {
+        this.input.setDefaultCursor('pointer');
+    });
+    resumeButton.on('pointerout', () => {
+        this.input.setDefaultCursor('auto');
+    });
+}

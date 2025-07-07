@@ -83,6 +83,8 @@ export function preloadAssets(scene) {
    scene.load.image('desktopChallengeInstructions', 'assets/images/desktopChallengeInstructions.png');
    scene.load.image('playAgain', 'assets/images/playAgain.png');
    scene.load.image('challengeBackground', 'assets/images/challengeBackground.png');
+   scene.load.image('pauseButton', 'assets/images/pauseButton.png');
+   scene.load.image('resumeButton', 'assets/images/resumeButton.png');
 
    // preload all frames for animations
    for (let i = 1; i <= 40; i++) {
