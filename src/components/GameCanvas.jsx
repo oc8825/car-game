@@ -43,7 +43,7 @@ const GameCanvas = () => {
       const game = phaserGameRef.current;
       if (game == null) return;
       const actualDuration = new Date().getTime() - now;
-      game.config.speedFactor = actualDuration > 1500 ? 2 : 1;
+      game.config.speedFactor = actualDuration > 3000 ? 2 : 1;
 
       window.addEventListener('resize', updateAndRefresh);
       window.addEventListener('orientationchange', updateAndRefresh);

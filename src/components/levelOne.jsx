@@ -105,7 +105,7 @@ export default class levelOne extends Phaser.Scene {
         // finish line
         this.time.delayedCall(17530, () => {
             const finishLine = this.physics.add.image(this.scale.width / 2, -600, 'finishLine');
-            finishLine.setVelocityY(500);
+            finishLine.setVelocityY(500 * this.game.config.speedFactor);
         });
 
         // sound effect on winning level
@@ -200,7 +200,7 @@ export default class levelOne extends Phaser.Scene {
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
                     if (this.isLaneClearForObstacle(laneX)) {
-                        spawnSpecificObstacle(this, type, this.obstacles, laneX, 1)
+                        spawnSpecificObstacle(this, type, this.obstacles, laneX, 1, this.game.config.speedFactor)
                     }
                 },
                 callbackScope: this,
@@ -219,7 +219,7 @@ export default class levelOne extends Phaser.Scene {
                 callback: () => {
                     const laneX = Phaser.Utils.Array.GetRandom(this.lanes);
                     if (this.isLaneClearForItem(laneX)) {
-                        spawnSpecificItem(this, type2, this.items, laneX, 1)
+                        spawnSpecificItem(this, type2, this.items, laneX, 1, this.game.config.speedFactor)
                     }
                 },
                 callbackScope: this,
@@ -233,7 +233,7 @@ export default class levelOne extends Phaser.Scene {
 
         // display points update when hit collectible
         this.emitter = this.add.particles(0, 0, 'plusOne', {
-            speed: { min: 50, max: 200 },
+            speed: { min: 50 * this.game.config.speedFactor, max: 200 * this.game.config.speedFactor },
             gravityY: 200,
             scale: { start: 0.1, end: 0.15 },
             duration: 300,
@@ -317,7 +317,7 @@ export default class levelOne extends Phaser.Scene {
 
     update() {
         // move car towards desired position
-        const speed = 1000; // pixels per second of car side-to-side speed
+        const speed = 1000 * this.game.config.speedFactor; // pixels per second of car side-to-side speed
         const threshold = 1;
         const distance = Math.abs(this.car.x - this.targetX); 
         if (distance > threshold) {
@@ -333,7 +333,7 @@ export default class levelOne extends Phaser.Scene {
 
         // scroll background
         if (!this.isRestarting && !this.levelCompleted && !this.isPausedByUser) {
-            const groundScrollSpeed = 500; // pixels per second of background speed
+            const groundScrollSpeed = 500 * this.game.config.speedFactor; // pixels per second of background speed
             const pixelsPerFrame = (groundScrollSpeed * this.game.loop.delta) / 1000;
             this.ground.tilePositionY -= pixelsPerFrame;
         }

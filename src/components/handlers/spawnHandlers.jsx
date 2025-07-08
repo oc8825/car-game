@@ -1,4 +1,4 @@
-export function spawnSpecificObstacle(scene, type, obstacles, xPosition, level) {
+export function spawnSpecificObstacle(scene, type, obstacles, xPosition, level, speedFactor) {
     if (scene.levelCompleted) return;
     if (scene.isRestarting) return;
 
@@ -7,11 +7,11 @@ export function spawnSpecificObstacle(scene, type, obstacles, xPosition, level) 
     obstacle.setDepth(45);
 
     // set base velocity depending on level
-    let velocityY = 500;
+    let velocityY = 500 * speedFactor;
     if (level === 2) {
-        velocityY = 650;
+        velocityY = 650 * speedFactor;
     } else if (level === 3) {
-        velocityY = 800;
+        velocityY = 800 * speedFactor;
     }
 
     // all obstacles move same speed as background, except tire moves
@@ -34,7 +34,7 @@ export function spawnSpecificObstacle(scene, type, obstacles, xPosition, level) 
     }
 }
 
-export function spawnSpecificItem(scene, type, items, xPosition, level) {
+export function spawnSpecificItem(scene, type, items, xPosition, level, speedFactor) {
     if (scene.levelCompleted) return;
     if (scene.isRestarting) return;
 
@@ -43,11 +43,11 @@ export function spawnSpecificItem(scene, type, items, xPosition, level) {
     item.setDepth(45);
 
     // set base velocity depending on level
-    let velocityY = 500;
+    let velocityY = 500 * speedFactor;
     if (level === 2) {
-        velocityY = 650;
+        velocityY = 650 * speedFactor;
     } else if (level === 3) {
-        velocityY = 800;
+        velocityY = 800 * speedFactor;
     }
 
     // all items move same speed as background, except foam finger and
