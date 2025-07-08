@@ -45,7 +45,7 @@ export function showLevelUpScene(scene, nextLevelKey, nextLevelNumber, score, se
     let countdownValue = 3;
     scene.time.addEvent({
         delay: 1000,
-        repeat: 2,
+        repeat: 1,
         callback: () => {
             countdownValue--;
             countdownText.setText(countdownValue.toString());
