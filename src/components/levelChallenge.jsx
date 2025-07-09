@@ -184,6 +184,7 @@ export default class levelChallenge extends Phaser.Scene {
         }, [], this);
 
         this.isFirstCommand = false;
+        this.inputLocked = false;
     }
 
     // react to correct or incorrect response based on user reaction keyCode
@@ -225,8 +226,7 @@ export default class levelChallenge extends Phaser.Scene {
             this.commandsLeft--;
             this.instructionText.setText(`Instructions Left: ${this.commandsLeft}`);
 
-            this.time.delayedCall(300, () => {
-                this.inputLocked = false; 
+            this.time.delayedCall(300, () => { 
                 this.scheduleNextCommand();
             });
 
@@ -256,7 +256,6 @@ export default class levelChallenge extends Phaser.Scene {
             this.gameOver();
         } else {
             this.time.delayedCall(500, () => {
-                this.inputLocked = false;
                 this.scheduleNextCommand();
             });
         }
